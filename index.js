@@ -5,8 +5,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const logger = require('./src/utils/logger');
-const bot = require('./src/bot');
-const accountManager = require('./src/modules/account-manager');
+const Bot = require('./src/bot'); // Importa a classe Bot
 const { PATHS } = require('./src/config');
 
 // Process command line arguments
@@ -36,35 +35,42 @@ for (let i = 0; i < args.length; i++) {
  */
 function loadAccounts() {
   try {
-    // Check if accounts directory exists
+    // Ensure accounts directory exists
     if (!fs.existsSync(PATHS.ACCOUNTS_DIR)) {
       fs.mkdirSync(PATHS.ACCOUNTS_DIR, { recursive: true });
-      logger.info(`Created accounts directory: ${PATHS.ACCOUNTS_DIR}`);
     }
     
-    // Check if accounts file exists
-    const accountsFilePath = path.join(PATHS.ACCOUNTS_DIR, PATHS.ACCOUNTS_FILE);
+    // Check for accounts.json file
+    const accountsPath = path.join(PATHS.ACCOUNTS_DIR, 'accounts.json');
     
-    if (!fs.existsSync(accountsFilePath)) {
-      logger.warn(`Accounts file not found: ${accountsFilePath}`);
+    if (!fs.existsSync(accountsPath)) {
+      logger.warn(`Accounts file not found: ${accountsPath}`);
       return [];
     }
     
-    // Load accounts
-    const accountsData = JSON.parse(fs.readFileSync(accountsFilePath, 'utf8'));
+    // Read and parse accounts file
+    const accountsData = fs.readFileSync(accountsPath, 'utf8');
+    const accounts = JSON.parse(accountsData);
     
-    // Filter accounts if specific ones were requested
-    let filteredAccounts = accountsData;
+    if (!Array.isArray(accounts)) {
+      logger.error('Invalid accounts file format');
+      return [];
+    }
     
+    // Filter accounts if specific accounts were specified
+    let filteredAccounts = accounts;
     if (options.accounts.length > 0) {
-      filteredAccounts = accountsData.filter(account => 
+      filteredAccounts = accounts.filter(account => 
         options.accounts.includes(account.id) || 
         options.accounts.includes(account.username)
       );
       
-      logger.info(`Filtered ${filteredAccounts.length} accounts from ${accountsData.length} total`);
+      if (filteredAccounts.length === 0) {
+        logger.warn(`No accounts found matching specified IDs: ${options.accounts.join(', ')}`);
+      }
     }
     
+    logger.info(`Loaded ${filteredAccounts.length} accounts from ${accountsPath}`);
     return filteredAccounts;
   } catch (error) {
     logger.error(`Error loading accounts: ${error.message}`, null, error);
@@ -75,29 +81,39 @@ function loadAccounts() {
 /**
  * Handle shutdown signals
  */
-function setupShutdownHandlers() {
-  const shutdownHandler = async () => {
-    logger.info('Shutdown signal received, cleaning up...');
-    await bot.shutdown();
-    process.exit(0);
-  };
-  
-  // Handle shutdown signals
-  process.on('SIGINT', shutdownHandler);
-  process.on('SIGTERM', shutdownHandler);
-  process.on('SIGHUP', shutdownHandler);
-  
-  // Handle uncaught exceptions
-  process.on('uncaughtException', async (error) => {
-    logger.error(`Uncaught exception: ${error.message}`, null, error);
-    await bot.shutdown();
-    process.exit(1);
+function setupShutdownHandlers(bot) {
+  // Handle process termination
+  ['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach(signal => {
+    process.on(signal, async () => {
+      logger.info(`Received ${signal}, shutting down...`);
+      try {
+        await bot.shutdown();
+      } catch (error) {
+        logger.error(`Error during shutdown: ${error.message}`);
+      }
+      process.exit(0);
+    });
   });
   
   // Handle unhandled promise rejections
   process.on('unhandledRejection', async (reason, promise) => {
-    logger.error(`Unhandled promise rejection: ${reason}`, null, reason);
-    await bot.shutdown();
+    logger.error(`Unhandled Rejection at: ${promise}, reason: ${reason}`);
+    try {
+      await bot.shutdown();
+    } catch (error) {
+      logger.error(`Error during shutdown: ${error.message}`);
+    }
+    process.exit(1);
+  });
+  
+  // Handle uncaught exceptions
+  process.on('uncaughtException', async (error) => {
+    logger.error(`Fatal error: ${error.message}`, null, error);
+    try {
+      await bot.shutdown();
+    } catch (shutdownError) {
+      logger.error(`Error during shutdown: ${shutdownError.message}`);
+    }
     process.exit(1);
   });
 }
@@ -109,8 +125,11 @@ async function main() {
   try {
     logger.info('Starting application...');
     
+    // Instanciar o bot (esta é a parte importante)
+    const bot = new Bot();
+    
     // Setup shutdown handlers
-    setupShutdownHandlers();
+    setupShutdownHandlers(bot);
     
     // Initialize bot
     await bot.initialize();
@@ -127,28 +146,18 @@ async function main() {
     
     // Configure run options
     const runOptions = {
-      maxConcurrentSessions: options.maxConcurrentSessions,
-      maxSessionDuration: 3600, // 1 hour in seconds
-      randomizeLogout: true,
-      taskSequences: 3
+      maxConcurrent: options.maxConcurrentSessions,
+      headless: options.headless,
+      keepSessionsAlive: false
     };
     
-    // Start bot
+    // Run bot with loaded accounts
     await bot.run(accounts, runOptions);
-    
-    // Start cookie reset timer
-    bot.startCookieResetTimer();
-    
-    logger.info(`Bot running with ${accounts.length} accounts`);
   } catch (error) {
     logger.error(`Application error: ${error.message}`, null, error);
-    await bot.shutdown();
     process.exit(1);
   }
 }
 
-// Start the application
-main().catch(error => {
-  logger.error(`Fatal error: ${error.message}`, null, error);
-  process.exit(1);
-});
+// Run the main function
+main();
