@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="fr" > <![endif]-->
+<html class="no-js" lang="fr" >
+
+
+
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> | Lamentosa</title>
+  <meta name="description" content="">
+  <meta name="google-site-verification" content="J4R3ZEAe6CQMYEsE6pjFK1MiQk__cR158O2JBlps_ic" />
+
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="application-name" content="Lamentosa">  
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#1a1b1ee6">
+
+  <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+  <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Lamentosa" />
+  <link rel="manifest" href="/static/favicon/site.webmanifest">
+
+  <!-- Google Tag Manager -->
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=DOEnaAcnz9cabJTo4Poaih9BBJgdozbyv35DaXnkDjl_hyaZNseFIiE92uX15Bt86gOEhjdDJ9MZqL3es-Z2OA" charset="UTF-8"></script><script async>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M9X8JTM5');</script>
+    <!-- End Google Tag Manager -->
+     <!-- Google tag (gtag.js) -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMM1FT6ZL3');
+</script>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMM1FT6ZL3');
+</script>
+  <!-- Meta Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '215226532437294');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=215226532437294&ev=PageView&noscript=1"
+    /></noscript>
+<!-- End Meta Pixel Code -->
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="8/rHBljfXmkk0B0CQpHd4Q" async></script>
+  
+<!-- Reddit Pixel -->
+<script>
+!function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','t2_mv04ua2v');rdt('track', 'PageVisit');
+</script>
+<!-- DO NOT MODIFY UNLESS TO REPLACE A USER IDENTIFIER -->
+<!-- End Reddit Pixel -->
+
+  
+
+  
+
+  
+
+
+
+  <link rel="canonical" href="https://se.lamentosa.com/temple/main-room/" />
+  <link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/boxicons-2.1.4/css/boxicons.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/intl-tel-input-25.3.0/css/intlTelInput.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/croppie.css" media="none" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/animate.min.css" media="none" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/css/app1.css?mod=17469547976672616">
+  
+
+  
+  
+  
+  
+  <script src="/webpush/jsi18n/"></script>
+  <script id="webpush-js" type="text/javascript" src="/static/webpush/webpush.js"></script>
+  
+  <meta name="service-worker-js" content="/webpush/service-worker.js">
+  <meta name="django-webpush-vapid-key" content="BEPWHuDf0Ekn-s6Lm30zxsAfBlJEXwda05kdigFPo4wsW1s3MhRlIEQjouoZqlrsIFJ0MHRxX_XlaJr6GjOeqgs">
+
+
+
+</head>
+
+<body hx-push-url="true" hx-target="#mainContent" hx-indicator="#loadingWrapper"
+  data-user-language="fr" >
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9X8JTM5"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  
+
+  
+
+  
+  
+
+
+
+<div id="playerToolbar">
+    <ul>
+        <li class="g-level g-tooltip">
+            Lv <span class="value">11</span>
+            <span class="g-tooltip-text">
+                EXP<br>
+                <span class="g-exp-value">588</span> /
+                <span class="g-exp-next-value">605</span>
+            </span>
+        </li>
+
+        <li class="g-life g-tooltip">
+            <span class="value">600</span> / <span class="full-life-value">600</span>
+            <span class="g-tooltip-text">Your life</span>
+        </li>
+
+        <li class="g-gold g-tooltip">
+            <span class="value">428894</span>
+            <span class="g-tooltip-text">Your gold</span>
+        </li>
+
+        <li class="g-files g-tooltip">
+            ALL
+            <span class="g-tooltip-text gtl-140 gtl-list" >
+                <span class="gtl-item">
+                    <span class="g-crystals">0</span> - Blood crystals
+                </span>
+                <span class="gtl-item">
+                    <span class="g-hastes">30</span> - Haste Potions
+                </span>
+                <span class="gtl-item">
+                    <span class="g-gboost">0</span> - Grimoire Boost
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pvp">0</span> - PvP XP Boost (X2)
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pve2">0</span> - PvE XP Boost (X2)
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pve3">0</span> - PvE XP Boost (X3)
+                </span>
+            </span>
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+  
+  <header>
+    
+    <h2 class="game-header game-sub">Lamentosa Browser RPG</h2>
+    
+  </header>
+  
+
+  
+  
+  
+
+
+
+
+<div id="pushWarning" style="display: none;" class="page-description">
+
+    <div class="w-top">
+        <i class='bx bx-error'></i>
+        <p>
+            Activating notifications is highly recommended, you will know when a new Boss appears among other things. You can configure what you want to receive in the menu at any time.
+        </p>
+    </div>
+
+    <div class="g-divisor"></div>
+
+    <div class="btn-container" data-btn-title="Activate Notifications">
+        
+  <button id="webpush-subscribe-button" class="btn btn-sm" data-group="all" data-url="/webpush/save_information">
+    Subscribe to Push Messaging
+  </button>
+  <div id="webpush-message" hidden></div>
+
+
+        <a class="g-link" id="ignorePushBtn">Ignore</a>
+    </div>
+</div>
+    
+
+
+  
+  
+
+  <div id="mainContent">
+    
+    
+
+
+
+<div style="display:none">
+    <span id="customBgName">temple</span>
+    <span id="customBgTitle">Temple</span>
+</div>
+
+
+
+<section class="first">
+    <div class="container">
+        <div class="page-description">
+            Here you can restore your life.<br><br>
+                
+            Praying for gods is not for damned creatures like us, instead, this Temple is for soul gathering.<br>
+            Each gold received here will be used to seduce humans, after that we can absorb their vitality!
+        </div>
+
+       <div class="g-divisor"></div>
+
+
+        <div style="overflow-x: auto;">
+            <form id="recoveryForm" hx-post="/temple/main-room/">
+                <input type="hidden" name="csrfmiddlewaretoken" value="acIDYDhTOYOAlRxslFAwVneIcqQKkLXudSmbTtUl2X8nZEMXx4gFh6sPXWZIWWxK">
+                <div class="form-group"><input name="percent" type="hidden" id="id_percent" autocomplete="off"
+         /></div>
+            </form>
+            <table class="table ecovery-tbl">
+                <thead>
+                    <tr>
+                        <th>Percentage<br><small>(of life to be restored)</small></th>
+                        <th>Price</th>
+                            <th>-</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>10%</td>
+                            <td><span class="gold">60</span></td>
+                            <td><button class="btn recovery-btn" data-percent="10">Recovery</button></td>
+                        </tr>
+                        <tr>
+                            <td>25%</td>
+                            <td><span class="gold">150</span></td>
+                            <td><button class="btn recovery-btn" data-percent="25">Recovery</button></td>
+                        </tr>
+                        <tr>
+                            <td>50%</td>
+                            <td><span class="gold">300</span></td>
+                            <td><button class="btn recovery-btn" data-percent="50">Recovery</button></td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+  </div>
+  
+  <div class="modal-wrapper">
+    <div class="modal">
+        <a href="#" class="close-modal">X</a>
+        <div class="modal-content">
+        </div>
+        <span class="remote" style="display:none;"></span>
+    </div>
+  </div>
+  
+  <div id="loadingWrapper">
+    <div class="loading-container">
+        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" stroke="#8B0000" stroke-width="4" fill="none" stroke-dasharray="251.2" stroke-dashoffset="251.2">
+        <animate attributeName="stroke-dashoffset" from="251.2" to="0" dur="2s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 50 50" to="360 50 50" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Blood drops adapted for seamless looping -->
+    <circle cx="30" cy="-10" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-10" to="110" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="-20" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-20" to="120" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="-30" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-30" to="130" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="20" cy="-15" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-15" to="115" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="80" cy="-25" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-25" to="125" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+</svg>
+    </div>
+  </div>
+
+  <div class="modal-confirm-content">
+    <p></p>
+    <br>
+    <button class="btn confirm-no">Non</button>
+    <button class="btn confirm-yes">Oui</button>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="company-branding">
+        <span></span>
+        <span></span>
+      </div>
+      <div class="rights">
+        Rua Sinimbú 2091 sala 402, Caxias do Sul - RS <br>
+        CEP 95020-510<br><br>
+        All rights reserved
+      </div>
+      <div class="social">
+        <a href="https://www.facebook.com/lamentosa" target="_blank" class="fb"><img src="/static/skin_images/facebook.png" alt="Facebook"></a>
+        <a href="https://twitter.com/lamentosarpg" target="_blank" class="twitter"><img src="/static/skin_images/twitter.png" alt="Twitter"></a>
+      </div>
+    </div>
+  </footer>
+
+<div style="display:none;">
+    <div id="confirmNextForm"></div>
+    <div id="confirmNextBtn">
+      <div style="margin-top: 30px">
+        <button class="confirm-next-go btn">Yes, go ahead!</button>
+      </div>
+    </div>
+</div>
+
+<div id="bigError" style="display: none;">
+  <div><a href="#">X</a></div>
+  <p></p>
+</div>
+
+
+  
+
+
+
+<div id="playerBottomBar">
+    <ul>
+        <li>
+            <a href="#" class="drawer-toggle" data-drawer="#drawerMenu">
+                <img src="/static/skin_images/icons/menu.svg" alt="Menu">
+            </a>
+        </li>
+        <li>
+            <a href="#" hx-get="/battlefield/enemies-g/?no-scroll=1">
+                <img src="/static/skin_images/icons/pvp.svg" alt="PvP">
+            </a>
+        </li>
+        <li>
+            <a href="#" hx-get="/battlefield/creatures/">
+                <img src="/static/skin_images/icons/hunt.svg" alt="PvE">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom" data-drawer="#drawerGrimoire">
+                <img src="/static/skin_images/icons/grimoire.svg" alt="Grimoire">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom" data-drawer="#drawerInventory">
+                <img src="/static/skin_images/icons/inventory.svg" alt="Inventory">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom gc-open" data-drawer="#drawerChat">
+                <img src="/static/skin_images/icons/chat.svg" alt="Chat">
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<!-- menu -->
+<div id="drawerMenu" class="drawer side-drawer" style="z-index: 1700;">
+    <div class="drawer-content">
+        
+
+
+<!-- modal for install -->
+<div class="modal-ct install-info">
+    <div class="clan-handbook">
+        <div class="page-description">
+            <div>
+                
+                <h4>Why Install Lamentosa?</h4>
+                <p>
+                    By installing Lamentosa you will have quick access to the game and a better experience.
+                </p>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="menu-header">
+    <div class="close-btn">
+        <a href="#" class="drawer-close">
+            <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+        </a>
+    </div>
+    <div class="header-props">
+        <div class="gsv-language">
+            
+
+
+<div class="modal-ct flags-modal">
+
+
+  <div class="mod-game-stp">
+    <h3 style="padding-bottom: 10px;">Select a language</h3>
+    <div class="bosses">
+      
+      <form action="/i18n/setlang/" method="post" id="changeLangForm">
+        <input type="hidden" name="csrfmiddlewaretoken" value="acIDYDhTOYOAlRxslFAwVneIcqQKkLXudSmbTtUl2X8nZEMXx4gFh6sPXWZIWWxK">
+        <input type="hidden" name="language" value="fr">
+
+        <ul>         
+            <li>
+                <a href="#" data-lang="en">
+                    <img src="/static/skin_images/flags/4x3/gb.svg">
+                    <span>English</span>
+                </a>
+            </li>
+            <li>
+              <a href="#" data-lang="pl">
+                  <img src="/static/skin_images/flags/4x3/pl.svg">
+                  <span>Polski</span>
+              </a>
+          </li>
+          <li>
+            <a href="#" data-lang="de">
+                <img src="/static/skin_images/flags/4x3/de.svg">
+                <span>Deutsch</span>
+            </a>
+        </li>
+        <li>
+          <a href="#" data-lang="bg">
+              <img src="/static/skin_images/flags/4x3/bg.svg">
+              <span>Български</span>
+          </a>
+      </li>
+      <li>
+        <a href="#" data-lang="ro">
+            <img src="/static/skin_images/flags/4x3/ro.svg">
+            <span>Română</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="tr">
+            <img src="/static/skin_images/flags/4x3/tr.svg">
+            <span>Türk</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="es">
+            <img src="/static/skin_images/flags/4x3/es.svg">
+            <span>Español</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="pt-br">
+            <img src="/static/skin_images/flags/4x3/br.svg">
+            <span>Português</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="ru">
+            <img src="/static/skin_images/flags/4x3/ru.svg">
+            <span>Русский</span>
+        </a>
+      </li>
+      </ul>
+    </form>
+
+  </div>
+
+  </div>
+</div>
+
+
+  <a href="#" rel="modal" data-content-selector=".flags-modal" style="display: flex;" id="changeLangLink">
+    <i class="bx bx-cog"></i>
+    <img src="/static/skin_images/flags/4x3/gb.svg" style="width: 20px; margin-left: 5px;">
+  </a>
+        </div>
+        <div class="gsv-timer">
+            
+            <div class="season-clock">
+                <strong>Day 8</strong>
+                <a hx-get="/season/">season <i class='bx bx-link-external'></i></a>
+            </div>
+            
+            <span id="server-time" data-time="2025-05-18 04:58:20"></span>
+            <span> server time</span>
+        </div>
+    </div>
+
+    <div id="installInfo">
+        <button id="install-button">
+            <i class='bx bxs-download'></i>
+            Install
+        </button>
+        <a href="#" rel="modal" data-content-selector=".install-info">
+            <i class='bx bxs-info-circle' ></i>
+        </a>
+    </div>
+
+</div>
+
+<ul class="menu-category">
+    <!-- status -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/character.svg" alt="Character">
+            Status
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="#" hx-get="/status/">
+                    My Character
+                </a>
+            </li>
+            <li>
+                <a href="#" hx-get="/temple/main-room/">
+                    Heal yourself
+                </a>
+            </li>
+            <li>
+                
+                <a href="#" hx-get="/messages/list/direct/receiver/">
+                    
+                    <i class="notify animate__animated animate__tada animate__repeat-3 animate__delay-5s">2</i>
+                    
+                    Messenger
+                </a>
+                
+            </li>
+            <li>
+                <a hx-get="/grimoire/">Grimoire</a>
+            </li>
+            <li>
+                <a hx-get="/daily-tasks/home/">Daily Tasks</a>
+            </li>
+            
+            <li><a hx-get="/relics/player/?no-scroll=1">Relics</a></li>
+            
+            <li>
+                <a hx-get="/achievements/">Achievements</a>
+            </li>
+            <li>
+                <a href="/exchange-stones/">Soul Stones Exchange</a>
+            </li>
+            
+            <li>
+                <a hx-get="/honor-points/">Honor Points</a>
+            </li>
+            <li>
+                <a hx-get="/turneds/">Turneds</a>
+            </li>
+            
+            <li>
+                <a hx-get="/blood-crystals/plans/">
+                    <img src="/static/skin_images/icons/crystals.svg" alt="Blood Crystals">
+                    Blood Crystals
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- city -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/city.svg" alt="City">
+            City
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/items/market/">The Market</a></li>
+            <li><a hx-get="/premium-market/">Premium Market</a></li>
+            <li><a hx-get="/blacksmith/upgrade/">The Blacksmith</a></li>
+            <li><a hx-get="/enchantment/">The Sorceress</a></li>
+            <li><a href="/cemetery/jobs/">My job</a></li>
+            <li><a href="/master/hall/">My Master</a></li>
+            
+            
+            <li><a href="/regions/">The 7 Regions</a></li>
+            
+        </ul>
+    </li>
+
+    <!-- battlefield -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/pvp.svg" alt="BattleField">
+            BattleField
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="#" hx-get="/battlefield/creatures/">
+                    Hunt creatures
+                </a>
+            </li>
+            
+            <li><a hx-get="/massive-battles/tormentus/">Tormentus War</a></li>
+
+            <li><a hx-get="/dungeons/start/">Dungeons</a></li>
+            <li><a hx-get="/contest/">Tournaments</a></li>
+            
+        </ul>
+    </li>
+
+    <!-- clans -->
+    <li>
+        
+        <a href="/clans/mine/">
+            <img src="/static/skin_images/icons/castle.svg" alt="Clans">
+            Clans
+            <span class="caret"></span>
+            
+        </a>
+        
+        <ul class="menu-items">
+            <li><a hx-get="/clans/handbook/intro/">Clan Handbook</a></li>
+            <li><a hx-get="/clans/mine/">My Clan</a></li>
+            <li><a hx-get="/clans/create/">Create a Clan</a></li>
+            <li><a href="/clans/recruit/">Recruit</a></li>
+            <li><a hx-get="/clans/list/">List of Clans</a></li>
+        </ul>
+    </li>
+
+
+    <!-- journal -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/journal.svg" alt="Journal">
+            Journal
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/ranking/all/">Ranking</a></li>
+            <li><a hx-get="/items/uniques/">Unique Items</a></li>
+            <li><a hx-get="/boss/journal/">Bosses</a></li>
+            <li><a href="/by-honor/heroes/">Heros</a></li>
+            
+            <li><a href="/worlds/">Worlds</a></li>
+            
+            <li><a href="/search-player/">Search Char</a></li>
+        </ul>
+    </li>
+
+    <!-- help -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/help.svg" alt="Help">
+            Help
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="/definitve-guide/basic/">Definitive Guide</a>
+            </li>
+            <li><a href="/manual/">The Manual</a></li>
+            <li><a hx-get="/season/">The Season</a></li>
+            <li><a href="/terms-of-service/">Terms of Service & Rules</a></li>
+            <li><a href="/contact/">Contact</a></li>
+
+            
+            
+            
+            <li>
+                <a href="https://discord.gg/wNsyvt84bz" target="_blank">
+                    <img src="/static/skin_images/icons/discord.svg" alt="Discord">
+                    Discord
+                </a>
+            </li>
+            
+        </ul>
+    </li>
+
+    <!-- settings -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/settings.svg" alt="Character">
+            Settings
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a href="/edit-profile/">Edit your Profile</a></li>
+            <li><a href="/change-char-name/">Change your name</a></li>
+            <li><a href="/change-breed/">Change Breed</a></li>
+            <li><a href="/change-email-req/">Change Email</a></li>
+            <li><a href="/configure-notifications/">Notifications</a></li>
+            <li><a href="/delete-req/">Delete account</a></li>
+            <li><a href="/accounts/logout/">Logout</a></li>
+        </ul>
+    </li>
+
+</ul>
+    </div>
+</div>
+
+<!-- invetory -->
+<div id="drawerInventory" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="inventory-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <h4>
+                    Inventory
+                </h4>
+                <div class="close-btn">
+                    <a href="#" class="drawer-close">
+                        <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
+            </div>
+            
+
+
+<div class="inventory-container">
+    <div class="equiped">
+        <p class="text-muted">Tap to manage</p>
+        <ul class="gear">
+            
+            
+            <li class="empty">
+                <div class="head"></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="neck"></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="torso"></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="hand"></div>
+                <p>empty</p>
+            </li>
+            
+            
+        </ul>
+        <div>
+            <span>Strength: <strong>21</strong></span>
+            <span>Defense: <strong>21</strong></span>
+            <span>Agility: <strong>21</strong></span>
+            <span>Inteligence: <strong>21</strong></span>
+        </div>
+    </div>
+
+    <div class="items">
+        <p class="text-muted">Tap to manage</p>
+        <ul class="gear">
+            
+            
+            <li class="active">
+                <a href="#" rel="modal" data-content-selector=".inv-md9417">
+                    <img src="/static/images/items/common/simple-blade.png" alt="Simple Blade">
+                </a>
+                
+
+
+<div class="modal-ct inv-md9417">
+
+    <div class="item-attr-container">
+        <div class="name">
+            <h3>Simple Blade</h3>
+            
+            <h5>Upgrade level: <strong>1</strong></h5><br>
+            
+            <img src="/static/images/items/common/simple-blade_sm.png" alt="">
+        </div>
+        <div class="props">
+            <span class="attrs">Strength: +5<br>Agility: -1<br><br>Level: 1</span>
+            <span class="slot-pos">Slot: Hand Item</span>
+
+            
+
+            <span class="highlight">
+                
+                
+                
+                
+            </span>
+        </div>
+
+        
+    </div>
+
+    <div class="item-actions">
+        <ul>
+            
+            <li>
+                <a class="btn ui-ws-action" 
+                    data-action="item_toggle"
+                    data-content="item_pk:9417">
+                    Equip
+                </a>
+            </li>
+            
+            
+            <li>
+                <a href="/items/market/npc-sell/9417/" class="btn" rel="modal" data-item-pk="9417" data-confirm-text="">Sell</a>
+            </li>
+            
+            <li>
+                <a href="/items/market/sell/9417/" class="btn" rel="modal" data-item-pk="9417" data-confirm-text="">Sell on market</a>
+            </li>
+            
+            
+            <li>
+                <a href="#" class="btn" rel="modal" data-content-selector=".inv-cm9417">Throw away</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<div class="modal-ct inv-cm9417">
+    <div class="confirm">
+        
+        This action will remove the item permanently, are you sure?<br><br>
+        <button class="btn rm-item" data-item-pk="9417" data-url="/items/delete/">yes, remove it!</button>
+        
+    </div>
+</div>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+        </ul>
+    </div>
+    
+</div>
+
+        </div>
+    </div>
+</div>
+
+<!-- grimoire -->
+<div id="drawerGrimoire" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="grimoire-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <h4>
+                    Grimoire (skills)
+                </h4>
+                <div class="close-btn">
+                    <a href="#" class="drawer-close">
+                        <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="grimoire-container">
+                
+
+
+
+
+
+<div class="text-muted" style="font-size: 0.9rem;">
+    Tap to activate or deactivate.
+</div>
+
+
+
+    
+    <div class="info">
+        You need to learn spells first. Go to see your Master.
+    </div>
+
+    
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- chat -->
+<div id="drawerChat" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="chat-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <div>
+                    <select name="room" id="chatRoom">
+                        <option value="global" selected>
+                            Global
+                        </option>
+                        
+                    </select>
+                </div>
+                <div class="controls" style="display: flex; gap: 20px">
+                    <div>
+                        <a href="#" class="g-chat-mini">
+                            <i class='bx bx-exit-fullscreen' style="font-size: 1.2rem;"></i>
+                        </a>                       
+                    </div>
+                    <div>
+                        <a href="#" class="g-chat-full">
+                            <i class='bx bx-fullscreen' style="font-size: 1.2rem;"></i>
+                        </a>                       
+                    </div>
+                    <div class="close-btn">
+                        <a href="#" class="drawer-close gc-close">
+                            <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-container"></div>
+            <input id="gChatInput" type="text" maxlength="200" placeholder="type your message here">
+        </div>
+    </div>
+</div>
+
+
+  <div id="mutedList" style="display:none;">[]</div>
+
+  <div class="relic-dropmodal">
+    <div>
+      <h4>
+        <a href="#" class="relic-dropmodal-close">
+          <i class='bx bxs-x-circle'></i>
+        </a>
+      </h4>
+      <div id="relicDropContent"></div>
+    </div>
+  </div>
+
+
+
+  <script src="/static/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+  <script src="/static/js/htmx.min.js" type="text/javascript"></script>
+  <script src="/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js" type="text/javascript"></script>
+  
+  <script src="/static/plugins/countdown.js" type="text/javascript"></script>
+  <script src="/static/plugins/croppie.min.js" type="text/javascript"></script>
+  
+  <script src="/static/js/app1.js?mod=17469547976692615" type="text/javascript"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/service-worker.js')
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(function(error) {
+          console.error('ServiceWorker registration failed: ', error);
+        });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    });
+  </script>
+
+  
+
+<script src="/static/js/install.js?mod=17469547976692615" type="text/javascript"></script>
+<script src="/static/js/chart.js"></script>
+
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9418c767ec621ace","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.4.0-1-g37f21b1","token":"401b575533484cfa8f2a96ef62b24837"}' crossorigin="anonymous"></script>
+</body>
+</html>

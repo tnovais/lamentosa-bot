@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
+<html class="no-js" lang="pt-br" >
+
+
+
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> | Lamentosa</title>
+  <meta name="description" content="">
+  <meta name="google-site-verification" content="J4R3ZEAe6CQMYEsE6pjFK1MiQk__cR158O2JBlps_ic" />
+
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="application-name" content="Lamentosa">  
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#1a1b1ee6">
+
+  <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+  <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Lamentosa" />
+  <link rel="manifest" href="/static/favicon/site.webmanifest">
+
+  <!-- Google Tag Manager -->
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Xr9iIoGY4oV3g5BN5Xg1LGhRJ-t2A9I7z72lxny-so2wZowIts4tjcJPzWd-hkuOMr_QVp43jvmcHm7_WUy7hw" charset="UTF-8"></script><script async>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M9X8JTM5');</script>
+    <!-- End Google Tag Manager -->
+     <!-- Google tag (gtag.js) -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMM1FT6ZL3');
+</script>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMM1FT6ZL3');
+</script>
+  <!-- Meta Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '215226532437294');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=215226532437294&ev=PageView&noscript=1"
+    /></noscript>
+<!-- End Meta Pixel Code -->
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="8/rHBljfXmkk0B0CQpHd4Q" async></script>
+  
+<!-- Reddit Pixel -->
+<script>
+!function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','t2_mv04ua2v');rdt('track', 'PageVisit');
+</script>
+<!-- DO NOT MODIFY UNLESS TO REPLACE A USER IDENTIFIER -->
+<!-- End Reddit Pixel -->
+
+  
+
+  
+
+  
+
+
+
+  <link rel="canonical" href="https://se.lamentosa.com/dungeons/start/" />
+  <link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/boxicons-2.1.4/css/boxicons.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/intl-tel-input-25.3.0/css/intlTelInput.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/croppie.css" media="none" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/animate.min.css" media="none" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/css/app1.css?mod=17469547976672616">
+  
+
+  
+  
+  
+  
+  <script src="/webpush/jsi18n/"></script>
+  <script id="webpush-js" type="text/javascript" src="/static/webpush/webpush.js"></script>
+  
+  <meta name="service-worker-js" content="/webpush/service-worker.js">
+  <meta name="django-webpush-vapid-key" content="BEPWHuDf0Ekn-s6Lm30zxsAfBlJEXwda05kdigFPo4wsW1s3MhRlIEQjouoZqlrsIFJ0MHRxX_XlaJr6GjOeqgs">
+
+
+
+</head>
+
+<body hx-push-url="true" hx-target="#mainContent" hx-indicator="#loadingWrapper"
+  data-user-language="pt-br" >
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9X8JTM5"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  
+
+  
+
+  
+  
+
+
+
+<div id="playerToolbar">
+    <ul>
+        <li class="g-level g-tooltip">
+            Lv <span class="value">11</span>
+            <span class="g-tooltip-text">
+                EXP<br>
+                <span class="g-exp-value">588</span> /
+                <span class="g-exp-next-value">605</span>
+            </span>
+        </li>
+
+        <li class="g-life g-tooltip">
+            <span class="value">600</span> / <span class="full-life-value">600</span>
+            <span class="g-tooltip-text">Sua vida</span>
+        </li>
+
+        <li class="g-gold g-tooltip">
+            <span class="value">428894</span>
+            <span class="g-tooltip-text">Seu ouro</span>
+        </li>
+
+        <li class="g-files g-tooltip">
+            ALL
+            <span class="g-tooltip-text gtl-140 gtl-list" >
+                <span class="gtl-item">
+                    <span class="g-crystals">0</span> - Cristais de sangue
+                </span>
+                <span class="gtl-item">
+                    <span class="g-hastes">30</span> - Haste Potions
+                </span>
+                <span class="gtl-item">
+                    <span class="g-gboost">0</span> - Grimoire Boost
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pvp">0</span> - PvP XP Boost (X2)
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pve2">0</span> - PvE XP Boost (X2)
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pve3">0</span> - PvE XP Boost (X3)
+                </span>
+            </span>
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+  
+  <header>
+    
+    <h2 class="game-header game-sub">Lamentosa RPG de Navegador</h2>
+    
+  </header>
+  
+
+  
+  
+  
+
+
+
+
+<div id="pushWarning" style="display: none;" class="page-description">
+
+    <div class="w-top">
+        <i class='bx bx-error'></i>
+        <p>
+            A ativação de notificações é altamente recomendada, você saberá quando um novo Boss aparecer, entre outras coisas. Você pode configurar o que deseja receber no menu a qualquer momento.
+        </p>
+    </div>
+
+    <div class="g-divisor"></div>
+
+    <div class="btn-container" data-btn-title="Ativar notificações">
+        
+  <button id="webpush-subscribe-button" class="btn btn-sm" data-group="all" data-url="/webpush/save_information">
+    Subscribe to Push Messaging
+  </button>
+  <div id="webpush-message" hidden></div>
+
+
+        <a class="g-link" id="ignorePushBtn">Ignorar</a>
+    </div>
+</div>
+    
+
+
+  
+  
+
+  <div id="mainContent">
+    
+    
+
+
+<div style="display:none">
+    <span id="customBgName">dungeons</span>
+    <span id="customBgTitle">Masmorras</span>
+</div>
+
+
+<section class="first">
+  <div class="center-container">
+
+    <ul class="submenu">
+        <li><a href="#" rel="modal" data-content-selector=".blacksmith-info">Instruções</a></li>
+        <li><a href="#" rel="modal" data-content-selector=".scalps-info">Escalpos</a></li>
+    </ul>
+
+    <div class="page-description" style="margin-top: 30px;">
+      Entre no cerimonial dos mortos, se tiver coragem!
+    </div>
+
+    
+
+    <div class="rpg-section" style="margin-top: 30px;">
+        <div class="first">
+            <div class="image-wrapper">
+              <img src="/static/images/dungeons/6.png" alt="">
+            </div>
+            <div class="caption">
+                Tuggin: "Eu sou a personificação da ganância e da avareza, aquele que não vai parar por nada para conseguir o que eu quero. Cruze-me e você sentirá toda a extensão da minha ira."
+            </div>
+        </div>
+        <div class="second g-blacksmith">
+            <h5>Iniciar uma masmorra</h5>
+
+            <div>
+                <form method="post" hx-post="/dungeons/start/">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="R4hKNcxL9OnHxrNxi872SQEmbyeSxEk2UKViI2adnNHube22uxNbezStW4nQ9PUi">
+                    <div class="form-group"><div class="form-element">
+    <label for="id_visibility">Visibilidade</label>
+
+    
+
+    <div class="default-select">
+        <select id="id_visibility" aria-label="Visibilidade" name="visibility">
+            
+                <option value="visible" >Visível</option>
+            
+                <option value="invisible" >Invisível</option>
+            
+        </select>
+        
+    </div>
+</div></div>
+        
+                    <div>
+                        Custo visível: <span class="crystals">0</span><br>
+                        Custo invisível: <span class="crystals">25</span>
+                    </div>
+                    <div class="g-divisor" style="margin: 15px 0;"></div>
+                    <div style="margin: 0 auto; display: block; text-align: center">
+                        <button type="submit" class="btn">Começar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>  
+
+    
+
+  </div>
+</section>
+
+<div class="blacksmith-info" style="display: none;">
+    
+
+<div class="dungeon-instructions">
+
+<p>Na masmorra você enfrentará demônios por 5 rodadas, seu objetivo é simplesmente sobreviver e derrotar todos os oponentes até o fim.
+Cada demônio que habita a masmorra tem suas próprias características e pensamentos, então cuidado com o que caça porque focar demais em um único demônio pode trazer consequências!
+</p>
+
+<h3>As lutas</h3>
+<p>Nas lutas contra demônios que não estão sofrendo de possessão, os feitiços não funcionarão e você dependerá de atributos, equipamentos e possivelmente poções para chegar ao fim.
+<br>
+Nos combates em que o demônio estiver possuído, os feitiços serão aplicados em sua totalidade.
+</p>
+
+
+<h3>Cadência</h3>
+<p>Você pode iniciar uma masmorra a cada intervalo de tempo de acordo com seu tipo de conta da seguinte forma:
+<br><br>
+Comum - A cada 12 horas.<br>
+Premium - A cada 8 horas<br>
+VIP - A cada 6 horas.<br>
+</p>
+
+<h3>Visibilidade</h3>
+<p>Ao iniciar uma masmorra, você pode optar por visibilidade normal ou invisível.<br>
+Na visibilidade normal, uma notificação com o link do seu calabouço aparecerá no chat para todos, e outros jogadores da raça adversária podem iniciar uma possessão em um demônio (veja abaixo).
+Quando invisível, nenhuma notificação será aplicada e outros jogadores só verão sua masmorra se você compartilhar o link.<br><br>
+
+Atenção, você só pode usar a opção "invisível" a cada 12h, então inevitavelmente algumas de suas masmorras ficarão visíveis.
+</p>
+
+<h3>Possessão</h3>
+<p>Nas rodadas 4 e 5, os jogadores da raça adversária podem iniciar uma possessão em um demônio que está no campo de batalha. O custo para fazer isso é de 25 cristais de sangue.<br>
+Quando uma possessão é realizada, um alerta é emitido no chat, mas não diz qual demônio foi possuído e muito menos quem o possuiu.<br>
+A posse é revelada apenas quando ocorre o primeiro ataque entre o possuído e o dono da masmorra.<br>
+Quando ocorre o ataque, todos os atributos, feitiços, equipamentos, poções, etc. são os mesmos do jogador que iniciou a posse, e também só ficam visíveis após o ataque.<br>
+O objetivo de quem inicia a posse é DERROTAR o dono do Dungeon, se o dono vencer o Dungeon, quem iniciou a posse não receberá nenhuma recompensa.<br><br>
+
+O dono do calabouço tem uma forma de defesa, além da invisibilidade, que é descobrir a posse no primeiro ataque, ou seja, se no primeiro ataque do round o dono do calabouço acertar a pessoa que iniciou a posse , o jogador adversário morrerá instantaneamente e o dono não sofrerá nenhum dano, caso contrário a batalha continua normalmente.<br>
+Algumas regras:<br>
+* A posse só pode ocorrer contra uma Masmorra da raça adversária.<br>
+* Deve ser da mesma categoria (aprendiz, soldado, etc)<br>
+* Só pode ser feito no início das rodadas 4 e 5, não é possível quando as batalhas estão em andamento.<br>
+* A vida precisa ser plena.<br>
+* Só pode haver uma posse por rodada, ou seja, se alguém já tomou posse naquele campo e rodada, não será possível assumir um segundo personagem.<br>
+* Você não precisa estar vivo para receber o prêmio, basta derrotar o dono da Masmorra.<br><br>
+
+Atenção, cada jogador só pode iniciar uma posse a cada 12 horas.
+</p>
+
+<h3>Prêmio</h3>
+<p>A premiação está listada no próprio campo e é atualizada com seus valores acumulados a cada nova rodada, ou seja, se chegar na rodada 5 a premiação será maior!<br>
+O dono da Masmorra é recompensado mesmo em caso de derrota, mas claro, receberá um valor menor.</p>
+
+<h3>Escalpos</h3>
+<p>Toda vez que o dono da Masmorra matar um demônio ele receberá um escalpo do respectivo, tente acumular o máximo que puder, pois esses espólios são úteis para completar missões recorrentes e únicas nas 7 regiões.
+Em algumas missões, eles pedirão escalpos específicos e, em outras, escalpos totais.</p>
+
+</div>
+</div>
+
+<div class="scalps-info" style="display: none">
+    
+
+
+<div class="dungeon-scalps">
+    <div style="margin-bottom: 20px">Total: <strong>0</strong></div>
+    
+    <p class="no-scalps">
+        Você ainda não tem escalpos.
+    </p>
+    
+</div>
+</div>
+
+
+
+
+  </div>
+  
+  <div class="modal-wrapper">
+    <div class="modal">
+        <a href="#" class="close-modal">X</a>
+        <div class="modal-content">
+        </div>
+        <span class="remote" style="display:none;"></span>
+    </div>
+  </div>
+  
+  <div id="loadingWrapper">
+    <div class="loading-container">
+        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" stroke="#8B0000" stroke-width="4" fill="none" stroke-dasharray="251.2" stroke-dashoffset="251.2">
+        <animate attributeName="stroke-dashoffset" from="251.2" to="0" dur="2s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 50 50" to="360 50 50" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Blood drops adapted for seamless looping -->
+    <circle cx="30" cy="-10" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-10" to="110" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="-20" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-20" to="120" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="-30" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-30" to="130" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="20" cy="-15" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-15" to="115" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="80" cy="-25" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-25" to="125" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+</svg>
+    </div>
+  </div>
+
+  <div class="modal-confirm-content">
+    <p></p>
+    <br>
+    <button class="btn confirm-no">Não</button>
+    <button class="btn confirm-yes">Sim</button>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="company-branding">
+        <span></span>
+        <span></span>
+      </div>
+      <div class="rights">
+        Rua Sinimbú 2091 sala 402, Caxias do Sul - RS <br>
+        CEP 95020-510<br><br>
+        Todos os direitos reservados
+      </div>
+      <div class="social">
+        <a href="https://www.facebook.com/lamentosa" target="_blank" class="fb"><img src="/static/skin_images/facebook.png" alt="Facebook"></a>
+        <a href="https://twitter.com/lamentosarpg" target="_blank" class="twitter"><img src="/static/skin_images/twitter.png" alt="Twitter"></a>
+      </div>
+    </div>
+  </footer>
+
+<div style="display:none;">
+    <div id="confirmNextForm"></div>
+    <div id="confirmNextBtn">
+      <div style="margin-top: 30px">
+        <button class="confirm-next-go btn">Sim! Vá em frente!</button>
+      </div>
+    </div>
+</div>
+
+<div id="bigError" style="display: none;">
+  <div><a href="#">X</a></div>
+  <p></p>
+</div>
+
+
+  
+
+
+
+<div id="playerBottomBar">
+    <ul>
+        <li>
+            <a href="#" class="drawer-toggle" data-drawer="#drawerMenu">
+                <img src="/static/skin_images/icons/menu.svg" alt="Menu">
+            </a>
+        </li>
+        <li>
+            <a href="#" hx-get="/battlefield/enemies-g/?no-scroll=1">
+                <img src="/static/skin_images/icons/pvp.svg" alt="PvP">
+            </a>
+        </li>
+        <li>
+            <a href="#" hx-get="/battlefield/creatures/">
+                <img src="/static/skin_images/icons/hunt.svg" alt="PvE">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom" data-drawer="#drawerGrimoire">
+                <img src="/static/skin_images/icons/grimoire.svg" alt="Grimoire">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom" data-drawer="#drawerInventory">
+                <img src="/static/skin_images/icons/inventory.svg" alt="Inventory">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom gc-open" data-drawer="#drawerChat">
+                <img src="/static/skin_images/icons/chat.svg" alt="Chat">
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<!-- menu -->
+<div id="drawerMenu" class="drawer side-drawer" style="z-index: 1700;">
+    <div class="drawer-content">
+        
+
+
+<!-- modal for install -->
+<div class="modal-ct install-info">
+    <div class="clan-handbook">
+        <div class="page-description">
+            <div>
+                
+                <h4>Por que instalar o Lamentosa?</h4>
+                <p>
+                    Ao instalar o Lamentosa você terá acesso rápido ao jogo e uma melhor experiência.
+                </p>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="menu-header">
+    <div class="close-btn">
+        <a href="#" class="drawer-close">
+            <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+        </a>
+    </div>
+    <div class="header-props">
+        <div class="gsv-language">
+            
+
+
+<div class="modal-ct flags-modal">
+
+
+  <div class="mod-game-stp">
+    <h3 style="padding-bottom: 10px;">Selecione um idioma</h3>
+    <div class="bosses">
+      
+      <form action="/i18n/setlang/" method="post" id="changeLangForm">
+        <input type="hidden" name="csrfmiddlewaretoken" value="R4hKNcxL9OnHxrNxi872SQEmbyeSxEk2UKViI2adnNHube22uxNbezStW4nQ9PUi">
+        <input type="hidden" name="language" value="pt-br">
+
+        <ul>         
+            <li>
+                <a href="#" data-lang="en">
+                    <img src="/static/skin_images/flags/4x3/gb.svg">
+                    <span>English</span>
+                </a>
+            </li>
+            <li>
+              <a href="#" data-lang="pl">
+                  <img src="/static/skin_images/flags/4x3/pl.svg">
+                  <span>Polski</span>
+              </a>
+          </li>
+          <li>
+            <a href="#" data-lang="de">
+                <img src="/static/skin_images/flags/4x3/de.svg">
+                <span>Deutsch</span>
+            </a>
+        </li>
+        <li>
+          <a href="#" data-lang="bg">
+              <img src="/static/skin_images/flags/4x3/bg.svg">
+              <span>Български</span>
+          </a>
+      </li>
+      <li>
+        <a href="#" data-lang="ro">
+            <img src="/static/skin_images/flags/4x3/ro.svg">
+            <span>Română</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="tr">
+            <img src="/static/skin_images/flags/4x3/tr.svg">
+            <span>Türk</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="es">
+            <img src="/static/skin_images/flags/4x3/es.svg">
+            <span>Español</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="pt-br">
+            <img src="/static/skin_images/flags/4x3/br.svg">
+            <span>Português</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="ru">
+            <img src="/static/skin_images/flags/4x3/ru.svg">
+            <span>Русский</span>
+        </a>
+      </li>
+      </ul>
+    </form>
+
+  </div>
+
+  </div>
+</div>
+
+
+  <a href="#" rel="modal" data-content-selector=".flags-modal" style="display: flex;" id="changeLangLink">
+    <i class="bx bx-cog"></i>
+    <img src="/static/skin_images/flags/4x3/br.svg" style="width: 20px; margin-left: 5px;">
+  </a>
+        </div>
+        <div class="gsv-timer">
+            
+            <div class="season-clock">
+                <strong>Dia 8</strong>
+                <a hx-get="/season/">temporada <i class='bx bx-link-external'></i></a>
+            </div>
+            
+            <span id="server-time" data-time="2025-05-18 04:57:44"></span>
+            <span> horário do servidor</span>
+        </div>
+    </div>
+
+    <div id="installInfo">
+        <button id="install-button">
+            <i class='bx bxs-download'></i>
+            Instalar
+        </button>
+        <a href="#" rel="modal" data-content-selector=".install-info">
+            <i class='bx bxs-info-circle' ></i>
+        </a>
+    </div>
+
+</div>
+
+<ul class="menu-category">
+    <!-- status -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/character.svg" alt="Character">
+            Estado
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="#" hx-get="/status/">
+                    Meu Personagem
+                </a>
+            </li>
+            <li>
+                <a href="#" hx-get="/temple/main-room/">
+                    Cure-se
+                </a>
+            </li>
+            <li>
+                
+                <a href="#" hx-get="/messages/list/direct/receiver/">
+                    
+                    <i class="notify animate__animated animate__tada animate__repeat-3 animate__delay-5s">2</i>
+                    
+                    Mensageiro
+                </a>
+                
+            </li>
+            <li>
+                <a hx-get="/grimoire/">Grimório</a>
+            </li>
+            <li>
+                <a hx-get="/daily-tasks/home/">Tarefas Diárias</a>
+            </li>
+            
+            <li><a hx-get="/relics/player/?no-scroll=1">Relíquias</a></li>
+            
+            <li>
+                <a hx-get="/achievements/">Conquistas</a>
+            </li>
+            <li>
+                <a href="/exchange-stones/">Troca de Soul Stones</a>
+            </li>
+            
+            <li>
+                <a hx-get="/honor-points/">Pontos de Honra</a>
+            </li>
+            <li>
+                <a hx-get="/turneds/">Transformados</a>
+            </li>
+            
+            <li>
+                <a hx-get="/blood-crystals/plans/">
+                    <img src="/static/skin_images/icons/crystals.svg" alt="Blood Crystals">
+                    Cristais de Sangue
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- city -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/city.svg" alt="City">
+            City
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/items/market/">O Mercado</a></li>
+            <li><a hx-get="/premium-market/">Mercado Premium</a></li>
+            <li><a hx-get="/blacksmith/upgrade/">O Ferreiro</a></li>
+            <li><a hx-get="/enchantment/">A Feiticeira</a></li>
+            <li><a href="/cemetery/jobs/">Meu trabalho</a></li>
+            <li><a href="/master/hall/">Meu Mestre</a></li>
+            
+            
+            <li><a href="/regions/">As 7 Regiões</a></li>
+            
+        </ul>
+    </li>
+
+    <!-- battlefield -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/pvp.svg" alt="BattleField">
+            BattleField
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="#" hx-get="/battlefield/creatures/">
+                    Caçar Criaturas
+                </a>
+            </li>
+            
+            <li><a hx-get="/massive-battles/tormentus/">Tormentus War</a></li>
+
+            <li><a hx-get="/dungeons/start/">Masmorras</a></li>
+            <li><a hx-get="/contest/">Torneios</a></li>
+            
+        </ul>
+    </li>
+
+    <!-- clans -->
+    <li>
+        
+        <a href="/clans/mine/">
+            <img src="/static/skin_images/icons/castle.svg" alt="Clans">
+            Clãs
+            <span class="caret"></span>
+            
+        </a>
+        
+        <ul class="menu-items">
+            <li><a hx-get="/clans/handbook/intro/">Manual do Clã</a></li>
+            <li><a hx-get="/clans/mine/">Meu Clã</a></li>
+            <li><a hx-get="/clans/create/">Criar um Clã</a></li>
+            <li><a href="/clans/recruit/">Recrutar</a></li>
+            <li><a hx-get="/clans/list/">Lista de Clãs</a></li>
+        </ul>
+    </li>
+
+
+    <!-- journal -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/journal.svg" alt="Journal">
+            Jornal
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/ranking/all/">Ranking</a></li>
+            <li><a hx-get="/items/uniques/">Itens Únicos</a></li>
+            <li><a hx-get="/boss/journal/">Bosses</a></li>
+            <li><a href="/by-honor/heroes/">Heróis</a></li>
+            
+            <li><a href="/worlds/">Mundos</a></li>
+            
+            <li><a href="/search-player/">Procurar Personagem</a></li>
+        </ul>
+    </li>
+
+    <!-- help -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/help.svg" alt="Help">
+            Ajuda
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="/definitve-guide/basic/">Guia Definitivo</a>
+            </li>
+            <li><a href="/manual/">O Manual</a></li>
+            <li><a hx-get="/season/">A Temporada</a></li>
+            <li><a href="/terms-of-service/">Regras e Termos de Uso</a></li>
+            <li><a href="/contact/">Contato</a></li>
+
+            
+            
+            
+            <li>
+                <a href="https://discord.gg/wNsyvt84bz" target="_blank">
+                    <img src="/static/skin_images/icons/discord.svg" alt="Discord">
+                    Discord
+                </a>
+            </li>
+            
+        </ul>
+    </li>
+
+    <!-- settings -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/settings.svg" alt="Character">
+            Configurações
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a href="/edit-profile/">Editar seu perfil</a></li>
+            <li><a href="/change-char-name/">Mudar seu Nome</a></li>
+            <li><a href="/change-breed/">Mudar de Raça</a></li>
+            <li><a href="/change-email-req/">Mudar Email</a></li>
+            <li><a href="/configure-notifications/">Notificações</a></li>
+            <li><a href="/delete-req/">Apagar conta</a></li>
+            <li><a href="/accounts/logout/">Sair</a></li>
+        </ul>
+    </li>
+
+</ul>
+    </div>
+</div>
+
+<!-- invetory -->
+<div id="drawerInventory" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="inventory-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <h4>
+                    Inventário
+                </h4>
+                <div class="close-btn">
+                    <a href="#" class="drawer-close">
+                        <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
+            </div>
+            
+
+
+<div class="inventory-container">
+    <div class="equiped">
+        <p class="text-muted">Toque para gerenciar</p>
+        <ul class="gear">
+            
+            
+            <li class="empty">
+                <div class="head"></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="neck"></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="torso"></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="hand"></div>
+                <p>vazio</p>
+            </li>
+            
+            
+        </ul>
+        <div>
+            <span>Força: <strong>21</strong></span>
+            <span>Defesa: <strong>21</strong></span>
+            <span>Agilidade: <strong>21</strong></span>
+            <span>Inteligência: <strong>21</strong></span>
+        </div>
+    </div>
+
+    <div class="items">
+        <p class="text-muted">Toque para gerenciar</p>
+        <ul class="gear">
+            
+            
+            <li class="active">
+                <a href="#" rel="modal" data-content-selector=".inv-md9417">
+                    <img src="/static/images/items/common/simple-blade.png" alt="Simple Blade">
+                </a>
+                
+
+
+<div class="modal-ct inv-md9417">
+
+    <div class="item-attr-container">
+        <div class="name">
+            <h3>Simple Blade</h3>
+            
+            <h5>Nível da melhoria: <strong>1</strong></h5><br>
+            
+            <img src="/static/images/items/common/simple-blade_sm.png" alt="">
+        </div>
+        <div class="props">
+            <span class="attrs">Força: +5<br>Agilidade: -1<br><br>Level: 1</span>
+            <span class="slot-pos">Slot: Item de mão</span>
+
+            
+
+            <span class="highlight">
+                
+                
+                
+                
+            </span>
+        </div>
+
+        
+    </div>
+
+    <div class="item-actions">
+        <ul>
+            
+            <li>
+                <a class="btn ui-ws-action" 
+                    data-action="item_toggle"
+                    data-content="item_pk:9417">
+                    Equipar
+                </a>
+            </li>
+            
+            
+            <li>
+                <a href="/items/market/npc-sell/9417/" class="btn" rel="modal" data-item-pk="9417" data-confirm-text="">Vender</a>
+            </li>
+            
+            <li>
+                <a href="/items/market/sell/9417/" class="btn" rel="modal" data-item-pk="9417" data-confirm-text="">Vender no mercado</a>
+            </li>
+            
+            
+            <li>
+                <a href="#" class="btn" rel="modal" data-content-selector=".inv-cm9417">Jogar fora</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<div class="modal-ct inv-cm9417">
+    <div class="confirm">
+        
+        Isso removerá o item permanentemente. Você tem certeza?<br><br>
+        <button class="btn rm-item" data-item-pk="9417" data-url="/items/delete/">sim, remova!</button>
+        
+    </div>
+</div>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>vazio</p>
+            </li>
+            
+            
+        </ul>
+    </div>
+    
+</div>
+
+        </div>
+    </div>
+</div>
+
+<!-- grimoire -->
+<div id="drawerGrimoire" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="grimoire-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <h4>
+                    Grimório (habilidades)
+                </h4>
+                <div class="close-btn">
+                    <a href="#" class="drawer-close">
+                        <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="grimoire-container">
+                
+
+
+
+
+
+<div class="text-muted" style="font-size: 0.9rem;">
+    Toque para ativar ou desativar.
+</div>
+
+
+
+    
+    <div class="info">
+        Você precisa aprender feitiços primeiro. Vá ver seu Mestre.
+    </div>
+
+    
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- chat -->
+<div id="drawerChat" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="chat-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <div>
+                    <select name="room" id="chatRoom">
+                        <option value="global" selected>
+                            Global
+                        </option>
+                        
+                    </select>
+                </div>
+                <div class="controls" style="display: flex; gap: 20px">
+                    <div>
+                        <a href="#" class="g-chat-mini">
+                            <i class='bx bx-exit-fullscreen' style="font-size: 1.2rem;"></i>
+                        </a>                       
+                    </div>
+                    <div>
+                        <a href="#" class="g-chat-full">
+                            <i class='bx bx-fullscreen' style="font-size: 1.2rem;"></i>
+                        </a>                       
+                    </div>
+                    <div class="close-btn">
+                        <a href="#" class="drawer-close gc-close">
+                            <i class='bx bx-x' style="font-size: 1.2rem;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-container"></div>
+            <input id="gChatInput" type="text" maxlength="200" placeholder="digite sua mensagem aqui">
+        </div>
+    </div>
+</div>
+
+
+  <div id="mutedList" style="display:none;">[]</div>
+
+  <div class="relic-dropmodal">
+    <div>
+      <h4>
+        <a href="#" class="relic-dropmodal-close">
+          <i class='bx bxs-x-circle'></i>
+        </a>
+      </h4>
+      <div id="relicDropContent"></div>
+    </div>
+  </div>
+
+
+
+  <script src="/static/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+  <script src="/static/js/htmx.min.js" type="text/javascript"></script>
+  <script src="/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js" type="text/javascript"></script>
+  
+  <script src="/static/plugins/countdown.js" type="text/javascript"></script>
+  <script src="/static/plugins/croppie.min.js" type="text/javascript"></script>
+  
+  <script src="/static/js/app1.js?mod=17469547976692615" type="text/javascript"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/service-worker.js')
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(function(error) {
+          console.error('ServiceWorker registration failed: ', error);
+        });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    });
+  </script>
+
+  
+
+<script src="/static/js/install.js?mod=17469547976692615" type="text/javascript"></script>
+<script src="/static/js/chart.js"></script>
+
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9418c683eb9f1ace","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.4.0-1-g37f21b1","token":"401b575533484cfa8f2a96ef62b24837"}' crossorigin="anonymous"></script>
+</body>
+</html>
