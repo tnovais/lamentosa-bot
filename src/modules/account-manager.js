@@ -8,131 +8,146 @@ const { PATHS } = require('../config');
  */
 class AccountManager {
   constructor() {
-    this.accounts = new Map();
-    this.accountsFilePath = path.join(PATHS.ACCOUNTS_DIR, PATHS.ACCOUNTS_FILE);
-    this.initialize();
+    this.accounts = [];
+    this.accountStatuses = new Map(); // accountId -> status object
   }
-  
+
   /**
    * Initialize the account manager
    */
   initialize() {
-    try {
-      // Create accounts directory if it doesn't exist
-      if (!fs.existsSync(PATHS.ACCOUNTS_DIR)) {
-        fs.mkdirSync(PATHS.ACCOUNTS_DIR, { recursive: true });
-        logger.info(`Created accounts directory: ${PATHS.ACCOUNTS_DIR}`);
-      }
-      
-      // Load accounts data if file exists
-      if (fs.existsSync(this.accountsFilePath)) {
-        this.loadAccounts();
-      } else {
-        logger.info(`No accounts file found at ${this.accountsFilePath}`);
-      }
-    } catch (error) {
-      logger.error(`Failed to initialize account manager: ${error.message}`, null, error);
-    }
+    this.loadAccounts();
   }
-  
+
   /**
    * Load accounts from file
    */
   loadAccounts() {
     try {
-      const accountsData = JSON.parse(fs.readFileSync(this.accountsFilePath, 'utf8'));
-      
-      this.accounts.clear();
-      for (const account of accountsData) {
-        this.accounts.set(account.id, {
-          ...account,
-          lastLogin: account.lastLogin ? new Date(account.lastLogin) : null,
-          lastLogout: account.lastLogout ? new Date(account.lastLogout) : null,
-          lastActivity: account.lastActivity ? new Date(account.lastActivity) : null,
-          captchaLockoutUntil: account.captchaLockoutUntil ? new Date(account.captchaLockoutUntil) : null
-        });
+      // Ensure accounts directory exists
+      if (!fs.existsSync(PATHS.ACCOUNTS_DIR)) {
+        fs.mkdirSync(PATHS.ACCOUNTS_DIR, { recursive: true });
       }
       
-      logger.info(`Loaded ${this.accounts.size} accounts from ${this.accountsFilePath}`);
+      // Check for accounts.json file
+      const accountsPath = path.join(PATHS.ACCOUNTS_DIR, 'accounts.json');
+      
+      if (!fs.existsSync(accountsPath)) {
+        logger.warn(`Accounts file not found: ${accountsPath}`);
+        return;
+      }
+      
+      // Read and parse accounts file
+      const accountsData = fs.readFileSync(accountsPath, 'utf8');
+      const accounts = JSON.parse(accountsData);
+      
+      if (!Array.isArray(accounts)) {
+        logger.error('Invalid accounts file format');
+        return;
+      }
+      
+      this.accounts = accounts.map(account => ({
+        ...account,
+        id: account.id || account.username,
+      }));
+      
+      logger.info(`Loaded ${this.accounts.length} accounts`);
     } catch (error) {
-      logger.error(`Failed to load accounts: ${error.message}`, null, error);
+      logger.error(`Error loading accounts: ${error.message}`, null, error);
     }
   }
-  
+
   /**
    * Save accounts to file
    */
   saveAccounts() {
     try {
-      const accountsData = Array.from(this.accounts.values());
-      fs.writeFileSync(this.accountsFilePath, JSON.stringify(accountsData, null, 2));
-      logger.info(`Saved ${accountsData.length} accounts to ${this.accountsFilePath}`);
+      // Ensure accounts directory exists
+      if (!fs.existsSync(PATHS.ACCOUNTS_DIR)) {
+        fs.mkdirSync(PATHS.ACCOUNTS_DIR, { recursive: true });
+      }
+      
+      // Write accounts to file
+      const accountsPath = path.join(PATHS.ACCOUNTS_DIR, 'accounts.json');
+      fs.writeFileSync(accountsPath, JSON.stringify(this.accounts, null, 2));
+      
+      logger.info(`Saved ${this.accounts.length} accounts to ${accountsPath}`);
     } catch (error) {
-      logger.error(`Failed to save accounts: ${error.message}`, null, error);
+      logger.error(`Error saving accounts: ${error.message}`, null, error);
     }
   }
-  
+
   /**
    * Get all accounts
    * @returns {Array} - Array of account objects
    */
   getAllAccounts() {
-    return Array.from(this.accounts.values());
+    return [...this.accounts];
   }
-  
+
   /**
    * Get account by ID
    * @param {string} accountId - Account identifier
    * @returns {Object|null} - Account object or null if not found
    */
   getAccount(accountId) {
-    return this.accounts.get(accountId) || null;
+    return this.accounts.find(account => account.id === accountId) || null;
   }
-  
+
   /**
    * Add or update an account
    * @param {Object} accountData - Account data
    * @returns {Object} - Updated account object
    */
   updateAccount(accountData) {
-    // Ensure the account has an ID
-    if (!accountData.id) {
-      throw new Error('Account data must include an id field');
+    if (!accountData.id && !accountData.username) {
+      throw new Error('Account must have an ID or username');
     }
     
-    // Merge with existing account data if it exists
-    const existingAccount = this.accounts.get(accountData.id) || {};
-    const updatedAccount = {
-      ...existingAccount,
-      ...accountData,
-      lastUpdated: new Date()
-    };
+    const accountId = accountData.id || accountData.username;
+    const existingIndex = this.accounts.findIndex(account => account.id === accountId);
     
-    this.accounts.set(accountData.id, updatedAccount);
-    this.saveAccounts();
-    
-    logger.info(`Updated account: ${accountData.id}`);
-    return updatedAccount;
+    if (existingIndex >= 0) {
+      // Update existing account
+      this.accounts[existingIndex] = {
+        ...this.accounts[existingIndex],
+        ...accountData,
+        id: accountId
+      };
+      
+      logger.info(`Updated account ${accountId}`);
+      return this.accounts[existingIndex];
+    } else {
+      // Add new account
+      const newAccount = {
+        ...accountData,
+        id: accountId
+      };
+      
+      this.accounts.push(newAccount);
+      logger.info(`Added new account ${accountId}`);
+      return newAccount;
+    }
   }
-  
+
   /**
    * Remove an account
    * @param {string} accountId - Account identifier
    * @returns {boolean} - Whether the account was removed
    */
   removeAccount(accountId) {
-    const wasRemoved = this.accounts.delete(accountId);
+    const initialLength = this.accounts.length;
+    this.accounts = this.accounts.filter(account => account.id !== accountId);
     
-    if (wasRemoved) {
-      this.saveAccounts();
-      logger.info(`Removed account: ${accountId}`);
-    } else {
-      logger.warn(`Failed to remove account (not found): ${accountId}`);
+    if (this.accounts.length < initialLength) {
+      logger.info(`Removed account ${accountId}`);
+      return true;
     }
     
-    return wasRemoved;
+    logger.warn(`Account ${accountId} not found, nothing removed`);
+    return false;
   }
-  
+
   /**
    * Update account status
    * @param {string} accountId - Account identifier
@@ -141,25 +156,26 @@ class AccountManager {
    */
   updateAccountStatus(accountId, statusUpdate) {
     const account = this.getAccount(accountId);
-    
     if (!account) {
-      logger.warn(`Cannot update status for unknown account: ${accountId}`);
+      logger.warn(`Account ${accountId} not found, status not updated`);
       return null;
     }
     
-    const updatedAccount = {
-      ...account,
+    const currentStatus = this.accountStatuses.get(accountId) || {};
+    const updatedStatus = {
+      ...currentStatus,
       ...statusUpdate,
-      lastActivity: new Date()
+      lastUpdated: new Date()
     };
     
-    this.accounts.set(accountId, updatedAccount);
-    this.saveAccounts();
+    this.accountStatuses.set(accountId, updatedStatus);
     
-    logger.debug(`Updated status for account: ${accountId}`, accountId);
-    return updatedAccount;
+    return {
+      ...account,
+      status: updatedStatus
+    };
   }
-  
+
   /**
    * Record login event for account
    * @param {string} accountId - Account identifier
@@ -167,121 +183,139 @@ class AccountManager {
    * @param {string} [failReason] - Reason for login failure
    */
   recordLogin(accountId, success, failReason = null) {
-    const account = this.getAccount(accountId);
+    const currentStatus = this.accountStatuses.get(accountId) || {};
+    const loginAttempts = currentStatus.loginAttempts || [];
     
-    if (!account) {
-      logger.warn(`Cannot record login for unknown account: ${accountId}`);
-      return;
+    loginAttempts.push({
+      timestamp: new Date(),
+      success,
+      failReason
+    });
+    
+    // Keep only the last 10 login attempts
+    const recentLoginAttempts = loginAttempts.slice(-10);
+    
+    this.updateAccountStatus(accountId, {
+      lastLoginAttempt: new Date(),
+      lastLoginSuccess: success ? new Date() : currentStatus.lastLoginSuccess,
+      loginAttempts: recentLoginAttempts,
+      consecutiveFailures: success ? 0 : (currentStatus.consecutiveFailures || 0) + 1
+    });
+    
+    if (success) {
+      logger.info(`Login recorded as successful for account ${accountId}`);
+    } else {
+      logger.warn(`Login recorded as failed for account ${accountId}: ${failReason}`);
+      
+      // Check for too many failures
+      const consecutiveFailures = this.accountStatuses.get(accountId).consecutiveFailures;
+      if (consecutiveFailures >= 5) {
+        logger.error(`Account ${accountId} has ${consecutiveFailures} consecutive login failures`);
+      }
     }
-    
-    const statusUpdate = {
-      lastLogin: new Date(),
-      loginAttempts: (account.loginAttempts || 0) + 1,
-      successfulLogins: success ? (account.successfulLogins || 0) + 1 : (account.successfulLogins || 0)
-    };
-    
-    if (!success) {
-      statusUpdate.lastLoginFailReason = failReason;
-      statusUpdate.failedLogins = (account.failedLogins || 0) + 1;
-    }
-    
-    this.updateAccountStatus(accountId, statusUpdate);
-    
-    logger.info(`Recorded ${success ? 'successful' : 'failed'} login for account: ${accountId}`, accountId);
   }
-  
+
   /**
    * Record logout event for account
    * @param {string} accountId - Account identifier
    */
   recordLogout(accountId) {
-    const account = this.getAccount(accountId);
-    
-    if (!account) {
-      logger.warn(`Cannot record logout for unknown account: ${accountId}`);
-      return;
-    }
-    
     this.updateAccountStatus(accountId, {
-      lastLogout: new Date(),
-      logoutCount: (account.logoutCount || 0) + 1
+      lastLogout: new Date()
     });
     
-    logger.info(`Recorded logout for account: ${accountId}`, accountId);
+    logger.info(`Logout recorded for account ${accountId}`);
   }
-  
+
   /**
    * Get accounts eligible for login (not locked out)
    * @returns {Array} - Array of eligible account objects
    */
   getEligibleAccounts() {
-    const now = new Date();
-    
-    return this.getAllAccounts().filter(account => {
-      // Skip accounts with captcha lockout
-      if (account.captchaLockoutUntil && account.captchaLockoutUntil > now) {
-        const minutesRemaining = Math.ceil((account.captchaLockoutUntil - now) / (60 * 1000));
-        logger.debug(`Account ${account.id} in captcha lockout for ${minutesRemaining} more minutes`);
+    return this.accounts.filter(account => {
+      const status = this.accountStatuses.get(account.id);
+      
+      // If no status, account is eligible
+      if (!status) return true;
+      
+      // Check for lockout
+      if (status.lockedUntil && new Date() < new Date(status.lockedUntil)) {
         return false;
       }
       
-      // Skip accounts marked as disabled
-      if (account.disabled) {
-        logger.debug(`Account ${account.id} is disabled`);
+      // Check for too many consecutive failures
+      if (status.consecutiveFailures >= 5) {
         return false;
       }
       
       return true;
     });
   }
-  
+
   /**
    * Set captcha lockout for an account
    * @param {string} accountId - Account identifier
    * @param {number} minutes - Lockout duration in minutes
    */
   setCaptchaLockout(accountId, minutes) {
-    const account = this.getAccount(accountId);
-    
-    if (!account) {
-      logger.warn(`Cannot set captcha lockout for unknown account: ${accountId}`);
-      return;
-    }
-    
-    const lockoutUntil = new Date();
-    lockoutUntil.setMinutes(lockoutUntil.getMinutes() + minutes);
+    const lockedUntil = new Date(Date.now() + minutes * 60 * 1000);
     
     this.updateAccountStatus(accountId, {
-      captchaLockoutUntil: lockoutUntil,
-      captchaLockoutCount: (account.captchaLockoutCount || 0) + 1
+      lockedUntil,
+      lockReason: 'captcha_failures'
     });
     
-    logger.warn(`Set captcha lockout for account ${accountId} until ${lockoutUntil.toISOString()}`, accountId);
+    logger.warn(`Account ${accountId} locked out until ${lockedUntil.toISOString()} due to captcha failures`);
   }
-  
+
   /**
    * Record captcha encounter for an account
    * @param {string} accountId - Account identifier
    * @param {boolean} solved - Whether captcha was solved successfully
    */
   recordCaptchaEncounter(accountId, solved) {
-    const account = this.getAccount(accountId);
+    const currentStatus = this.accountStatuses.get(accountId) || {};
+    const captchaEncounters = currentStatus.captchaEncounters || [];
     
-    if (!account) {
-      logger.warn(`Cannot record captcha for unknown account: ${accountId}`);
-      return;
-    }
-    
-    this.updateAccountStatus(accountId, {
-      captchaEncounters: (account.captchaEncounters || 0) + 1,
-      captchaSolved: solved ? (account.captchaSolved || 0) + 1 : (account.captchaSolved || 0),
-      captchaFailed: !solved ? (account.captchaFailed || 0) + 1 : (account.captchaFailed || 0),
-      lastCaptchaEncounter: new Date(),
-      lastCaptchaSuccess: solved ? new Date() : account.lastCaptchaSuccess
+    captchaEncounters.push({
+      timestamp: new Date(),
+      solved
     });
     
-    logger.info(`Recorded captcha encounter (${solved ? 'solved' : 'failed'}) for account: ${accountId}`, accountId);
+    // Keep only the last 20 captcha encounters
+    const recentCaptchaEncounters = captchaEncounters.slice(-20);
+    
+    // Calculate captcha encounter rate (last 10 visits)
+    const captchaRate = this._calculateCaptchaRate(accountId, recentCaptchaEncounters);
+    
+    this.updateAccountStatus(accountId, {
+      lastCaptchaEncounter: new Date(),
+      captchaEncounters: recentCaptchaEncounters,
+      captchaRate
+    });
+    
+    if (solved) {
+      logger.info(`Captcha solved successfully for account ${accountId}`);
+    } else {
+      logger.warn(`Captcha failed for account ${accountId}`);
+    }
+  }
+  
+  /**
+   * Calculate captcha encounter rate for an account
+   * @param {string} accountId - Account identifier
+   * @param {Array} encounters - Captcha encounters
+   * @returns {number} - Captcha encounter rate (0 to 1)
+   * @private
+   */
+  _calculateCaptchaRate(accountId, encounters) {
+    if (!encounters || encounters.length === 0) return 0;
+    
+    const lastTen = encounters.slice(-10);
+    const encounterCount = lastTen.length;
+    
+    return encounterCount / 10; // Normalized to 0-1 range
   }
 }
 
-module.exports = new AccountManager();
+module.exports = AccountManager;

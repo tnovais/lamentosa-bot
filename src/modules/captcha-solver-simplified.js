@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { createCanvas, loadImage } = require('canvas');
 const logger = require('../utils/logger');
 const { CAPTCHA, RETRY } = require('../config');
 const { retry } = require('../utils/helpers');
 
 /**
  * Handles captcha solving and related functionality
+ * Versão simplificada sem dependência do Canvas
  */
 class CaptchaSolver {
   constructor() {
@@ -59,50 +59,6 @@ class CaptchaSolver {
     
     this.accountLockouts.set(accountId, lockoutEndTime);
     logger.warn(`Account ${accountId} locked out for ${lockoutMinutes} minutes due to excessive captcha failures`);
-  }
-
-  /**
-   * Combine multiple captcha images into one for solving
-   * @param {Array<Buffer>} imageBuffers - Array of image buffers
-   * @returns {Promise<Buffer|Array<Buffer>>} - Combined image buffer or original buffers if combining fails
-   */
-  async combineImages(imageBuffers) {
-    try {
-      if (!imageBuffers || imageBuffers.length === 0) {
-        throw new Error('No image buffers provided');
-      }
-      
-      if (imageBuffers.length === 1) {
-        return imageBuffers[0];
-      }
-      
-      // Load all images and get their dimensions
-      const images = await Promise.all(imageBuffers.map(buffer => loadImage(buffer)));
-      
-      // Calculate combined dimensions
-      const totalWidth = images.reduce((sum, img) => sum + img.width, 0);
-      const maxHeight = Math.max(...images.map(img => img.height));
-      
-      // Create a canvas with the combined dimensions
-      const canvas = createCanvas(totalWidth, maxHeight);
-      const ctx = canvas.getContext('2d');
-      
-      // Draw each image onto the canvas
-      let x = 0;
-      for (const img of images) {
-        ctx.drawImage(img, x, 0);
-        x += img.width;
-      }
-      
-      // Convert canvas to buffer
-      const combinedBuffer = canvas.toBuffer('image/png');
-      logger.info(`Combined ${images.length} images into one (${totalWidth}x${maxHeight})`);
-      
-      return combinedBuffer;
-    } catch (error) {
-      logger.error('Error combining images', null, error);
-      return imageBuffers; // Return original buffers on error
-    }
   }
 
   /**
@@ -159,11 +115,8 @@ class CaptchaSolver {
         return null;
       }
       
-      // If we have multiple image buffers, combine them
-      let finalImageBuffer = imageBuffer;
-      if (Array.isArray(imageBuffer)) {
-        finalImageBuffer = await this.combineImages(imageBuffer);
-      }
+      // Se temos múltiplas imagens, envie apenas a primeira (versão simplificada)
+      let finalImageBuffer = Array.isArray(imageBuffer) ? imageBuffer[0] : imageBuffer;
       
       // Save captcha image for debugging
       this.saveCaptchaImage(finalImageBuffer, accountId);

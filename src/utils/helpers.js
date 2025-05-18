@@ -1,168 +1,174 @@
 /**
- * Utility functions for the bot
+ * Helper utility functions
  */
 
 /**
- * Returns a promise that resolves after the specified milliseconds
+ * Delay execution for a specified time
  * @param {number} ms - Milliseconds to delay
- * @returns {Promise<void>}
+ * @returns {Promise} - Promise that resolves after the delay
  */
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 /**
- * Returns a random delay with exponential distribution
- * @param {number} minDelay - Minimum delay in milliseconds
- * @param {number} maxDelay - Maximum delay in milliseconds
- * @returns {Promise<void>}
- */
-const naturalDelay = async (minDelay = 2000, maxDelay = 7000) => {
-  const delayMs = Math.pow(Math.random(), 2) * (maxDelay - minDelay) + minDelay;
-  await delay(delayMs);
-};
-
-/**
- * Returns a random integer between min and max (inclusive)
+ * Generate a random integer between min and max (inclusive)
  * @param {number} min - Minimum value
  * @param {number} max - Maximum value
- * @returns {number}
+ * @returns {number} - Random integer
  */
-const randomInteger = (min, max) => {
+function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+}
 
 /**
- * Returns a random item from an array
- * @param {Array} array - The array to pick from
- * @returns {*}
- */
-const randomItem = (array) => {
-  return array[Math.floor(Math.random() * array.length)];
-};
-
-/**
- * Formats a timestamp for filenames
- * @returns {string}
- */
-const getTimestamp = () => {
-  return new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
-};
-
-/**
- * Shuffles an array using Fisher-Yates algorithm
- * @param {Array} array - The array to shuffle
- * @returns {Array}
- */
-const shuffleArray = (array) => {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-  }
-  return newArray;
-};
-
-/**
- * Returns a random float between min and max
+ * Generate a random float between min and max
  * @param {number} min - Minimum value
  * @param {number} max - Maximum value
- * @returns {number}
+ * @returns {number} - Random float
  */
-const randomFloat = (min, max) => {
+function randomFloat(min, max) {
   return Math.random() * (max - min) + min;
-};
+}
 
 /**
- * Returns a random boolean with given probability of true
- * @param {number} probability - Probability of returning true (0-1)
- * @returns {boolean}
+ * Select a random item from an array
+ * @param {Array} array - Input array
+ * @returns {*} - Random item from the array
  */
-const randomBoolean = (probability = 0.5) => {
-  return Math.random() < probability;
-};
+function randomItem(array) {
+  if (!array || array.length === 0) return null;
+  return array[Math.floor(Math.random() * array.length)];
+}
 
 /**
- * Generate a delay with normal distribution (bell curve)
- * @param {number} mean - Mean value
- * @param {number} stdDev - Standard deviation
- * @returns {number}
+ * Shuffles an array in place
+ * @param {Array} array - Array to shuffle
+ * @returns {Array} - Shuffled array (same reference)
  */
-const normalDistributionDelay = (mean, stdDev) => {
-  // Box-Muller transform for normal distribution
-  const u1 = 1 - Math.random();
-  const u2 = 1 - Math.random();
-  const z = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
-  // Convert to desired mean and standard deviation
-  return Math.max(0, Math.round(z * stdDev + mean));
-};
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+/**
+ * Format a date as YYYY-MM-DD HH:MM:SS
+ * @param {Date} date - Date to format
+ * @returns {string} - Formatted date string
+ */
+function formatDate(date) {
+  const d = date || new Date();
+  
+  const pad = (num) => num.toString().padStart(2, '0');
+  
+  const year = d.getFullYear();
+  const month = pad(d.getMonth() + 1);
+  const day = pad(d.getDate());
+  const hours = pad(d.getHours());
+  const minutes = pad(d.getMinutes());
+  const seconds = pad(d.getSeconds());
+  
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 
 /**
  * Retry a function with exponential backoff
- * @param {Function} fn - Function to retry
- * @param {number} maxRetries - Maximum number of retries
- * @param {number} baseDelay - Base delay in ms
- * @param {Function} onRetry - Function to call on retry
- * @returns {Promise<*>}
+ * @param {Function} fn - Async function to retry
+ * @param {Object} options - Retry options
+ * @param {number} options.retries - Number of retries
+ * @param {number} options.minDelay - Minimum delay in ms
+ * @param {number} options.maxDelay - Maximum delay in ms
+ * @param {number} options.factor - Exponential factor
+ * @param {Function} options.onRetry - Called on retry
+ * @returns {Promise} - Promise resolving to the function result
  */
-const retry = async (fn, maxRetries = 3, baseDelay = 1000, onRetry = null) => {
-  let lastError;
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+async function retry(fn, options = {}) {
+  const {
+    retries = 3,
+    minDelay = 500,
+    maxDelay = 5000,
+    factor = 2,
+    onRetry = () => {}
+  } = options;
+  
+  let attempt = 0;
+  
+  async function attempt_fn() {
     try {
       return await fn();
     } catch (error) {
-      lastError = error;
-      if (attempt < maxRetries) {
-        const delayMs = baseDelay * Math.pow(2, attempt) * (0.5 + Math.random());
-        if (onRetry) onRetry(error, attempt, delayMs);
-        await delay(delayMs);
+      attempt++;
+      
+      if (attempt >= retries) {
+        throw error;
       }
+      
+      const delay = Math.min(
+        Math.max(minDelay * Math.pow(factor, attempt), minDelay),
+        maxDelay
+      );
+      
+      onRetry(error, attempt + 1, delay);
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return attempt_fn();
     }
   }
-  throw lastError;
-};
+  
+  return attempt_fn();
+}
 
 /**
- * Format a number with commas as thousands separators
- * @param {number} number - Number to format
- * @returns {string}
+ * Sleep for a random amount of time within a range
+ * @param {number} minMs - Minimum milliseconds
+ * @param {number} maxMs - Maximum milliseconds
+ * @returns {Promise} - Promise that resolves after the delay
  */
-const formatNumber = (number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
+function randomSleep(minMs, maxMs) {
+  const ms = randomInteger(minMs, maxMs);
+  return delay(ms);
+}
 
 /**
- * Calculate Bezier points for mouse movement
- * @param {number} startX - Starting X position
- * @param {number} startY - Starting Y position
- * @param {number} endX - Ending X position
- * @param {number} endY - Ending Y position
- * @param {number} steps - Number of steps
- * @returns {Array<{x: number, y: number}>}
+ * Checks if a string is valid JSON
+ * @param {string} str - String to check
+ * @returns {boolean} - Whether the string is valid JSON
  */
-const getBezierPoints = (startX, startY, endX, endY, steps) => {
-  const cp1x = startX + (endX - startX) * (0.3 + Math.random() * 0.4);
-  const cp1y = startY + (endY - startY) * (0.3 + Math.random() * 0.4);
-  const cp2x = startX + (endX - startX) * (0.6 + Math.random() * 0.4);
-  const cp2y = startY + (endY - startY) * (0.6 + Math.random() * 0.4);
-  const points = [];
-  for (let t = 0; t <= 1; t += 1 / steps) {
-    const x = (1 - t) ** 3 * startX + 3 * (1 - t) ** 2 * t * cp1x + 3 * (1 - t) * t ** 2 * cp2x + t ** 3 * endX;
-    const y = (1 - t) ** 3 * startY + 3 * (1 - t) ** 2 * t * cp1y + 3 * (1 - t) * t ** 2 * cp2y + t ** 3 * endY;
-    points.push({ x, y });
+function isValidJson(str) {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
   }
-  return points;
-};
+}
+
+/**
+ * Safe JSON parse with fallback
+ * @param {string} str - String to parse
+ * @param {*} fallback - Fallback value if parsing fails
+ * @returns {*} - Parsed JSON or fallback
+ */
+function safeJsonParse(str, fallback = {}) {
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    return fallback;
+  }
+}
 
 module.exports = {
   delay,
-  naturalDelay,
   randomInteger,
-  randomItem,
-  getTimestamp,
-  shuffleArray,
   randomFloat,
-  randomBoolean,
-  normalDistributionDelay,
+  randomItem,
+  shuffleArray,
+  formatDate,
   retry,
-  formatNumber,
-  getBezierPoints
+  randomSleep,
+  isValidJson,
+  safeJsonParse
 };

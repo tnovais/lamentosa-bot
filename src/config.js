@@ -1,143 +1,134 @@
-require('dotenv').config();
-
-// URLs
-const URLS = {
-  LOGIN: 'https://se.lamentosa.com/',
-  LOGOUT: 'https://se.lamentosa.com/logout/',
-  PROFILE: 'https://se.lamentosa.com/status/',
-  PVP: 'https://se.lamentosa.com/battlefield/enemies-g/?no-scroll=1',
-  TEMPLE: 'https://se.lamentosa.com/temple/main-room/',
-  CAPTCHA: 'https://se.lamentosa.com/battlefield/anti-bot/',
-  MARKET: 'https://se.lamentosa.com/items/market/',
-  JOBS: 'https://se.lamentosa.com/cemetery/jobs/',
-  DUNGEON: 'https://se.lamentosa.com/dungeons/start/',
-  RANKING: 'https://se.lamentosa.com/ranking/pvp/daily-list/',
-  INVENTORY: 'https://se.lamentosa.com/items/inventory/',
-  CLAN: 'https://se.lamentosa.com/clan/',
-};
-
-// Timing configurations
-const TIMING = {
-  RETRY_DELAY: 5000,
-  BUSY_TIMER_RETRY_DELAY: 15000,
-  COOKIE_RESET: {
-    MIN_SECONDS: 1800,
-    MAX_SECONDS: 5400
-  },
-  PAUSE: {
-    MIN_SECONDS: 60,
-    MAX_SECONDS: 300,
-    INTERVAL_MIN_SECONDS: 2700,
-    INTERVAL_MAX_SECONDS: 5400
-  },
-  LOGOUT_INTERVAL: {
-    MIN_SECONDS: 3600,
-    MAX_SECONDS: 7200
-  }
-};
-
-// Captcha settings
-const CAPTCHA = {
-  API_KEY: process.env.CAPTCHA_API_KEY,
-  MAX_ATTEMPTS: 3,
-  LOCKOUT_MINUTES: 50
-};
-
-// Game specific settings
-const GAME = {
-  HASTE_POTIONS_PER_USE: 4,
-  MAX_HASTE_POTIONS: 200
-};
-
-// Retry configurations
-const RETRY = {
-  MAX_ATTEMPTS: 5,
-  BUSY_TIMER_RETRIES: 3,
-  MAX_LOOP_ITERATIONS: 1000
-};
+/**
+ * Configuration for the bot
+ */
 
 // File paths
 const PATHS = {
   ACCOUNTS_DIR: 'accounts',
-  ACCOUNTS_FILE: 'accounts.json'
+  BROWSER_DATA_DIR: 'browser-data',
+  LOGS_DIR: 'logs',
+  CAPTCHA_IMAGES_DIR: 'captcha-images'
 };
 
-// Browser fingerprint randomization options
+// Timing configurations in milliseconds
+const TIMING = {
+  // Delays for human-like interaction
+  TYPE_MIN: 50, // Minimum delay between keypresses when typing
+  TYPE_MAX: 150, // Maximum delay between keypresses when typing
+  MOUSE_MOVE_MIN: 10, // Minimum delay between mouse movements
+  MOUSE_MOVE_MAX: 30, // Maximum delay between mouse movements
+  
+  // Delays between actions
+  MIN_ACTION_DELAY: 1000, // Minimum delay between actions
+  MAX_ACTION_DELAY: 3000, // Maximum delay between actions
+  
+  // Delays between tasks
+  MIN_TASK_DELAY: 5000, // Minimum delay between tasks
+  MAX_TASK_DELAY: 15000, // Maximum delay between tasks
+  
+  // Session timing
+  MIN_SESSION_DURATION: 15 * 60 * 1000, // Minimum session duration (15 minutes)
+  MAX_SESSION_DURATION: 60 * 60 * 1000, // Maximum session duration (1 hour)
+  
+  // Cooldown timing
+  MIN_COOLDOWN: 30 * 60 * 1000, // Minimum cooldown between sessions (30 minutes)
+  MAX_COOLDOWN: 120 * 60 * 1000, // Maximum cooldown between sessions (2 hours)
+  
+  // Random wait times
+  SHORT_WAIT_MIN: 1000, // Minimum short wait time
+  SHORT_WAIT_MAX: 3000, // Maximum short wait time
+  MEDIUM_WAIT_MIN: 3000, // Minimum medium wait time
+  MEDIUM_WAIT_MAX: 8000, // Maximum medium wait time
+  LONG_WAIT_MIN: 8000, // Minimum long wait time
+  LONG_WAIT_MAX: 15000 // Maximum long wait time
+};
+
+// Retry configurations
+const RETRY = {
+  NAVIGATION: 3, // Number of retries for navigation
+  ACTION: 3, // Number of retries for actions
+  CAPTCHA_SOLVE: 2, // Number of retries for captcha solving
+  CAPTCHA_HANDLE: 3, // Number of retries for captcha handling
+  LOGIN: 3, // Number of retries for login
+  GENERAL: 2 // Number of retries for general operations
+};
+
+// Captcha configurations
+const CAPTCHA = {
+  MAX_ATTEMPTS: 5, // Maximum number of captcha attempts before lockout
+  LOCKOUT_MINUTES: 30, // Lockout duration in minutes
+  NUMERIC_ONLY: false, // Whether captcha only contains numbers
+  MIN_LENGTH: 5, // Minimum length of captcha
+  MAX_LENGTH: 10, // Maximum length of captcha
+  CASE_SENSITIVE: true // Whether captcha is case sensitive
+};
+
+// Fingerprint data for browser randomization
 const FINGERPRINT = {
-  // User agent strings
+  // User agent strings for different browsers
   USER_AGENTS: [
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/120.0.0.0',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_6_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/129.0.0.0 Mobile/15E148 Safari/604.1',
-    'Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-    'Mozilla/5.0 (Linux; Android 13; SM-G998B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36',
-    'Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Mobile Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
+    // Chrome
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
+    
+    // Firefox
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:90.0) Gecko/20100101 Firefox/90.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
+    
+    // Edge
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36 Edg/92.0.902.55",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59",
+    
+    // Safari
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15",
+    
+    // Mobile
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Linux; Android 11; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36"
   ],
-
-  // HTTP Accept headers
-  ACCEPT_HEADERS: [
-    'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.7',
-    'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+  
+  // Language preferences
+  LANGUAGES: [
+    ['pt-BR', 'pt', 'en-US', 'en'],
+    ['en-US', 'en', 'pt-BR', 'pt'],
+    ['es-ES', 'es', 'en-US', 'en'],
+    ['fr-FR', 'fr', 'en-US', 'en']
   ],
-
+  
   // Screen resolutions
   RESOLUTIONS: [
-    { width: 1920, height: 1080 },
     { width: 1366, height: 768 },
+    { width: 1920, height: 1080 },
+    { width: 1536, height: 864 },
     { width: 1440, height: 900 },
+    { width: 1280, height: 720 },
     { width: 1600, height: 900 },
-    { width: 375, height: 812 },  // iPhone
-    { width: 768, height: 1024 }  // iPad
-  ],
-
-  // Browser languages
-  LANGUAGES: [
-    ['pt-BR', 'pt'],
-    ['en-US', 'en'],
-    ['es-ES', 'es'],
-    ['fr-FR', 'fr']
+    { width: 1280, height: 800 },
+    { width: 2560, height: 1440 },
+    { width: 1024, height: 768 },
+    // Mobile resolutions
+    { width: 375, height: 667 },
+    { width: 414, height: 896 },
+    { width: 360, height: 740 },
+    { width: 412, height: 915 }
   ],
   
-  // WebGL vendor options
-  WEBGL_VENDORS: [
-    'Intel Inc.', 
-    'NVIDIA Corporation', 
-    'AMD'
-  ],
-  
-  // WebGL renderer options
-  WEBGL_RENDERERS: [
-    'Intel Iris OpenGL Engine', 
-    'GeForce GTX 1650/PCIe/SSE2', 
-    'Radeon RX 580 Series'
-  ],
-  
-  // Browser plugins options
-  PLUGINS: [
-    { name: 'PDF Viewer', filename: 'pdf-viewer.js' },
-    { name: 'Chrome PDF Plugin', filename: 'chrome-pdf.js' },
-    { name: 'Widevine Content Decryption Module', filename: 'widevinecdm.dll' },
-    { name: 'Native Client', filename: 'nacl_irt.nexe' },
-    { name: 'Chrome Remote Desktop Viewer', filename: 'remotedesktopclient.dll' }
+  // Accept headers
+  ACCEPT_HEADERS: [
+    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
   ]
 };
 
 module.exports = {
-  URLS,
-  TIMING,
-  CAPTCHA,
-  GAME,
-  RETRY,
   PATHS,
+  TIMING,
+  RETRY,
+  CAPTCHA,
   FINGERPRINT
 };
