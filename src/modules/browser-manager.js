@@ -1,13 +1,45 @@
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
 const path = require('path');
 const { FINGERPRINT, RETRY } = require('../config');
 const logger = require('../utils/logger');
 const { randomItem, randomInteger, retry } = require('../utils/helpers');
 
-// Initialize puppeteer with stealth plugin
-puppeteer.use(StealthPlugin());
+// Função para carregar dinamicamente as dependências necessárias
+const loadDependencies = () => {
+  try {
+    // Primeiro tente carregar puppeteer-extra com plugin de stealth
+    const puppeteerExtra = require('puppeteer-extra');
+    const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+    puppeteerExtra.use(StealthPlugin());
+    
+    logger.info('Utilizando puppeteer-extra com stealth plugin');
+    return { puppeteer: puppeteerExtra, isPuppeteerExtra: true };
+  } catch (error) {
+    logger.warn(`Erro ao carregar puppeteer-extra: ${error.message}. Tentando puppeteer padrão...`);
+    
+    try {
+      // Tente carregar o puppeteer padrão
+      const puppeteerStandard = require('puppeteer');
+      logger.info('Utilizando puppeteer padrão');
+      return { puppeteer: puppeteerStandard, isPuppeteerExtra: false };
+    } catch (stdError) {
+      logger.warn(`Erro ao carregar puppeteer padrão: ${stdError.message}. Tentando puppeteer-core...`);
+      
+      try {
+        // Como último recurso, tente puppeteer-core
+        const puppeteerCore = require('puppeteer-core');
+        logger.info('Utilizando puppeteer-core');
+        return { puppeteer: puppeteerCore, isPuppeteerExtra: false, isCore: true };
+      } catch (coreError) {
+        logger.error(`Não foi possível carregar nenhuma versão do puppeteer: ${coreError.message}`);
+        throw new Error('Falha ao carregar dependências de navegador');
+      }
+    }
+  }
+};
+
+// Carrega as dependências de forma dinâmica
+const { puppeteer, isPuppeteerExtra, isCore } = loadDependencies();
 
 /**
  * Manages browser instances and provides enhanced browser functionality
@@ -32,38 +64,232 @@ class BrowserManager {
   async launchBrowser(options = {}) {
     const mergedOptions = { ...this.options, ...options };
     
-    // Select random fingerprint values
-    const userAgent = randomItem(FINGERPRINT.USER_AGENTS);
-    const languages = randomItem(FINGERPRINT.LANGUAGES);
-    const resolution = randomItem(FINGERPRINT.RESOLUTIONS);
+    // Seleção de valores de fingerprint aleatórios com métodos avançados
+    // Usa números aleatórios com seed para consistência por sessão
+    const sessionSeed = Date.now() % 10000;
+    const rng = (max, min = 0) => min + Math.floor(Math.abs(Math.sin(sessionSeed * 9999)) * (max - min));
     
-    // Customize launch arguments
-    const args = [
+    // Seleciona fingerprint com bias para navegadores comuns mais recentes
+    const userAgentGroups = {
+      chrome: FINGERPRINT.USER_AGENTS.filter(ua => ua.includes('Chrome')),
+      firefox: FINGERPRINT.USER_AGENTS.filter(ua => ua.includes('Firefox')),
+      edge: FINGERPRINT.USER_AGENTS.filter(ua => ua.includes('Edge')),
+      safari: FINGERPRINT.USER_AGENTS.filter(ua => ua.includes('Safari') && !ua.includes('Chrome')),
+      mobile: FINGERPRINT.USER_AGENTS.filter(ua => ua.includes('Mobile') || ua.includes('Android'))
+    };
+    
+    // Escolha o grupo com bias para navegadores desktop mais comuns
+    const uaGroupType = Math.random() < 0.8 
+      ? ['chrome', 'firefox', 'edge'][rng(3)] // 80% chance para browsers desktop comuns
+      : Math.random() < 0.5 ? 'safari' : 'mobile'; // 20% divididos entre Safari e mobile
+    
+    const userAgents = userAgentGroups[uaGroupType] || FINGERPRINT.USER_AGENTS;
+    const userAgent = userAgents[rng(userAgents.length)];
+    
+    // Seleciona idioma com distribuição mais realista
+    // Privilegia os idiomas mais comuns
+    const languageWeights = {
+      0: 0.6, // pt-BR (60% chance para o idioma principal)
+      1: 0.25, // en-US (25% chance para o segundo idioma mais comum)
+      2: 0.1, // es-ES (10% chance)
+      3: 0.05 // fr-FR (5% chance)
+    };
+    
+    const langIndex = (() => {
+      const rand = Math.random();
+      let cumulativeWeight = 0;
+      for (let i = 0; i < FINGERPRINT.LANGUAGES.length; i++) {
+        cumulativeWeight += languageWeights[i] || 0;
+        if (rand <= cumulativeWeight) return i;
+      }
+      return 0;
+    })();
+    
+    const languages = FINGERPRINT.LANGUAGES[langIndex];
+    
+    // Seleciona resolução com distribuição mais realista para desktops
+    // Privilegia resoluções comuns
+    const resolutionGroups = {
+      desktop: FINGERPRINT.RESOLUTIONS.filter(r => r.width >= 1024),
+      mobile: FINGERPRINT.RESOLUTIONS.filter(r => r.width < 1024)
+    };
+    
+    // Seleciona grupo de resolução baseado no tipo de user agent
+    const resGroup = uaGroupType === 'mobile' ? 'mobile' : 'desktop';
+    const resolutions = resolutionGroups[resGroup];
+    
+    // Seleciona resolução do grupo escolhido
+    const resolution = resolutions[rng(resolutions.length)];
+    
+    // Argumentos base críticos para funcionalidade
+    const baseArgs = [
       `--user-agent=${userAgent}`,
       `--window-size=${resolution.width},${resolution.height}`,
       `--lang=${languages[0]}`,
-      '--disable-features=IsolateOrigins,site-per-process',
-      '--disable-blink-features=AutomationControlled',
-      '--disable-infobars',
-      '--disable-breakpad',
-      '--disable-translate',
       '--no-sandbox',
       '--disable-setuid-sandbox'
     ];
     
-    try {
-      logger.info('Launching browser with randomized fingerprint');
-      this.browser = await puppeteer.launch({
-        ...mergedOptions,
-        args: [...args, ...(mergedOptions.args || [])]
-      });
-      
-      logger.info('Browser launched successfully');
-      return this.browser;
-    } catch (error) {
-      logger.error('Failed to launch browser', null, error);
-      throw error;
+    // Argumentos que ajudam a evitar detecção
+    const antiDetectionArgs = [
+      '--disable-blink-features=AutomationControlled',
+      '--disable-features=IsolateOrigins,site-per-process',
+      '--disable-infobars'
+    ];
+    
+    // Argumentos para performance/estabilidade (pode variar por ambiente)
+    const performanceArgs = [
+      '--disable-dev-shm-usage',
+      '--disable-gpu'
+    ];
+    
+    // Argumentos adicionais para evasão de detecção melhorada
+    const enhancedArgs = [
+      '--disable-web-security',
+      '--ignore-certificate-errors',
+      '--disable-site-isolation-trials',
+      '--disable-features=ScriptStreaming',
+      '--disable-accelerated-2d-canvas',
+      '--disable-background-timer-throttling',
+      '--disable-renderer-backgrounding',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-ipc-flooding-protection'
+    ];
+    
+    // Adiciona argumentos aleatórios com probabilidade variável
+    const randomArgs = [];
+    if (Math.random() > 0.3) randomArgs.push('--no-zygote');
+    if (Math.random() > 0.5) randomArgs.push('--disable-notifications');
+    if (Math.random() > 0.7) randomArgs.push('--autoplay-policy=user-gesture-required');
+    if (Math.random() > 0.6) randomArgs.push('--disable-extensions');
+    if (Math.random() > 0.8) randomArgs.push('--disable-popup-blocking');
+    
+    // Combina argumentos com ordem variável para fingerprint mais única
+    const combinedArgs = [...baseArgs, ...antiDetectionArgs, ...performanceArgs];
+    
+    // Adiciona argumentos avançados aleatoriamente com probabilidades diferentes
+    for (const arg of enhancedArgs) {
+      if (Math.random() > 0.3) {
+        const position = Math.floor(Math.random() * (combinedArgs.length + 1));
+        combinedArgs.splice(position, 0, arg);
+      }
     }
+    
+    // Adiciona argumentos aleatórios (se houver)
+    if (randomArgs.length > 0) {
+      for (const arg of randomArgs) {
+        const position = Math.floor(Math.random() * (combinedArgs.length + 1));
+        combinedArgs.splice(position, 0, arg);
+      }
+    }
+    
+    logger.info(`Launching browser with ${uaGroupType} fingerprint (${resolution.width}x${resolution.height})`);
+    
+    // Lista para armazenar todos os executáveis do Chrome que tentaremos
+    const chromePaths = [
+      process.env.CHROME_PATH, // Variável de ambiente personalizada
+      '/usr/bin/google-chrome',
+      '/usr/bin/chromium-browser',
+      '/usr/bin/chromium',
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+    ].filter(Boolean); // Remove valores nulos/undefined
+    
+    // Estratégias de lançamento que tentaremos em sequência
+    const strategies = [
+      // Estratégia 1: Usar puppeteer-extra com todas as opções avançadas
+      async () => {
+        if (!isPuppeteerExtra) throw new Error('puppeteer-extra não disponível');
+        
+        const launchOptions = {
+          ...mergedOptions,
+          ignoreHTTPSErrors: true,
+          args: [...combinedArgs, ...(mergedOptions.args || [])],
+        };
+        
+        logger.info('Tentando com puppeteer-extra e configurações avançadas');
+        return await puppeteer.launch(launchOptions);
+      },
+      
+      // Estratégia 2: Usar puppeteer padrão com opções avançadas
+      async () => {
+        const launchOptions = {
+          ...mergedOptions,
+          ignoreHTTPSErrors: true,
+          args: [...combinedArgs, ...(mergedOptions.args || [])],
+        };
+        
+        logger.info('Tentando com puppeteer e configurações avançadas');
+        return await puppeteer.launch(launchOptions);
+      },
+      
+      // Estratégia 3: Se for puppeteer-core, tente encontrar o Chrome instalado
+      ...chromePaths.map(executablePath => async () => {
+        if (!isCore && !executablePath) throw new Error('puppeteer-core precisa de executablePath');
+        
+        const launchOptions = {
+          ...mergedOptions,
+          ignoreHTTPSErrors: true,
+          args: [...baseArgs, ...antiDetectionArgs, ...performanceArgs],
+          executablePath
+        };
+        
+        logger.info(`Tentando com chromium em: ${executablePath}`);
+        return await puppeteer.launch(launchOptions);
+      }),
+      
+      // Estratégia 4: Configuração mínima com sandbox desativado
+      async () => {
+        const minimalOptions = {
+          headless: mergedOptions.headless,
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
+            `--user-agent=${userAgent}`
+          ]
+        };
+        
+        logger.info('Tentando com configuração mínima');
+        return await puppeteer.launch(minimalOptions);
+      },
+      
+      // Estratégia 5: Tente conectar-se a uma instância de Chrome em execução (em contextos avançados)
+      async () => {
+        // Esta estratégia é útil em ambientes onde o Chrome já está em execução
+        // ou quando estamos em um ambiente restrito
+        
+        logger.info('Tentando conectar a uma instância existente do Chrome');
+        
+        // A URL padrão para depuração do Chrome
+        const browserURL = process.env.CHROME_WS_ENDPOINT || 'http://localhost:9222';
+        
+        return await puppeteer.connect({
+          browserURL,
+          ignoreHTTPSErrors: true
+        });
+      }
+    ];
+    
+    // Tenta cada estratégia em sequência até que uma funcione
+    for (let i = 0; i < strategies.length; i++) {
+      try {
+        this.browser = await strategies[i]();
+        logger.info(`Navegador iniciado com sucesso (estratégia ${i+1})`);
+        return this.browser;
+      } catch (error) {
+        logger.warn(`Estratégia ${i+1} falhou: ${error.message}`);
+        
+        // Se esta foi a última estratégia, propague o erro
+        if (i === strategies.length - 1) {
+          logger.error('Todas as estratégias falharam ao iniciar o navegador', null, error);
+          throw new Error(`Não foi possível iniciar o navegador: ${error.message}`);
+        }
+      }
+    }
+  }
   }
   
   /**

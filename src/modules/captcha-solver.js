@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { Solver } = require('@2captcha/captcha-solver');
-const { createCanvas, loadImage } = require('canvas');
 const logger = require('../utils/logger');
+const imageProcessor = require('../utils/image-processor');
 const { delay, randomInteger } = require('../utils/helpers');
 const { CAPTCHA } = require('../config');
 
@@ -57,22 +57,16 @@ class CaptchaSolver {
   /**
    * Combine multiple captcha images into one for solving
    * @param {Array<Buffer>} imageBuffers - Array of image buffers
-   * @returns {Promise<Buffer>} - Combined image buffer
+   * @returns {Promise<Buffer|Array<Buffer>>} - Combined image buffer or original buffers if combining fails
    */
   async combineImages(imageBuffers) {
     try {
-      const canvas = createCanvas(400, 100);
-      const ctx = canvas.getContext('2d');
-      
-      for (let i = 0; i < 4; i++) {
-        const img = await loadImage(imageBuffers[i]);
-        ctx.drawImage(img, i * 100, 0, 100, 100);
-      }
-      
-      return canvas.toBuffer();
+      // Use our platform-independent image processor
+      return await imageProcessor.combineImages(imageBuffers);
     } catch (error) {
       logger.error('Error combining captcha images', null, error);
-      throw error;
+      // Return original images as fallback
+      return imageBuffers;
     }
   }
   
@@ -105,12 +99,48 @@ class CaptchaSolver {
   
   /**
    * Solve image captcha
-   * @param {Buffer} imageBuffer - Captcha image buffer
+   * @param {Buffer|Array<Buffer>} imageBuffer - Captcha image buffer or array of buffers
    * @param {string} accountId - Account identifier
    * @returns {Promise<string|null>} - Captcha solution or null if failed
    */
   async solveImageCaptcha(imageBuffer, accountId) {
     try {
+      // Check if we have an array of image buffers
+      const isArray = Array.isArray(imageBuffer);
+      
+      // If it's an array, we need to handle it specially
+      if (isArray) {
+        logger.info(`Attempting to solve multiple captcha images (${imageBuffer.length})`, accountId);
+        
+        // Try to combine images first
+        const combinedBuffer = await this.combineImages(imageBuffer);
+        
+        // If we got back an array, combining failed, so we'll try with the first image
+        if (Array.isArray(combinedBuffer)) {
+          logger.warn('Could not combine captcha images, using first image', accountId);
+          // Save the first image for debugging
+          this.saveCaptchaImage(combinedBuffer[0], accountId);
+          
+          // Add some delay to simulate human solving time
+          await delay(randomInteger(2000, 5000));
+          
+          // Try to solve with first image
+          const result = await this.solver.imageCaptcha({
+            body: combinedBuffer[0],
+            case: true, // case sensitive
+            numeric: 2, // numeric plus latin alphabet
+            minLength: 4,
+            maxLength: 8
+          });
+          
+          logger.info(`Captcha solved from first image: ${result.code}`, accountId);
+          return result.code;
+        } else {
+          // We successfully combined the images
+          imageBuffer = combinedBuffer;
+        }
+      }
+      
       // Save captcha for debugging
       this.saveCaptchaImage(imageBuffer, accountId);
       
