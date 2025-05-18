@@ -1,0 +1,40 @@
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Bot Runner"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "node"
+
+[[workflows.workflow]]
+name = "Bot Runner"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth @2captcha/captcha-solver canvas dotenv fs path && node index.js"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "node"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node index.js"
+
+[deployment]
+run = ["sh", "-c", "npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth @2captcha/captcha-solver canvas dotenv fs path && node index.js"]
