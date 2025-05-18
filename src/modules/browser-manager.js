@@ -12,33 +12,42 @@ const loadDependencies = () => {
     const StealthPlugin = require('puppeteer-extra-plugin-stealth');
     puppeteerExtra.use(StealthPlugin());
     
-    logger.info('Utilizando puppeteer-extra com stealth plugin');
-    return { puppeteer: puppeteerExtra, isPuppeteerExtra: true };
-  } catch (error) {
-    logger.warn(`Erro ao carregar puppeteer-extra: ${error.message}. Tentando puppeteer padrão...`);
-    
+    logger.info('Usando puppeteer-extra com plugin stealth');
+    return { 
+      puppeteer: puppeteerExtra, 
+      isPuppeteerExtra: true,
+      isCore: false 
+    };
+  } catch (e) {
+    // Se falhar, tente carregar puppeteer padrão
     try {
-      // Tente carregar o puppeteer padrão
-      const puppeteerStandard = require('puppeteer');
-      logger.info('Utilizando puppeteer padrão');
-      return { puppeteer: puppeteerStandard, isPuppeteerExtra: false };
-    } catch (stdError) {
-      logger.warn(`Erro ao carregar puppeteer padrão: ${stdError.message}. Tentando puppeteer-core...`);
-      
+      const puppeteer = require('puppeteer');
+      logger.info('Usando puppeteer padrão');
+      return { 
+        puppeteer,
+        isPuppeteerExtra: false,
+        isCore: false
+      };
+    } catch (e2) {
+      // Se também falhar, tente puppeteer-core (precisa de executablePath)
       try {
-        // Como último recurso, tente puppeteer-core
         const puppeteerCore = require('puppeteer-core');
-        logger.info('Utilizando puppeteer-core');
-        return { puppeteer: puppeteerCore, isPuppeteerExtra: false, isCore: true };
-      } catch (coreError) {
-        logger.error(`Não foi possível carregar nenhuma versão do puppeteer: ${coreError.message}`);
-        throw new Error('Falha ao carregar dependências de navegador');
+        logger.info('Usando puppeteer-core (requer path para o Chrome)');
+        return { 
+          puppeteer: puppeteerCore,
+          isPuppeteerExtra: false,
+          isCore: true
+        };
+      } catch (e3) {
+        // Não foi possível carregar nenhuma versão do puppeteer
+        logger.error('Falha ao carregar qualquer versão do puppeteer', null, e3);
+        throw new Error(`Nenhuma versão do puppeteer disponível: ${e3.message}`);
       }
     }
   }
 };
 
-// Carrega as dependências de forma dinâmica
+// Carrega puppeteer de forma dinâmica
 const { puppeteer, isPuppeteerExtra, isCore } = loadDependencies();
 
 /**
@@ -47,15 +56,14 @@ const { puppeteer, isPuppeteerExtra, isCore } = loadDependencies();
 class BrowserManager {
   constructor(options = {}) {
     this.options = {
-      headless: 'new',
-      userDataDir: './browser-data',
+      headless: true,
       defaultViewport: null,
       ...options
     };
-    this.browser = null;
-    this.activeBrowsers = new Map();
+    this.activeBrowsers = new Map(); // accountId -> browser
+    this.lastActivity = new Map(); // accountId -> timestamp
   }
-  
+
   /**
    * Launch a new browser instance with randomized properties
    * @param {Object} options - Browser launch options
@@ -290,8 +298,7 @@ class BrowserManager {
       }
     }
   }
-  }
-  
+
   /**
    * Create a new page with enhanced capabilities
    * @param {Object} browser - Browser instance
@@ -309,31 +316,26 @@ class BrowserManager {
         'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'none',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1'
+        'DNT': '1'
       });
       
-      // Apply advanced evasion techniques
-      await this._applyAdvancedEvasion(page, accountId);
-      
-      // Set viewport
-      const resolution = randomItem(FINGERPRINT.RESOLUTIONS);
+      // Modify viewport to make detection harder
       await page.setViewport({
-        width: resolution.width,
-        height: resolution.height,
-        deviceScaleFactor: 1,
-        hasTouch: randomInteger(1, 10) > 8, // 20% chance of touch capability
+        width: randomInteger(1024, 1920),
+        height: randomInteger(768, 1080),
+        deviceScaleFactor: randomInteger(1, 2),
+        hasTouch: Math.random() > 0.9, // 10% chance to have touch
         isLandscape: true,
-        isMobile: resolution.width < 800
+        isMobile: false
       });
       
-      logger.info(`Created page with resolution ${resolution.width}x${resolution.height}`, accountId);
+      // Apply evasion techniques
+      await this._applyEvasionTechniques(page, accountId);
+      
+      logger.info(`Page created with enhanced anti-detection (account ${accountId})`);
       return page;
     } catch (error) {
-      logger.error('Failed to create page', accountId, error);
+      logger.error(`Failed to create enhanced page for account ${accountId}`, null, error);
       throw error;
     }
   }
@@ -344,87 +346,99 @@ class BrowserManager {
    * @param {string} accountId - Account identifier
    * @private
    */
-  async _applyAdvancedEvasion(page, accountId) {
-    try {
-      await page.evaluateOnNewDocument(() => {
-        // Override navigator properties
-        const newProto = navigator.__proto__;
-        delete newProto.webdriver;
-        navigator.__proto__ = newProto;
-        
-        // Override permissions
-        const originalQuery = window.navigator.permissions.query;
-        window.navigator.permissions.query = (parameters) => (
-          parameters.name === 'notifications' || 
-          parameters.name === 'clipboard-read' || 
-          parameters.name === 'clipboard-write' || 
-          parameters.name === 'geolocation'
-        ) 
-          ? Promise.resolve({ state: 'prompt', onchange: null }) 
-          : originalQuery(parameters);
-        
-        // Add WebDriver delay
-        Object.defineProperty(navigator, 'webdriver', {
-          get: () => {
-            if (Math.random() < 0.99) return false;
-            return undefined;
-          }
-        });
-        
-        // Randomize plugins
-        const pluginLength = Math.floor(Math.random() * 3) + 2;
-        const pluginArray = Array.from({ length: pluginLength });
-        
-        // Override plugins
-        Object.defineProperty(navigator, 'plugins', {
-          get: () => pluginArray
-        });
-        
-        // Override Chrome
-        Object.defineProperty(window, 'chrome', {
-          get: () => ({
-            runtime: {},
-            app: {
-              InstallState: { INSTALLED: 'INSTALLED', DISABLED: 'DISABLED' },
-              RunningState: { RUNNING: 'RUNNING', UNABLE_TO_RUN: 'UNABLE_TO_RUN' },
-              getDetails: () => { return {}; },
-              getIsInstalled: () => { return Math.random() > 0.5; }
-            }
-          })
-        });
-        
-        // WebGL fingerprinting protection
-        const getParameterProto = WebGLRenderingContext.prototype.getParameter;
-        WebGLRenderingContext.prototype.getParameter = function(parameter) {
-          // UNMASKED_VENDOR_WEBGL
-          if (parameter === 37445) {
-            return ['Intel Inc.', 'NVIDIA Corporation', 'AMD'][Math.floor(Math.random() * 3)];
-          }
-          // UNMASKED_RENDERER_WEBGL
-          if (parameter === 37446) {
-            return ['Intel Iris OpenGL Engine', 'GeForce GTX 1650/PCIe/SSE2', 'Radeon RX 580 Series'][Math.floor(Math.random() * 3)];
-          }
-          return getParameterProto.apply(this, arguments);
-        };
-        
-        // Prevent detection through iframe focus
-        const originalFocus = HTMLIFrameElement.prototype.focus;
-        HTMLIFrameElement.prototype.focus = function() {
-          setTimeout(() => {
-            originalFocus.apply(this, arguments);
-          }, Math.floor(Math.random() * 100));
-        };
-        
-        // Hardware concurrency
-        Object.defineProperty(navigator, 'hardwareConcurrency', {
-          get: () => Math.floor(Math.random() * 6) + 4
-        });
+  async _applyEvasionTechniques(page, accountId) {
+    // Override navigator properties to defeat detection
+    await page.evaluateOnNewDocument(() => {
+      // Make WebDriver properties undetectable
+      Object.defineProperty(navigator, 'webdriver', {
+        get: () => false,
+        configurable: true
       });
       
-      logger.debug('Applied advanced browser evasion techniques', accountId);
-    } catch (error) {
-      logger.error('Failed to apply evasion techniques', accountId, error);
-    }
+      // Remove webdriver-related properties from navigator
+      delete navigator.__proto__.webdriver;
+      
+      // Override user-agent data for consistent reporting
+      if (navigator.userAgentData) {
+        Object.defineProperty(navigator, 'userAgentData', {
+          get: () => {
+            const original = Object.getOwnPropertyDescriptor(
+              Navigator.prototype, 'userAgentData'
+            ).get.call(this);
+            
+            original.mobile = false;
+            original.brands = original.brands || [
+              { brand: 'Chromium', version: '110' },
+              { brand: 'Not A(Brand', version: '24' },
+              { brand: 'Google Chrome', version: '110' }
+            ];
+            
+            return original;
+          },
+          configurable: true
+        });
+      }
+      
+      // Override automation-related functions
+      const originalFunctions = {
+        // Store the original toString methods of key objects
+        functionToString: Function.prototype.toString,
+        objectToString: Object.prototype.toString
+      };
+      
+      // Override Function.prototype.toString to hide signs of tampering
+      Function.prototype.toString = function() {
+        // Get the original function name without any automation markers
+        const fnString = originalFunctions.functionToString.call(this);
+        
+        // Target driver-related and stealth-plugin-related syntax for replacement
+        if (fnString.includes('webdriver') || 
+            fnString.includes('puppeteer') || 
+            fnString.includes('selenium') ||
+            fnString.includes('chrome') && fnString.includes('driver') ||
+            fnString.includes('__puppeteer_evaluation_script') ||
+            fnString.includes('CDP') ||
+            /\[native code\]\s*}\s*}\s*catch/.test(fnString)) {
+              
+          // Reconstruct the function signature without revealing tampering
+          const funcName = this.name || 'anonymous';
+          return `function ${funcName}() { [native code] }`;
+        }
+        
+        // Return the original string for non-targeted functions
+        return fnString;
+      };
+      
+      // Override chrome.runtime to appear as a regular Chrome browser
+      window.chrome = window.chrome || {};
+      window.chrome.runtime = window.chrome.runtime || {};
+      
+      // Implement a convincing sendMessage method if missing
+      if (!window.chrome.runtime.sendMessage) {
+        window.chrome.runtime.sendMessage = function() {
+          return {
+            then: function() {
+              return {
+                catch: function() {}
+              };
+            }
+          };
+        };
+      }
+      
+      // Override Permissions API to avoid detection
+      if (navigator.permissions) {
+        const originalQuery = navigator.permissions.query;
+        navigator.permissions.query = function(parameters) {
+          if (parameters.name === 'notifications') {
+            return Promise.resolve({ state: "denied" });
+          }
+          return originalQuery.call(this, parameters);
+        };
+      }
+    });
+    
+    logger.debug(`Applied advanced evasion techniques for account ${accountId}`);
   }
   
   /**
@@ -435,8 +449,9 @@ class BrowserManager {
   async saveCookies(page, accountId) {
     try {
       const cookies = await page.cookies();
-      const cookiesDir = path.join(this.options.userDataDir, 'cookies');
+      const cookiesDir = path.resolve('browser-data', 'cookies');
       
+      // Ensure cookies directory exists
       if (!fs.existsSync(cookiesDir)) {
         fs.mkdirSync(cookiesDir, { recursive: true });
       }
@@ -444,9 +459,9 @@ class BrowserManager {
       const cookiesPath = path.join(cookiesDir, `${accountId}.json`);
       fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
       
-      logger.info(`Saved ${cookies.length} cookies for account ${accountId}`, accountId);
+      logger.info(`Cookies saved for account ${accountId}`);
     } catch (error) {
-      logger.error(`Failed to save cookies for account ${accountId}`, accountId, error);
+      logger.error(`Failed to save cookies for account ${accountId}`, null, error);
     }
   }
   
@@ -458,20 +473,20 @@ class BrowserManager {
    */
   async loadCookies(page, accountId) {
     try {
-      const cookiesPath = path.join(this.options.userDataDir, 'cookies', `${accountId}.json`);
+      const cookiesDir = path.resolve('browser-data', 'cookies');
+      const cookiesPath = path.join(cookiesDir, `${accountId}.json`);
       
-      if (!fs.existsSync(cookiesPath)) {
-        logger.info(`No cookies found for account ${accountId}`, accountId);
+      if (fs.existsSync(cookiesPath)) {
+        const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
+        await page.setCookie(...cookies);
+        logger.info(`Cookies loaded for account ${accountId}`);
+        return true;
+      } else {
+        logger.warn(`No cookies file found for account ${accountId}`);
         return false;
       }
-      
-      const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf8'));
-      await page.setCookie(...cookies);
-      
-      logger.info(`Loaded ${cookies.length} cookies for account ${accountId}`, accountId);
-      return true;
     } catch (error) {
-      logger.error(`Failed to load cookies for account ${accountId}`, accountId, error);
+      logger.error(`Failed to load cookies for account ${accountId}`, null, error);
       return false;
     }
   }
@@ -482,25 +497,17 @@ class BrowserManager {
    * @param {string} accountId - Account identifier
    */
   registerBrowser(browser, accountId) {
-    this.activeBrowsers.set(accountId, {
-      browser,
-      createdAt: new Date(),
-      lastActivity: new Date()
-    });
-    
-    logger.debug(`Registered browser for account ${accountId}`, accountId);
+    this.activeBrowsers.set(accountId, browser);
+    this.updateLastActivity(accountId);
+    logger.debug(`Browser registered for account ${accountId}`);
   }
   
   /**
    * Update last activity time for a browser
    * @param {string} accountId - Account identifier
    */
-  updateActivity(accountId) {
-    const browserData = this.activeBrowsers.get(accountId);
-    if (browserData) {
-      browserData.lastActivity = new Date();
-      this.activeBrowsers.set(accountId, browserData);
-    }
+  updateLastActivity(accountId) {
+    this.lastActivity.set(accountId, Date.now());
   }
   
   /**
@@ -508,15 +515,16 @@ class BrowserManager {
    * @param {string} accountId - Account identifier
    */
   async closeBrowser(accountId) {
-    try {
-      const browserData = this.activeBrowsers.get(accountId);
-      if (browserData && browserData.browser) {
-        await browserData.browser.close();
+    const browser = this.activeBrowsers.get(accountId);
+    if (browser) {
+      try {
+        await browser.close();
         this.activeBrowsers.delete(accountId);
-        logger.info(`Closed browser for account ${accountId}`, accountId);
+        this.lastActivity.delete(accountId);
+        logger.info(`Browser closed for account ${accountId}`);
+      } catch (error) {
+        logger.error(`Error closing browser for account ${accountId}`, null, error);
       }
-    } catch (error) {
-      logger.error(`Error closing browser for account ${accountId}`, accountId, error);
     }
   }
   
@@ -524,16 +532,14 @@ class BrowserManager {
    * Close all active browsers
    */
   async closeAllBrowsers() {
-    try {
-      const promises = [];
-      for (const accountId of this.activeBrowsers.keys()) {
-        promises.push(this.closeBrowser(accountId));
-      }
-      await Promise.all(promises);
-      logger.info('Closed all browsers');
-    } catch (error) {
-      logger.error('Error closing all browsers', null, error);
+    const accountIds = Array.from(this.activeBrowsers.keys());
+    logger.info(`Closing all browsers (${accountIds.length} active)`);
+    
+    for (const accountId of accountIds) {
+      await this.closeBrowser(accountId);
     }
+    
+    logger.info('All browsers closed');
   }
   
   /**
@@ -543,29 +549,52 @@ class BrowserManager {
    * @param {string} waitUntil - Navigation wait condition
    * @param {string} accountId - Account identifier
    */
-  async ensurePage(page, targetUrl, waitUntil = 'domcontentloaded', accountId) {
-    const currentUrl = page.url();
-    if (!currentUrl.includes(targetUrl)) {
-      logger.info(`Navigating to ${targetUrl} (current: ${currentUrl})`, accountId);
-      try {
-        await retry(
-          async () => await page.goto(targetUrl, { waitUntil, timeout: 30000 }),
-          RETRY.MAX_ATTEMPTS,
-          1000,
-          (error, attempt, delay) => {
-            logger.warn(`Navigation retry ${attempt}/${RETRY.MAX_ATTEMPTS} after ${delay}ms: ${error.message}`, accountId);
-          }
-        );
-        logger.info(`Successfully navigated to: ${page.url()}`, accountId);
-      } catch (error) {
-        logger.error(`Failed to navigate to ${targetUrl}`, accountId, error);
-        await page.reload({ waitUntil, timeout: 30000 }).catch(() => {
-          logger.error(`Failed to reload page`, accountId);
+  async ensurePageNavigation(page, targetUrl, waitUntil = 'domcontentloaded', accountId) {
+    try {
+      // First try with standard navigation
+      await retry(async () => {
+        const response = await page.goto(targetUrl, {
+          waitUntil,
+          timeout: 30000
         });
-        throw error;
+        
+        if (!response) {
+          throw new Error('No response received from navigation');
+        }
+        
+        const status = response.status();
+        if (status >= 400) {
+          throw new Error(`Navigation failed with status ${status}`);
+        }
+        
+        return response;
+      }, {
+        retries: RETRY.NAVIGATION,
+        minDelay: 1000,
+        maxDelay: 5000,
+        onRetry: (error, attempt) => {
+          logger.warn(`Navigation retry ${attempt} for account ${accountId}: ${error.message}`);
+        }
+      });
+      
+      logger.info(`Navigated to ${targetUrl} (account ${accountId})`);
+      this.updateLastActivity(accountId);
+    } catch (error) {
+      logger.error(`Failed to navigate to ${targetUrl} for account ${accountId}`, null, error);
+      
+      // Fallback: try with direct URL evaluation method
+      try {
+        logger.info(`Trying fallback navigation method for account ${accountId}`);
+        await page.evaluate((url) => window.location.href = url, targetUrl);
+        await page.waitForNavigation({ waitUntil, timeout: 30000 });
+        logger.info(`Fallback navigation successful to ${targetUrl} (account ${accountId})`);
+        this.updateLastActivity(accountId);
+      } catch (fallbackError) {
+        logger.error(`Fallback navigation also failed for account ${accountId}`, null, fallbackError);
+        throw fallbackError;
       }
     }
   }
 }
 
-module.exports = new BrowserManager();
+module.exports = BrowserManager;

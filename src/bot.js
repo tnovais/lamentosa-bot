@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const logger = require('./utils/logger');
 const { delay, randomInteger, randomFloat, randomItem } = require('./utils/helpers');
-const browserManager = require('./modules/browser-manager');
-const antiDetection = require('./modules/anti-detection');
-const humanInteraction = require('./modules/human-interaction');
-const captchaSolver = require('./modules/captcha-solver');
-const accountManager = require('./modules/account-manager');
+const BrowserManager = require('./modules/browser-manager');
+const AntiDetection = require('./modules/anti-detection');
+const HumanInteraction = require('./modules/human-interaction');
+const CaptchaSolver = require('./modules/captcha-solver');
+const AccountManager = require('./modules/account-manager');
 const authTasks = require('./tasks/auth-tasks');
 const gameTasks = require('./tasks/game-tasks');
 const { TIMING, FINGERPRINT, RETRY, PATHS } = require('./config');
@@ -24,6 +24,13 @@ class Bot {
     this.activeSessions = new Map();
     this.taskQueue = [];
     this.isProcessingQueue = false;
+    
+    // Instanciar os gerenciadores
+    this.browserManager = new BrowserManager();
+    this.antiDetection = new AntiDetection();
+    this.humanInteraction = new HumanInteraction();
+    this.captchaSolver = new CaptchaSolver();
+    this.accountManager = new AccountManager();
   }
   
   /**
@@ -82,7 +89,7 @@ class Bot {
       const resolution = randomItem(FINGERPRINT.RESOLUTIONS);
       
       // Launch browser with random properties
-      const browser = await browserManager.launchBrowser({
+      const browser = await this.browserManager.launchBrowser({
         headless: 'new',
         args: [
           `--user-agent=${userAgent}`,
@@ -92,10 +99,10 @@ class Bot {
       });
       
       // Create page with enhanced capabilities
-      const page = await browserManager.createPage(browser, accountId);
+      const page = await this.browserManager.createPage(browser, accountId);
       
       // Apply anti-detection measures
-      await antiDetection.applyAllMeasures(page, accountId);
+      await this.antiDetection.applyAllMeasures(page, accountId);
       
       // Store session data
       this.activeSessions.set(accountId, {
@@ -146,7 +153,7 @@ class Bot {
       
       // Close browser
       if (session.browser) {
-        await browserManager.closeBrowser(accountId);
+        await this.browserManager.closeBrowser(accountId);
       }
       
       // Remove session
@@ -159,7 +166,7 @@ class Bot {
       
       // Force close browser in case of error
       try {
-        await browserManager.closeBrowser(accountId);
+        await this.browserManager.closeBrowser(accountId);
       } catch (e) {
         logger.error(`Error force closing browser: ${e.message}`, accountId);
       }
