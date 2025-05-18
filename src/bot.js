@@ -111,14 +111,8 @@ class Bot {
         account,
         startTime: new Date(),
         lastActivity: new Date(),
-        tasks: {
-          completed: 0,
-          failed: 0
-        }
+        loggedIn: false
       });
-      
-      // Register browser with account
-      browserManager.registerBrowser(browser, accountId);
       
       logger.info(`Session started for account ${accountId}`, accountId);
       return true;
@@ -142,10 +136,11 @@ class Bot {
     try {
       const session = this.activeSessions.get(accountId);
       
-      // Perform logout if needed
-      if (session.page) {
+      // Perform logout if logged in
+      if (session.loggedIn) {
         try {
-          await authTasks.logout(session.page, accountId);
+          logger.info(`Logging out account ${accountId}`, accountId);
+          await authTasks.performLogout(session.page, accountId);
         } catch (error) {
           logger.warn(`Error during logout: ${error.message}`, accountId);
         }
@@ -249,6 +244,7 @@ class Bot {
     const session = this.activeSessions.get(accountId);
     
     if (!session.loggedIn) {
+      // Try to login first
       const loginSuccess = await this.performLogin(accountId);
       if (!loginSuccess) {
         return { success: false, reason: 'login_failed' };
@@ -258,81 +254,62 @@ class Bot {
     try {
       const { page } = session;
       
-      // Update session activity time
-      session.lastActivity = new Date();
-      this.activeSessions.set(accountId, session);
+      // Generate a task sequence
+      const tasks = this._generateRandomTaskSequence();
+      logger.info(`Executing task sequence for account ${accountId}: ${tasks.join(', ')}`, accountId);
       
-      // Randomize task sequence
-      const taskSequence = this._generateRandomTaskSequence();
-      logger.info(`Executing task sequence: ${taskSequence.join(' → ')}`, accountId);
+      const results = {
+        success: true,
+        completedTasks: [],
+        failedTasks: [],
+        rewards: {
+          xp: 0,
+          currency: 0,
+          items: []
+        }
+      };
       
-      const results = {};
-      
-      // Execute each task
-      for (const taskName of taskSequence) {
-        // Add natural delay between tasks
-        if (Object.keys(results).length > 0) {
-          const taskDelay = randomInteger(
-            TIMING.PAUSE.MIN_SECONDS * 1000, 
-            TIMING.PAUSE.MAX_SECONDS * 1000
-          );
+      // Execute each task in sequence
+      for (const task of tasks) {
+        try {
+          logger.info(`Executing task ${task} for account ${accountId}`, accountId);
+          const taskResult = await gameTasks[task](page, accountId);
           
-          logger.info(`Waiting ${taskDelay/1000}s before next task...`, accountId);
-          await delay(taskDelay);
-        }
-        
-        // Add random behavior before each task
-        await antiDetection.addRandomBehavior(page, accountId);
-        
-        switch (taskName) {
-          case 'pvp':
-            results.pvp = await gameTasks.performPvpBattle(page, accountId);
-            break;
+          if (taskResult.success) {
+            results.completedTasks.push(task);
             
-          case 'temple':
-            results.temple = await gameTasks.performTempleTask(page, accountId);
-            break;
+            // Accumulate rewards
+            if (taskResult.rewards) {
+              results.rewards.xp += taskResult.rewards.xp || 0;
+              results.rewards.currency += taskResult.rewards.currency || 0;
+              if (taskResult.rewards.items && taskResult.rewards.items.length > 0) {
+                results.rewards.items = [...results.rewards.items, ...taskResult.rewards.items];
+              }
+            }
             
-          case 'job':
-            results.job = await gameTasks.performJobTask(page, accountId);
-            break;
-            
-          case 'market':
-            results.market = await gameTasks.checkMarket(page, accountId);
-            break;
-            
-          case 'inventory':
-            results.inventory = await gameTasks.checkInventory(page, accountId);
-            break;
-            
-          case 'profile':
-            results.profile = await authTasks.checkProfile(page, accountId);
-            break;
-        }
-        
-        // Add human-like browsing behavior
-        const shouldBrowse = Math.random() < 0.3; // 30% chance
-        if (shouldBrowse) {
-          const browseTime = randomInteger(10000, 30000);
-          logger.info(`Performing random browsing for ${browseTime/1000}s`, accountId);
-          await humanInteraction.simulateBrowsing(page, browseTime, accountId);
+            logger.info(`Task ${task} completed successfully for account ${accountId}`, accountId);
+          } else {
+            results.failedTasks.push(task);
+            logger.warn(`Task ${task} failed for account ${accountId}: ${taskResult.reason}`, accountId);
+          }
+          
+          // Random delay between tasks
+          await delay(randomInteger(TIMING.MIN_TASK_DELAY, TIMING.MAX_TASK_DELAY));
+        } catch (taskError) {
+          results.failedTasks.push(task);
+          logger.error(`Error executing task ${task} for account ${accountId}: ${taskError.message}`, accountId, taskError);
         }
       }
       
-      // Update session task stats
-      session.tasks.completed++;
+      // Update session last activity
+      session.lastActivity = new Date();
       this.activeSessions.set(accountId, session);
       
-      logger.info(`Task sequence completed for account ${accountId}`, accountId);
-      return { success: true, results };
+      logger.info(`Task sequence completed for account ${accountId}: ${results.completedTasks.length} succeeded, ${results.failedTasks.length} failed`, accountId);
+      return results;
     } catch (error) {
-      logger.error(`Error during task sequence for account ${accountId}: ${error.message}`, accountId, error);
-      
-      // Update session task stats
-      session.tasks.failed++;
-      this.activeSessions.set(accountId, session);
-      
-      return { success: false, reason: 'task_error', error: error.message };
+      logger.error(`Error executing task sequence for account ${accountId}: ${error.message}`, accountId, error);
+      return { success: false, reason: 'error', error: error.message };
     }
   }
   
@@ -343,36 +320,30 @@ class Bot {
    * @returns {Promise<void>}
    */
   async run(accounts, options = {}) {
-    try {
-      const defaultOptions = {
-        maxConcurrentSessions: 1,
-        maxSessionDuration: 3600, // 1 hour in seconds
-        randomizeLogout: true,
-        taskSequences: 3
-      };
-      
-      const runOptions = { ...defaultOptions, ...options };
-      
-      logger.info(`Starting bot run with ${accounts.length} accounts (max concurrent: ${runOptions.maxConcurrentSessions})`);
-      
-      // Queue accounts for processing
-      for (const account of accounts) {
-        this.queueTask({
-          type: 'process_account',
-          data: {
-            account,
-            options: runOptions
-          }
-        });
-      }
-      
-      // Start processing queue if not already running
-      if (!this.isProcessingQueue) {
-        this._processTaskQueue();
-      }
-    } catch (error) {
-      logger.error(`Error during bot run: ${error.message}`, null, error);
+    if (!Array.isArray(accounts) || accounts.length === 0) {
+      logger.error('No accounts provided for bot run');
+      return;
     }
+    
+    const maxConcurrent = options.maxConcurrent || 1;
+    logger.info(`Starting bot run with ${accounts.length} accounts (max concurrent: ${maxConcurrent})`);
+    
+    // Clear the task queue
+    this.taskQueue = [];
+    
+    // Add each account to the task queue
+    for (const account of accounts) {
+      this.queueTask({
+        type: 'process_account',
+        account,
+        options
+      });
+    }
+    
+    // Start processing the queue
+    this._processTaskQueue(maxConcurrent);
+    
+    logger.info(`Bot running with ${accounts.length} accounts`);
   }
   
   /**
@@ -380,39 +351,54 @@ class Bot {
    * @param {Object} task - Task object
    */
   queueTask(task) {
-    this.taskQueue.push({
-      ...task,
-      queuedAt: new Date()
-    });
+    this.taskQueue.push(task);
+    logger.debug(`Task queued: ${task.type}`);
     
-    logger.debug(`Task queued: ${task.type} (queue size: ${this.taskQueue.length})`);
+    // Start processing if not already processing
+    if (!this.isProcessingQueue) {
+      this._processTaskQueue();
+    }
   }
   
   /**
    * Process the task queue
+   * @param {number} maxConcurrent - Maximum number of concurrent tasks
    * @private
    */
-  async _processTaskQueue() {
-    if (this.isProcessingQueue) return;
+  async _processTaskQueue(maxConcurrent = 1) {
+    if (this.isProcessingQueue) {
+      return;
+    }
     
     this.isProcessingQueue = true;
-    logger.debug('Started processing task queue');
+    logger.debug(`Processing task queue: ${this.taskQueue.length} tasks`);
     
     try {
+      // Keep processing tasks until the queue is empty
       while (this.taskQueue.length > 0) {
-        const task = this.taskQueue.shift();
-        await this._executeTask(task);
+        // Get the current number of active sessions
+        const activeSessions = this.activeSessions.size;
+        
+        // Check if we can process more tasks
+        if (activeSessions < maxConcurrent) {
+          // Get the next task
+          const task = this.taskQueue.shift();
+          
+          // Execute the task in the background
+          this._executeTask(task).catch(error => {
+            logger.error(`Error executing task ${task.type}: ${error.message}`, null, error);
+          });
+        } else {
+          // Wait for some sessions to complete
+          await delay(1000);
+        }
       }
+      
+      logger.debug('Task queue processing completed');
     } catch (error) {
       logger.error(`Error processing task queue: ${error.message}`, null, error);
     } finally {
       this.isProcessingQueue = false;
-      logger.debug('Finished processing task queue');
-      
-      // If new tasks were added while processing, start again
-      if (this.taskQueue.length > 0) {
-        this._processTaskQueue();
-      }
     }
   }
   
@@ -422,21 +408,17 @@ class Bot {
    * @private
    */
   async _executeTask(task) {
-    try {
-      switch (task.type) {
-        case 'process_account':
-          await this._processAccount(task.data.account, task.data.options);
-          break;
-          
-        case 'end_session':
-          await this.endSession(task.data.accountId);
-          break;
-          
-        default:
-          logger.warn(`Unknown task type: ${task.type}`);
-      }
-    } catch (error) {
-      logger.error(`Error executing task ${task.type}: ${error.message}`, null, error);
+    logger.debug(`Executing task: ${task.type}`);
+    
+    switch (task.type) {
+      case 'process_account':
+        await this._processAccount(task.account, task.options);
+        break;
+      case 'end_session':
+        await this.endSession(task.accountId);
+        break;
+      default:
+        logger.warn(`Unknown task type: ${task.type}`);
     }
   }
   
@@ -446,102 +428,60 @@ class Bot {
    * @param {Object} options - Processing options
    * @private
    */
-  async _processAccount(account, options) {
+  async _processAccount(account, options = {}) {
     const accountId = account.id;
+    logger.info(`Processing account ${accountId}`, accountId);
     
     try {
-      // Check if we can start a new session (concurrent limit)
-      if (this.activeSessions.size >= options.maxConcurrentSessions) {
-        logger.info(`Maximum concurrent sessions reached, requeueing account ${accountId}`);
-        
-        // Requeue the task for later
-        this.queueTask({
-          type: 'process_account',
-          data: { account, options }
-        });
-        
-        // Wait before processing more tasks to prevent CPU spinning
-        await delay(5000);
-        return;
-      }
-      
       // Start session
-      const sessionStarted = await this.startSession(account);
-      
-      if (!sessionStarted) {
+      const sessionSuccess = await this.startSession(account);
+      if (!sessionSuccess) {
         logger.error(`Failed to start session for account ${accountId}`, accountId);
         return;
       }
       
-      // Login
+      // Perform login
       const loginSuccess = await this.performLogin(accountId);
-      
       if (!loginSuccess) {
-        logger.error(`Login failed for account ${accountId}, ending session`, accountId);
+        logger.error(`Failed to login for account ${accountId}`, accountId);
         await this.endSession(accountId);
         return;
       }
       
-      // Calculate session duration
-      let sessionDuration;
-      if (options.randomizeLogout) {
-        sessionDuration = randomInteger(
-          TIMING.LOGOUT_INTERVAL.MIN_SECONDS,
-          TIMING.LOGOUT_INTERVAL.MAX_SECONDS
+      // Execute task sequence
+      const taskResults = await this.executeTaskSequence(accountId);
+      
+      // If random ending is enabled, randomly decide whether to end the session
+      if (options.randomEnding && Math.random() < 0.5) {
+        logger.info(`Randomly ending session for account ${accountId}`, accountId);
+        await this.endSession(accountId);
+      } else if (!options.keepSessionsAlive) {
+        // End session if not keeping sessions alive
+        await this.endSession(accountId);
+      }
+      
+      // Schedule next run if interval is specified
+      if (options.runInterval && options.runInterval > 0) {
+        const nextRunDelay = randomInteger(
+          options.runInterval * 0.8,
+          options.runInterval * 1.2
         );
-      } else {
-        sessionDuration = options.maxSessionDuration;
-      }
-      
-      logger.info(`Session will run for ${Math.round(sessionDuration/60)} minutes for account ${accountId}`, accountId);
-      
-      // Schedule session end
-      const sessionEndTime = Date.now() + (sessionDuration * 1000);
-      
-      // Execute task sequences
-      let sequencesCompleted = 0;
-      
-      while (Date.now() < sessionEndTime && sequencesCompleted < options.taskSequences) {
-        // Execute a task sequence
-        const result = await this.executeTaskSequence(accountId);
         
-        if (result.success) {
-          sequencesCompleted++;
-          logger.info(`Completed task sequence ${sequencesCompleted}/${options.taskSequences} for account ${accountId}`, accountId);
-          
-          // Add pause between sequences
-          if (sequencesCompleted < options.taskSequences && Date.now() < sessionEndTime) {
-            const pauseDuration = randomInteger(
-              TIMING.PAUSE.INTERVAL_MIN_SECONDS * 1000,
-              TIMING.PAUSE.INTERVAL_MAX_SECONDS * 1000
-            );
-            
-            logger.info(`Pausing for ${Math.round(pauseDuration/1000)} seconds before next sequence`, accountId);
-            await delay(pauseDuration);
-          }
-        } else {
-          logger.warn(`Task sequence failed for account ${accountId}: ${result.reason}`, accountId);
-          
-          // If login failed, end session immediately
-          if (result.reason === 'login_failed') {
-            break;
-          }
-          
-          // Add shorter pause after failure
-          await delay(randomInteger(30000, 60000));
-        }
+        logger.info(`Scheduling next run for account ${accountId} in ${Math.round(nextRunDelay / 1000)} seconds`, accountId);
+        
+        setTimeout(() => {
+          this.queueTask({
+            type: 'process_account',
+            account,
+            options
+          });
+        }, nextRunDelay);
       }
-      
-      // End session
-      logger.info(`Ending session for account ${accountId} after ${sequencesCompleted} task sequences`, accountId);
-      await this.endSession(accountId);
     } catch (error) {
       logger.error(`Error processing account ${accountId}: ${error.message}`, accountId, error);
       
-      // Make sure to end session in case of error
-      if (this.activeSessions.has(accountId)) {
-        await this.endSession(accountId);
-      }
+      // End session in case of error
+      await this.endSession(accountId).catch(() => {});
     }
   }
   
@@ -551,17 +491,29 @@ class Bot {
    * @private
    */
   _generateRandomTaskSequence() {
-    const allTasks = ['pvp', 'temple', 'job', 'market', 'inventory', 'profile'];
-    const shuffledTasks = [...allTasks].sort(() => Math.random() - 0.5);
+    // Available tasks
+    const availableTasks = [
+      'collectDailyReward',
+      'checkActivity',
+      'trainSkills',
+      'completeQuests',
+      'gatherResources',
+      'craftItems',
+      'participateEvent'
+    ];
     
-    // Always include profile check
-    if (!shuffledTasks.includes('profile')) {
-      shuffledTasks.push('profile');
+    // Select a random number of tasks (2-4)
+    const numTasks = randomInteger(2, 4);
+    
+    // Randomly select tasks
+    const selectedTasks = [];
+    while (selectedTasks.length < numTasks && availableTasks.length > 0) {
+      const randomIndex = randomInteger(0, availableTasks.length - 1);
+      const task = availableTasks.splice(randomIndex, 1)[0];
+      selectedTasks.push(task);
     }
     
-    // Limit sequence length (3-5 tasks)
-    const sequenceLength = Math.floor(Math.random() * 3) + 3; // 3 to 5
-    return shuffledTasks.slice(0, sequenceLength);
+    return selectedTasks;
   }
   
   /**
@@ -569,36 +521,40 @@ class Bot {
    * @param {number} interval - Interval in milliseconds
    */
   startCookieResetTimer(interval = 3600000) { // Default 1 hour
-    setInterval(() => {
+    setInterval(async () => {
+      logger.info('Periodic cookie reset triggered');
+      
       for (const [accountId, session] of this.activeSessions.entries()) {
-        if (Math.random() < 0.3) { // 30% chance for each session
-          logger.info(`Scheduling cookie reset for account ${accountId}`, accountId);
-          
-          // Schedule cookie reset task
-          this.queueTask({
-            type: 'cookie_reset',
-            data: { accountId }
-          });
+        try {
+          // Use try-catch for each account to prevent one failure affecting others
+          try {
+            if (session.page) {
+              await session.page.deleteCookie();
+              logger.info(`Cookies reset for account ${accountId}`, accountId);
+            }
+          } catch (error) {
+            logger.error(`Error resetting cookies for account ${accountId}: ${error.message}`, accountId, error);
+          }
+        } catch (error) {
+          logger.error(`Error in cookie reset timer for account ${accountId}`, accountId, error);
         }
       }
     }, interval);
+    
+    logger.info(`Cookie reset timer started with interval of ${interval / 1000} seconds`);
   }
   
   /**
    * Cleanup and shutdown
    */
   async shutdown() {
-    logger.info('Bot shutdown initiated');
+    logger.info('Bot shutting down...');
     
-    try {
-      // End all active sessions
-      await this.endAllSessions();
-      
-      logger.info('Bot shutdown completed');
-    } catch (error) {
-      logger.error(`Error during shutdown: ${error.message}`, null, error);
-    }
+    // End all active sessions
+    await this.endAllSessions();
+    
+    logger.info('Bot shutdown complete');
   }
 }
 
-module.exports = new Bot();
+module.exports = Bot;

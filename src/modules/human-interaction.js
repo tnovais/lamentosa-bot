@@ -1,12 +1,15 @@
+const { TIMING } = require('../config');
 const logger = require('../utils/logger');
-const { delay, randomInteger, getBezierPoints, naturalDelay, randomFloat } = require('../utils/helpers');
-const mousePatterns = require('../plugins/mouse-patterns');
-const keyboardPatterns = require('../plugins/keyboard-patterns');
+const { randomInteger, randomFloat, delay } = require('../utils/helpers');
 
 /**
  * Provides human-like interaction patterns for browser automation
  */
 class HumanInteraction {
+  constructor() {
+    // Pode inicializar algumas configurações aqui se necessário
+  }
+  
   /**
    * Simulate realistic mouse movement using advanced patterns
    * @param {Object} page - Puppeteer page object
@@ -16,126 +19,93 @@ class HumanInteraction {
    */
   async simulateMouseMove(page, element, accountId, options = {}) {
     try {
-      const box = await element.boundingBox();
-      if (!box) {
-        logger.warn(`Bounding box not found for element`, accountId);
+      const { deterministicMode = false, jitter = true } = options;
+      
+      logger.debug(`Simulating human-like mouse movement for ${accountId}`);
+      
+      // Get element position and dimensions
+      const elementHandle = await element.boundingBox();
+      
+      if (!elementHandle) {
+        logger.warn(`Could not get bounding box for element (account ${accountId})`);
         return;
       }
       
-      // Get viewport size
-      const viewportSize = await page.viewport();
+      // Get current mouse position
+      const currentPosition = await page.evaluate(() => ({
+        x: window.mouseX || 0,
+        y: window.mouseY || 0
+      }));
       
-      // Current mouse position or default starting point if not available
-      let currentPosition;
-      try {
-        currentPosition = await page.evaluate(() => ({ 
-          x: window.mouseX || 0, 
-          y: window.mouseY || 0 
-        }));
-        
-        // If position is 0,0 (likely not tracked yet), use a reasonable starting point
-        if (currentPosition.x === 0 && currentPosition.y === 0) {
-          currentPosition = {
-            x: randomInteger(viewportSize.width * 0.2, viewportSize.width * 0.8),
-            y: randomInteger(viewportSize.height * 0.2, viewportSize.height * 0.8)
-          };
-        }
-      } catch (e) {
-        // Fallback to a random starting point if we can't get current position
-        currentPosition = {
-          x: randomInteger(viewportSize.width * 0.2, viewportSize.width * 0.8),
-          y: randomInteger(viewportSize.height * 0.2, viewportSize.height * 0.8)
-        };
-      }
+      // Calculate target position (slightly randomized within element bounds)
+      const targetX = elementHandle.x + elementHandle.width * (deterministicMode ? 0.5 : randomFloat(0.3, 0.7));
+      const targetY = elementHandle.y + elementHandle.height * (deterministicMode ? 0.5 : randomFloat(0.3, 0.7));
       
-      // Target point within the element with some randomization
-      const targetX = Math.round(box.x + randomFloat(0.3, 0.7) * box.width);
-      const targetY = Math.round(box.y + randomFloat(0.3, 0.7) * box.height);
-      
-      // Tracking first move for starting point
-      let firstMove = true;
-      
-      // Merge default options with provided options
-      const movementOptions = {
-        ...options,
-        // Dynamically determine movement type based on context
-        movementType: options.movementType || (() => {
-          // If element is small or requires precision, use correction movement
-          if (box.width < 50 || box.height < 50) {
-            return 'correction';
-          }
-          
-          // For longer distances, more likely to use bezier
-          const distance = Math.sqrt(
-            Math.pow(targetX - currentPosition.x, 2) + 
-            Math.pow(targetY - currentPosition.y, 2)
-          );
-          
-          if (distance > 500) {
-            // More likely to have tremors or overshoot in long movements
-            return Math.random() < 0.6 ? 'overshoot' : 'tremor';
-          }
-          
-          // Otherwise use weighted random
-          return mousePatterns.getRandomMovementType();
-        })()
-      };
-      
-      // Generate movement points with advanced patterns
-      const movementPoints = mousePatterns.getMovementPoints(
-        currentPosition.x,
-        currentPosition.y,
-        targetX,
-        targetY,
-        movementOptions.movementType,
-        movementOptions
+      // Calculate a curved path using Bézier curves for natural movement
+      const points = this._getBezierCurvePoints(
+        currentPosition.x, 
+        currentPosition.y, 
+        targetX, 
+        targetY, 
+        deterministicMode ? 5 : randomInteger(3, 7) // Number of control points
       );
       
-      // Check if there are points to move to
-      if (!movementPoints || movementPoints.length === 0) {
-        logger.warn(`No movement points generated`, accountId);
-        return;
+      // Add small random jitter to each point for even more realism
+      if (jitter && !deterministicMode) {
+        points.forEach((point, index) => {
+          if (index > 0 && index < points.length - 1) { // Don't modify start/end points
+            const jitterAmount = 5;
+            point.x += randomInteger(-jitterAmount, jitterAmount);
+            point.y += randomInteger(-jitterAmount, jitterAmount);
+          }
+        });
       }
       
-      // Execute the mouse movement with the calculated points and timing
-      for (const point of movementPoints) {
-        if (firstMove) {
-          // First point - just move there instantly (simulates picking up mouse)
-          await page.mouse.move(point.x, point.y);
-          firstMove = false;
-          await delay(randomInteger(30, 100));
-          continue;
+      // Move through each point with realistic acceleration and deceleration
+      for (let i = 0; i < points.length; i++) {
+        const point = points[i];
+        
+        // More points near the beginning and end of the movement for acceleration/deceleration
+        const pointIndex = i / (points.length - 1);
+        let moveDelay;
+        
+        if (pointIndex < 0.2) {
+          // Acceleration phase - slower at start
+          moveDelay = randomInteger(TIMING.MOUSE_MOVE_MIN * 1.5, TIMING.MOUSE_MOVE_MAX * 1.5);
+        } else if (pointIndex > 0.8) {
+          // Deceleration phase - slowing down as approaching target
+          moveDelay = randomInteger(TIMING.MOUSE_MOVE_MIN * 1.3, TIMING.MOUSE_MOVE_MAX * 1.3);
+        } else {
+          // Cruising phase - normal movement speed
+          moveDelay = randomInteger(TIMING.MOUSE_MOVE_MIN, TIMING.MOUSE_MOVE_MAX);
         }
         
-        // Move to the point
+        // Move to this point
         await page.mouse.move(point.x, point.y);
         
-        // Wait according to the calculated delay
-        await delay(point.delay);
-      }
-      
-      // Sometimes look around the target before clicking (human attention)
-      if (Math.random() < 0.15) {
-        const focusPoints = mousePatterns.generateFocusPoints(targetX, targetY, 20, 2);
-        for (const point of focusPoints) {
-          await page.mouse.move(point.x, point.y);
-          await delay(randomInteger(30, 150));
-        }
+        // Update window variables to track the mouse position
+        await page.evaluate(({x, y}) => {
+          window.mouseX = x;
+          window.mouseY = y;
+        }, {x: point.x, y: point.y});
         
-        // Move back to target
-        await page.mouse.move(targetX, targetY);
-        await delay(randomInteger(30, 80));
+        // Delay between moves with some randomness
+        if (i < points.length - 1) {
+          await delay(moveDelay);
+        }
       }
       
-      // Track mouse position in page context for future movements
-      await page.evaluate(({ x, y }) => {
-        window.mouseX = x;
-        window.mouseY = y;
-      }, { x: targetX, y: targetY });
-      
-      logger.debug(`Mouse moved to element at (${targetX}, ${targetY}) using ${movementOptions.movementType} pattern`, accountId);
+      logger.debug(`Mouse movement completed for ${accountId}`);
     } catch (error) {
-      logger.error(`Error simulating mouse movement`, accountId, error);
+      logger.error(`Error simulating mouse movement for ${accountId}: ${error.message}`, accountId, error);
+      // Fallback to direct move in case of error
+      try {
+        await element.hover();
+        logger.debug(`Fallback to direct hover for ${accountId}`);
+      } catch (fallbackError) {
+        logger.error(`Even fallback hover failed for ${accountId}: ${fallbackError.message}`, accountId, fallbackError);
+        throw fallbackError;
+      }
     }
   }
   
@@ -149,200 +119,84 @@ class HumanInteraction {
    */
   async simulateTyping(page, element, text, accountId, options = {}) {
     try {
-      // Default options
-      const typingOptions = {
-        // Base typing speed in ms
-        baseSpeed: options.baseSpeed || randomInteger(70, 130),
-        // Error probability
-        errorProbability: options.errorProbability || (text.length > 20 ? 0.08 : 0.04),
-        // Whether to clear existing content first
-        clearExisting: options.hasOwnProperty('clearExisting') ? options.clearExisting : true,
-        // Thinking frequency (pausing to think)
-        thinkingFrequency: options.thinkingFrequency || 0.12,
-        // Typing style (experienced/novice)
-        typingStyle: options.typingStyle || (Math.random() < 0.7 ? 'experienced' : 'novice'),
-        ...options
-      };
+      const { 
+        deterministicMode = false, 
+        makeErrors = true, 
+        minDelay = TIMING.TYPE_MIN,
+        maxDelay = TIMING.TYPE_MAX
+      } = options;
       
-      // Focus the element first with realistic mouse movement
-      await this.simulateMouseMove(page, element, accountId);
+      logger.debug(`Simulating human-like typing for ${accountId}`);
       
-      // Realistic click with variable press duration
-      const clickTimings = mousePatterns.generateClickTimings('single');
-      await element.click({ delay: clickTimings[1] - clickTimings[0] });
+      // First, click on the element to focus it
+      await element.click();
       
-      // Short pause after clicking
-      await delay(randomInteger(200, 500));
-      
-      // Clear existing text if needed
-      if (typingOptions.clearExisting) {
-        // Check if element has any value (only for input or textarea)
-        const hasExistingValue = await page.evaluate(el => {
-          return el.value && el.value.length > 0;
-        }, element).catch(() => false);
+      // For each character in the text
+      let index = 0;
+      while (index < text.length) {
+        // Determine whether to make a typo (5% chance if makeErrors is true)
+        const makeTypo = makeErrors && !deterministicMode && Math.random() < 0.05;
         
-        if (hasExistingValue) {
-          // Triple click to select all (commonly used by humans)
-          await element.click({ clickCount: 3, delay: randomInteger(30, 70) });
-          await delay(randomInteger(100, 300));
+        if (makeTypo) {
+          // Type an incorrect character (adjacent key on keyboard)
+          const correctChar = text[index];
+          const typoChar = this._getAdjacentKey(correctChar);
           
-          // Occasional different way to clear (more human variation)
-          if (Math.random() < 0.3) {
-            // Press Delete key
-            await page.keyboard.press('Delete');
-          } else {
-            // Type over selected text (most common human behavior)
-          }
+          await page.keyboard.press(typoChar);
           
-          await delay(randomInteger(200, 500));
-        }
-      }
-      
-      // Sometimes take a moment before starting to type (thinking)
-      if (Math.random() < 0.25) {
-        await delay(randomInteger(500, 1800));
-      }
-      
-      let prevChar = null;
-      
-      // Type each character with realistic timing patterns
-      for (let i = 0; i < text.length; i++) {
-        const currentChar = text.charAt(i);
-        
-        // Check for natural typing mistakes
-        const mistakeDetails = keyboardPatterns.generateMistake(text, i);
-        
-        if (mistakeDetails) {
-          switch (mistakeDetails.type) {
-            case 'adjacent':
-              // Type wrong adjacent key
-              await element.type(mistakeDetails.mistakeChar, { 
-                delay: keyboardPatterns.getTypingDelay(prevChar, mistakeDetails.mistakeChar, typingOptions.baseSpeed) 
-              });
-              await delay(randomInteger(150, 400));
-              
-              // Delete wrong character
-              await page.keyboard.press('Backspace');
-              await delay(randomInteger(200, 500));
-              break;
-              
-            case 'transposition':
-              // Type two characters in wrong order
-              await element.type(mistakeDetails.char2, { 
-                delay: keyboardPatterns.getTypingDelay(prevChar, mistakeDetails.char2, typingOptions.baseSpeed) 
-              });
-              prevChar = mistakeDetails.char2;
-              
-              await delay(randomInteger(60, 150));
-              
-              await element.type(mistakeDetails.char1, { 
-                delay: keyboardPatterns.getTypingDelay(prevChar, mistakeDetails.char1, typingOptions.baseSpeed) 
-              });
-              prevChar = mistakeDetails.char1;
-              
-              await delay(randomInteger(200, 500));
-              
-              // Delete both wrong characters
-              await page.keyboard.press('Backspace');
-              await delay(randomInteger(70, 200));
-              await page.keyboard.press('Backspace');
-              await delay(randomInteger(150, 400));
-              
-              // Type correctly (will be done in the main loop)
-              continue;
-              
-            case 'insertion':
-              // Type an extra character
-              await element.type(mistakeDetails.insertedChar, { 
-                delay: keyboardPatterns.getTypingDelay(prevChar, mistakeDetails.insertedChar, typingOptions.baseSpeed) 
-              });
-              prevChar = mistakeDetails.insertedChar;
-              
-              await delay(randomInteger(150, 350));
-              
-              // Delete the extra character
-              await page.keyboard.press('Backspace');
-              await delay(randomInteger(200, 500));
-              break;
-              
-            case 'omission':
-              // Skip this character (the next one will be typed instead)
-              // Will be corrected after
-              i++; // Skip to next character
-              
-              if (i < text.length) {
-                const skippedChar = currentChar;
-                const nextChar = text.charAt(i);
-                
-                // Type the next character
-                await element.type(nextChar, { 
-                  delay: keyboardPatterns.getTypingDelay(prevChar, nextChar, typingOptions.baseSpeed) 
-                });
-                prevChar = nextChar;
-                
-                // Realize mistake and go back
-                await delay(randomInteger(300, 800));
-                await page.keyboard.press('Backspace');
-                await delay(randomInteger(200, 400));
-                
-                // Type the skipped character
-                await element.type(skippedChar, { 
-                  delay: keyboardPatterns.getTypingDelay(prevChar, skippedChar, typingOptions.baseSpeed) 
-                });
-                prevChar = skippedChar;
-                
-                // Then type the next character again
-                await delay(randomInteger(100, 300));
-                await element.type(nextChar, { 
-                  delay: keyboardPatterns.getTypingDelay(prevChar, nextChar, typingOptions.baseSpeed) 
-                });
-                prevChar = nextChar;
-                
-                continue;
-              }
-              break;
-          }
+          // Short delay after typo
+          await delay(randomInteger(minDelay, maxDelay));
+          
+          // Delete the typo
+          await page.keyboard.press('Backspace');
+          
+          // Another short delay
+          await delay(randomInteger(minDelay * 1.5, maxDelay * 1.5));
+          
+          // Now type the correct character
+          await page.keyboard.press(correctChar);
+        } else {
+          // Type the correct character
+          await page.keyboard.press(text[index]);
+          index++;
         }
         
-        // Check for thinking pause (more frequent at punctuation)
-        const isThinkingPoint = /[.,;:!?]/.test(currentChar) ? 0.35 : typingOptions.thinkingFrequency;
-        if (Math.random() < isThinkingPoint) {
-          const thinkingTime = (/[.,;:!?]/.test(currentChar))
-            ? randomInteger(800, 2000)  // Longer pause at punctuation
-            : randomInteger(400, 1200); // Regular thinking pause
-            
-          await delay(thinkingTime);
+        // Variable delay between keypresses
+        const isSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(text[index - 1]);
+        const isSpace = text[index - 1] === ' ';
+        
+        let typingDelay;
+        if (isSpace) {
+          // Slightly longer delay after spaces (word boundaries)
+          typingDelay = randomInteger(minDelay * 1.2, maxDelay * 1.5);
+        } else if (isSpecialChar) {
+          // Longer delay for special characters (harder to type)
+          typingDelay = randomInteger(minDelay * 1.5, maxDelay * 2);
+        } else {
+          // Normal delay for regular characters
+          typingDelay = randomInteger(minDelay, maxDelay);
         }
         
-        // Calculate typing delay based on character transition
-        const typingDelay = keyboardPatterns.getTypingDelay(
-          prevChar, 
-          currentChar, 
-          typingOptions.baseSpeed
-        );
+        // Occasional longer pause (3% chance)
+        if (!deterministicMode && Math.random() < 0.03) {
+          typingDelay += randomInteger(300, 800);
+        }
         
-        // Type the character with calculated delay
-        await element.type(currentChar, { delay: typingDelay });
-        
-        // Update previous character
-        prevChar = currentChar;
+        await delay(typingDelay);
       }
       
-      // Occasionally add a period and then delete it (common human error on completion)
-      if (Math.random() < 0.05 && !text.endsWith('.')) {
-        await delay(randomInteger(200, 500));
-        await element.type('.', { delay: randomInteger(80, 120) });
-        await delay(randomInteger(300, 700));
-        await page.keyboard.press('Backspace');
-        await delay(randomInteger(200, 400));
-      }
-      
-      // Small pause after finishing typing
-      await delay(randomInteger(300, 800));
-      
-      logger.debug(`Typed text "${text}" in element using realistic human patterns`, accountId);
+      logger.debug(`Typing completed for ${accountId}`);
     } catch (error) {
-      logger.error(`Error simulating typing`, accountId, error);
+      logger.error(`Error simulating typing for ${accountId}: ${error.message}`, accountId, error);
+      
+      // Fallback to direct typing
+      try {
+        await element.type(text, { delay: randomInteger(TIMING.TYPE_MIN, TIMING.TYPE_MAX) });
+        logger.debug(`Fallback to direct typing for ${accountId}`);
+      } catch (fallbackError) {
+        logger.error(`Even fallback typing failed for ${accountId}: ${fallbackError.message}`, accountId, fallbackError);
+        throw fallbackError;
+      }
     }
   }
   
@@ -354,27 +208,20 @@ class HumanInteraction {
    */
   async simulateFormFilling(page, formData, accountId) {
     try {
-      // First scan the form to "evaluate" it (like a human would)
-      const selectors = Object.keys(formData);
+      logger.debug(`Simulating form filling for ${accountId}`);
       
-      // Look at each field before filling anything
-      for (const selector of selectors) {
-        const element = await page.$(selector);
-        if (element) {
-          await this.simulateMouseMove(page, element, accountId);
-          await delay(randomInteger(200, 800));
-        }
-      }
+      // Get all form fields
+      const fields = Object.entries(formData);
       
-      // Now fill the form with some randomized order
-      const shuffledSelectors = [...selectors].sort(() => Math.random() - 0.5);
-      
-      for (const selector of shuffledSelectors) {
-        const value = formData[selector];
-        const element = await page.$(selector);
+      // Fill fields in a natural order (not always sequential)
+      // Sometimes humans jump around forms slightly
+      for (let i = 0; i < fields.length; i++) {
+        const [selector, value] = fields[i];
         
+        // Find the element
+        const element = await page.$(selector);
         if (!element) {
-          logger.warn(`Element with selector "${selector}" not found`, accountId);
+          logger.warn(`Could not find form field with selector: ${selector} (account ${accountId})`);
           continue;
         }
         
@@ -382,41 +229,56 @@ class HumanInteraction {
         const tagName = await page.evaluate(el => el.tagName.toLowerCase(), element);
         const type = await page.evaluate(el => el.type?.toLowerCase(), element);
         
-        // Handle different input types
+        // Simulate human-like interaction based on element type
         if (tagName === 'select') {
+          // Select elements
           await this.simulateMouseMove(page, element, accountId);
           await element.click();
-          await delay(randomInteger(300, 800));
+          await delay(randomInteger(300, 700));
           
-          // Select option
+          // Select the option
           await page.select(selector, value);
+          
+          // Wait as if reading the dropdown
           await delay(randomInteger(500, 1200));
         } else if (type === 'checkbox' || type === 'radio') {
-          const isChecked = await page.evaluate(el => el.checked, element);
-          const shouldBeChecked = !!value;
-          
-          if (isChecked !== shouldBeChecked) {
+          // Checkboxes and radio buttons
+          if ((type === 'checkbox' && value === true) || type === 'radio') {
             await this.simulateMouseMove(page, element, accountId);
-            await element.click({ delay: randomInteger(30, 100) });
+            await delay(randomInteger(200, 500));
+            await element.click();
             await delay(randomInteger(300, 800));
           }
+        } else if (type === 'file') {
+          // File inputs
+          await element.uploadFile(value);
+          await delay(randomInteger(800, 1500));
         } else {
-          // Clear existing value first
+          // Text inputs, textareas, etc.
           await this.simulateMouseMove(page, element, accountId);
-          await element.click({ clickCount: 3, delay: randomInteger(30, 100) });
-          await delay(randomInteger(200, 500));
+          await delay(randomInteger(200, 400));
           
-          // Type new value
-          await this.simulateTyping(page, element, value, accountId);
+          // Clear existing value if any
+          await page.evaluate(el => el.value = '', element);
+          
+          // Type the value with human-like typing
+          await this.simulateTyping(page, element, value.toString(), accountId);
+          
+          // Sometimes we press Tab to move to next field
+          if (i < fields.length - 1 && Math.random() < 0.7) {
+            await page.keyboard.press('Tab');
+            await delay(randomInteger(400, 900));
+          }
         }
         
-        // Pause between fields
+        // Random delay between filling fields
         await delay(randomInteger(500, 1500));
       }
       
-      logger.info(`Form filled with ${selectors.length} fields`, accountId);
+      logger.debug(`Form filling completed for ${accountId}`);
     } catch (error) {
-      logger.error(`Error filling form`, accountId, error);
+      logger.error(`Error simulating form filling for ${accountId}: ${error.message}`, accountId, error);
+      throw error;
     }
   }
   
@@ -429,199 +291,60 @@ class HumanInteraction {
    */
   async simulateClick(page, element, options = {}, accountId) {
     try {
-      // Define default options
-      const defaultOptions = {
-        moveBeforeClick: true,
-        clickType: 'single', // single, double, triple, right, drag
-        contextBasedMovement: true, // adjust movement based on element type
-        postClickNavigation: 'auto', // auto, none, wait
-        postClickPause: [200, 800], // min and max ms for pause after clicking
-        movementOptions: {}, // options for mouse movement
-        checkChangeAfterClick: true // check if click caused any DOM changes
-      };
+      const { doubleClick = false, rightClick = false, holdTime = 0 } = options;
       
-      const mergedOptions = { ...defaultOptions, ...options };
+      logger.debug(`Simulating ${rightClick ? 'right' : (doubleClick ? 'double' : 'single')} click for ${accountId}`);
       
-      // Get element metadata for context-based behavior
-      const elementInfo = await page.evaluate(el => {
-        // Extract tag name, role, classes, and dimensions
-        return {
-          tagName: el.tagName?.toLowerCase() || '',
-          type: el.type?.toLowerCase() || '',
-          role: el.getAttribute('role') || '',
-          className: el.className || '',
-          width: el.offsetWidth || 0,
-          height: el.offsetHeight || 0,
-          isVisible: el.offsetWidth > 0 && el.offsetHeight > 0,
-          hasChildren: el.childElementCount > 0,
-          text: el.textContent?.trim() || '',
-          isInteractive: (
-            el.tagName === 'BUTTON' || 
-            el.tagName === 'A' || 
-            el.tagName === 'INPUT' || 
-            el.tagName === 'SELECT' || 
-            el.getAttribute('role') === 'button' ||
-            el.getAttribute('role') === 'link' ||
-            el.onclick !== null
-          )
-        };
-      }, element).catch(() => ({}));
+      // First, move the mouse to the element
+      await this.simulateMouseMove(page, element, accountId);
       
-      // Refine click behavior based on element context
-      const refinedOptions = { ...mergedOptions };
+      // Small delay before clicking (as humans do)
+      await delay(randomInteger(100, 300));
       
-      // Adjust click type based on element
-      if (mergedOptions.clickType === 'auto') {
-        if (elementInfo.tagName === 'input' && elementInfo.type === 'text') {
-          // Triple click often used by humans to select all text
-          refinedOptions.clickType = Math.random() < 0.7 ? 'single' : 'triple';
-        } else if (elementInfo.tagName === 'a' || elementInfo.role === 'link') {
-          // Links are almost always single clicked
-          refinedOptions.clickType = 'single';
-        } else if (elementInfo.width < 20 || elementInfo.height < 20) {
-          // Small targets get extra attention (more precise movement)
-          refinedOptions.movementOptions.movementType = 'correction';
-        }
-      }
-      
-      // Move mouse to element with context-based movement
-      if (refinedOptions.moveBeforeClick) {
-        // Adjust movement pattern based on element context
-        if (refinedOptions.contextBasedMovement) {
-          if (elementInfo.isInteractive) {
-            // Interactive elements get more deliberate movement
-            await this.simulateMouseMove(page, element, accountId, {
-              movementType: 'correction',
-              ...refinedOptions.movementOptions
-            });
-          } else {
-            // Non-interactive elements get more natural varied movement
-            await this.simulateMouseMove(page, element, accountId, {
-              ...refinedOptions.movementOptions
-            });
-          }
-        } else {
-          // Use default movement without context
-          await this.simulateMouseMove(page, element, accountId, refinedOptions.movementOptions);
-        }
-      }
-      
-      // Occasionally add pre-click hesitation (human behavior)
-      if (Math.random() < 0.15) {
-        await delay(randomInteger(200, 800));
-      }
-      
-      // Get click timings based on click type
-      const clickTimings = mousePatterns.generateClickTimings(refinedOptions.clickType);
-      const clickDelay = clickTimings[1] - clickTimings[0]; // Time between down and up
-      
-      // Determine click count
-      let clickCount = 1;
-      if (refinedOptions.clickType === 'double') clickCount = 2;
-      if (refinedOptions.clickType === 'triple') clickCount = 3;
-      
-      // Determine button type
-      const button = refinedOptions.clickType === 'right' ? 'right' : 'left';
-      
-      // Perform the click with realistic timing
-      await element.click({ 
-        delay: clickDelay, 
-        clickCount: clickCount,
-        button: button
-      });
-      
-      // Record whether we expect navigation
-      const mightCauseNavigation = (
-        elementInfo.tagName === 'a' || 
-        elementInfo.role === 'link' || 
-        elementInfo.text.toLowerCase().includes('submit') ||
-        elementInfo.className.toLowerCase().includes('submit') ||
-        elementInfo.type === 'submit'
-      );
-      
-      // Log what we did
-      logger.debug(
-        `${refinedOptions.clickType.charAt(0).toUpperCase() + refinedOptions.clickType.slice(1)}-clicked` +
-        ` element (${elementInfo.tagName}${elementInfo.type ? `, type=${elementInfo.type}` : ''})`,
-        accountId
-      );
-      
-      // Post-click behavior
-      if (refinedOptions.postClickNavigation === 'auto' && mightCauseNavigation) {
-        // If element might cause navigation, wait for it
-        try {
-          logger.debug(`Waiting for possible navigation after clicking ${elementInfo.tagName}`, accountId);
-          await Promise.race([
-            page.waitForNavigation({ timeout: 10000 }),
-            delay(5000) // Fallback timeout
-          ]);
-        } catch (e) {
-          // Navigation might not have happened, which is fine
-          logger.debug(`No navigation occurred after clicking ${elementInfo.tagName}`, accountId);
-        }
-      } else if (refinedOptions.postClickNavigation === 'wait') {
-        // Explicitly wait for navigation
-        try {
-          await page.waitForNavigation({ timeout: 10000 });
-        } catch (e) {
-          logger.warn(`Expected navigation did not occur after clicking ${elementInfo.tagName}`, accountId);
-        }
-      } else {
-        // Standard pause after clicking
-        const [minPause, maxPause] = refinedOptions.postClickPause;
-        await delay(randomInteger(minPause, maxPause));
-      }
-      
-      // Check for DOM changes if requested (common human validation behavior)
-      if (refinedOptions.checkChangeAfterClick) {
-        try {
-          // Wait briefly for any changes to happen
-          await delay(randomInteger(100, 300));
-          
-          // Check if clicking caused any visible changes (dialogs, dropdowns, etc.)
-          const visibleChanges = await page.evaluate(() => {
-            // Look for various types of UI changes
-            return {
-              hasNewDialogs: document.querySelectorAll('[role="dialog"]:not([hidden]), .modal:not(.hide):not(.hidden)').length > 0,
-              hasNewDropdowns: document.querySelectorAll('.dropdown-menu:not(.hide):not(.hidden), [role="menu"]:not([hidden])').length > 0,
-              hasNewToasts: document.querySelectorAll('.toast:not(.hide):not(.hidden), .notification:not(.hide):not(.hidden)').length > 0
-            };
-          });
-          
-          // If changes happened, wait a bit longer and possibly interact
-          if (visibleChanges.hasNewDialogs || visibleChanges.hasNewDropdowns || visibleChanges.hasNewToasts) {
-            logger.debug(`Click caused UI changes: ${JSON.stringify(visibleChanges)}`, accountId);
-            
-            // Pause to look at the new content
-            await delay(randomInteger(500, 1500));
-          }
-        } catch (e) {
-          // Ignore errors in the post-click validation
-        }
-      }
-      
-      // Sometimes move mouse away after clicking (like a human would)
-      if (Math.random() < 0.25) {
-        const viewportSize = await page.viewport();
-        
-        // Use more natural mouse movement away from click
-        const movementPoints = mousePatterns.getMovementPoints(
-          page.mouse._x,
-          page.mouse._y,
-          randomInteger(viewportSize.width * 0.2, viewportSize.width * 0.8),
-          randomInteger(viewportSize.height * 0.2, viewportSize.height * 0.8),
-          'gradual', // More like a human's idle movement
-          { steps: randomInteger(5, 12) }
+      if (rightClick) {
+        // Right click
+        await page.mouse.click(
+          await page.evaluate(el => {
+            const rect = el.getBoundingClientRect();
+            return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+          }, element),
+          { button: 'right' }
         );
+      } else if (doubleClick) {
+        // Double click
+        await element.click({ clickCount: 2 });
+      } else if (holdTime > 0) {
+        // Click and hold
+        const elementHandle = await element.boundingBox();
         
-        // Perform the movement
-        for (const point of movementPoints) {
-          await page.mouse.move(point.x, point.y);
-          await delay(point.delay);
+        if (!elementHandle) {
+          throw new Error('Could not get element bounding box');
         }
+        
+        const x = elementHandle.x + elementHandle.width / 2;
+        const y = elementHandle.y + elementHandle.height / 2;
+        
+        await page.mouse.move(x, y);
+        await page.mouse.down();
+        await delay(holdTime);
+        await page.mouse.up();
+      } else {
+        // Regular click
+        await element.click();
       }
+      
+      logger.debug(`Click completed for ${accountId}`);
     } catch (error) {
-      logger.error(`Error simulating click: ${error.message}`, accountId, error);
+      logger.error(`Error simulating click for ${accountId}: ${error.message}`, accountId, error);
+      
+      // Fallback to direct click
+      try {
+        await element.click();
+        logger.debug(`Fallback to direct click for ${accountId}`);
+      } catch (fallbackError) {
+        logger.error(`Even fallback click failed for ${accountId}: ${fallbackError.message}`, accountId, fallbackError);
+        throw fallbackError;
+      }
     }
   }
   
@@ -633,102 +356,83 @@ class HumanInteraction {
    */
   async simulateScrolling(page, options = {}, accountId) {
     try {
-      // Define default options
-      const defaultOptions = {
-        direction: 'down', // 'up', 'down', 'random'
-        distance: 'medium', // 'short', 'medium', 'long', 'page', 'random'
-        speed: 'medium', // 'slow', 'medium', 'fast', 'random'
-        scrollCount: 1
-      };
+      const { direction = 'down', distance = 'medium', target = null } = options;
       
-      const mergedOptions = { ...defaultOptions, ...options };
+      logger.debug(`Simulating scrolling (${direction}) for ${accountId}`);
       
-      // Calculate scroll distance
-      let scrollDistance;
-      switch (mergedOptions.distance) {
-        case 'short':
-          scrollDistance = randomInteger(100, 300);
-          break;
-        case 'medium':
-          scrollDistance = randomInteger(300, 600);
-          break;
-        case 'long':
-          scrollDistance = randomInteger(600, 1000);
-          break;
-        case 'page':
-          scrollDistance = await page.evaluate(() => window.innerHeight * 0.9);
-          break;
-        case 'random':
-          scrollDistance = randomInteger(100, 1000);
-          break;
-        default:
-          scrollDistance = randomInteger(300, 600);
-      }
-      
-      // Determine scroll direction
-      if (mergedOptions.direction === 'random') {
-        mergedOptions.direction = Math.random() < 0.7 ? 'down' : 'up'; // Bias toward scrolling down
-      }
-      
-      if (mergedOptions.direction === 'up') {
-        scrollDistance = -scrollDistance;
-      }
-      
-      // Calculate scroll speed (interval between steps in ms)
-      let scrollStepInterval;
-      switch (mergedOptions.speed) {
-        case 'slow':
-          scrollStepInterval = randomInteger(60, 120);
-          break;
-        case 'medium':
-          scrollStepInterval = randomInteger(30, 60);
-          break;
-        case 'fast':
-          scrollStepInterval = randomInteger(10, 30);
-          break;
-        case 'random':
-          scrollStepInterval = randomInteger(10, 120);
-          break;
-        default:
-          scrollStepInterval = randomInteger(30, 60);
-      }
-      
-      // Perform scrolling
-      for (let i = 0; i < mergedOptions.scrollCount; i++) {
-        // Break scrolling into steps for more natural behavior
-        const totalSteps = randomInteger(5, 15);
-        const scrollStep = scrollDistance / totalSteps;
+      if (target) {
+        // Scroll to specific element with smooth behavior
+        await page.evaluate(el => {
+          el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }, target);
         
-        for (let step = 0; step < totalSteps; step++) {
-          const currentStep = Math.round(scrollStep * (1 + (Math.random() - 0.5) * 0.3)); // Add some variance
-          
-          await page.evaluate((y) => {
-            window.scrollBy({
-              top: y,
-              left: 0,
-              behavior: 'smooth'
-            });
-          }, currentStep);
-          
-          await delay(scrollStepInterval);
-        }
+        await delay(randomInteger(800, 1500));
+      } else {
+        // Scroll based on direction and distance
+        const scrollAmount = (() => {
+          switch (distance) {
+            case 'small': return randomInteger(100, 300);
+            case 'medium': return randomInteger(300, 600);
+            case 'large': return randomInteger(600, 1000);
+            case 'page': return randomInteger(800, 1200);
+            default: return randomInteger(300, 600);
+          }
+        })();
         
-        // Pause between scrolls
-        if (i < mergedOptions.scrollCount - 1) {
-          await delay(randomInteger(500, 2000));
-        }
+        const finalScrollAmount = direction === 'up' ? -scrollAmount : scrollAmount;
+        
+        // Simulate smooth scrolling with acceleration and deceleration
+        await page.evaluate(scrollAmount => {
+          const duration = 500 + Math.random() * 500; // 500-1000ms
+          const startTime = Date.now();
+          const startScrollY = window.scrollY;
+          
+          function ease(t) {
+            // Cubic easing function - slow start, fast middle, slow end
+            return t < 0.5
+              ? 4 * t * t * t
+              : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          }
+          
+          function scroll() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = ease(progress);
+            
+            window.scrollTo(0, startScrollY + scrollAmount * easedProgress);
+            
+            if (progress < 1) {
+              requestAnimationFrame(scroll);
+            }
+          }
+          
+          requestAnimationFrame(scroll);
+        }, finalScrollAmount);
+        
+        // Wait for scrolling to complete
+        await delay(randomInteger(800, 1500));
       }
       
-      // Sometimes pause to "read" content after scrolling
-      if (Math.random() < 0.7) {
-        const readingTime = randomInteger(1000, 5000);
-        logger.debug(`Pausing for ${readingTime}ms to "read" content`, accountId);
-        await delay(readingTime);
-      }
-      
-      logger.debug(`Scrolled ${mergedOptions.direction} by ~${Math.abs(scrollDistance)}px`, accountId);
+      logger.debug(`Scrolling completed for ${accountId}`);
     } catch (error) {
-      logger.error(`Error simulating scrolling`, accountId, error);
+      logger.error(`Error simulating scrolling for ${accountId}: ${error.message}`, accountId, error);
+      
+      // Fallback to direct scroll
+      try {
+        if (options.target) {
+          await options.target.scrollIntoView();
+        } else {
+          const amount = options.direction === 'up' ? -300 : 300;
+          await page.evaluate(amount => window.scrollBy(0, amount), amount);
+        }
+        logger.debug(`Fallback to direct scroll for ${accountId}`);
+      } catch (fallbackError) {
+        logger.error(`Even fallback scroll failed for ${accountId}: ${fallbackError.message}`, accountId, fallbackError);
+        throw fallbackError;
+      }
     }
   }
   
@@ -741,113 +445,172 @@ class HumanInteraction {
   async simulateBrowsing(page, duration = 30000, accountId) {
     try {
       const startTime = Date.now();
-      const endTime = startTime + duration;
+      logger.debug(`Simulating natural browsing for ${accountId} (duration: ${duration}ms)`);
       
-      logger.info(`Starting natural browsing simulation for ${duration}ms`, accountId);
-      
-      while (Date.now() < endTime) {
+      while (Date.now() - startTime < duration) {
         // Choose a random action
-        const actions = [
-          { name: 'scroll', weight: 0.4 },
-          { name: 'mousemove', weight: 0.3 },
-          { name: 'click', weight: 0.15 },
-          { name: 'wait', weight: 0.15 }
-        ];
+        const action = Math.random();
         
-        // Select action based on weight
-        const randomValue = Math.random();
-        let cumulativeWeight = 0;
-        let selectedAction;
-        
-        for (const action of actions) {
-          cumulativeWeight += action.weight;
-          if (randomValue <= cumulativeWeight) {
-            selectedAction = action.name;
-            break;
-          }
-        }
-        
-        // Execute selected action
-        switch (selectedAction) {
-          case 'scroll':
-            await this.simulateScrolling(page, {
-              direction: Math.random() < 0.8 ? 'down' : 'up',
-              distance: 'random',
-              speed: 'random'
-            }, accountId);
-            break;
+        if (action < 0.6) {
+          // 60% chance: Scroll down or up
+          const direction = Math.random() < 0.8 ? 'down' : 'up'; // More likely to scroll down
+          
+          await this.simulateScrolling(page, { direction }, accountId);
+          await delay(randomInteger(1000, 3000));
+        } else if (action < 0.8) {
+          // 20% chance: Find and click on a random link or button
+          const elements = await page.$$('a, button');
+          
+          if (elements.length > 0) {
+            const randIndex = Math.floor(Math.random() * elements.length);
+            const element = elements[randIndex];
             
-          case 'mousemove':
-            const viewportSize = await page.viewport();
-            await page.mouse.move(
-              randomInteger(0, viewportSize.width),
-              randomInteger(0, viewportSize.height),
-              { steps: randomInteger(5, 15) }
-            );
-            await delay(randomInteger(100, 500));
-            break;
+            // Check if element is visible and in viewport
+            const isVisible = await page.evaluate(el => {
+              const rect = el.getBoundingClientRect();
+              return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= window.innerHeight &&
+                rect.right <= window.innerWidth &&
+                window.getComputedStyle(el).visibility !== 'hidden' &&
+                window.getComputedStyle(el).display !== 'none'
+              );
+            }, element);
             
-          case 'click':
-            // Try to find clickable elements
-            const clickableElements = await page.$$('a, button, [role="button"], input[type="submit"]');
-            
-            if (clickableElements.length > 0) {
-              // Filter to only visible elements
-              const visibleElements = [];
-              for (const element of clickableElements) {
-                const isVisible = await page.evaluate(el => {
-                  const rect = el.getBoundingClientRect();
-                  return rect.width > 0 && 
-                         rect.height > 0 && 
-                         rect.top >= 0 && 
-                         rect.left >= 0 && 
-                         rect.bottom <= window.innerHeight && 
-                         rect.right <= window.innerWidth;
-                }, element);
-                
-                if (isVisible) {
-                  visibleElements.push(element);
-                }
-              }
+            if (isVisible) {
+              // Get the element URL if it's a link
+              const isLink = await page.evaluate(el => el.tagName.toLowerCase() === 'a', element);
+              const url = isLink ? await page.evaluate(el => el.href, element) : null;
               
-              // Only click if we found visible elements and it's safe to do so
-              // (avoid clicking random links that might navigate away)
-              if (visibleElements.length > 0 && Math.random() < 0.3) {
-                const randomElement = visibleElements[Math.floor(Math.random() * visibleElements.length)];
-                
-                // Check if this is a safe element to click
-                const isLinkOutside = await page.evaluate(el => {
-                  return el.tagName === 'A' && 
-                         el.href && 
-                         !el.href.includes(window.location.hostname);
-                }, randomElement);
-                
-                if (!isLinkOutside) {
-                  await this.simulateClick(page, randomElement, {}, accountId);
-                }
+              // Only click if it's not an external link
+              const isExternal = url && !url.includes(page.url());
+              
+              if (!isExternal) {
+                await this.simulateClick(page, element, {}, accountId);
+                await delay(randomInteger(2000, 5000));
               }
             }
-            break;
-            
-          case 'wait':
-            const waitTime = randomInteger(1000, 5000);
-            logger.debug(`Waiting for ${waitTime}ms`, accountId);
-            await delay(waitTime);
-            break;
+          }
+        } else {
+          // 20% chance: Pause to read
+          await delay(randomInteger(3000, 7000));
         }
         
-        // Check if we should continue
-        if (Date.now() >= endTime) break;
-        
-        // Small delay between actions
-        await delay(randomInteger(500, 2000));
+        // Short delay between actions
+        await delay(randomInteger(500, 1500));
       }
       
-      logger.info(`Completed natural browsing simulation (${Math.round((Date.now() - startTime) / 1000)}s)`, accountId);
+      logger.debug(`Browsing simulation completed for ${accountId}`);
     } catch (error) {
-      logger.error(`Error during browsing simulation`, accountId, error);
+      logger.error(`Error simulating browsing for ${accountId}: ${error.message}`, accountId, error);
     }
+  }
+  
+  /**
+   * Get Bézier curve points for natural mouse movement
+   * @param {number} startX - Starting X coordinate
+   * @param {number} startY - Starting Y coordinate
+   * @param {number} endX - Ending X coordinate
+   * @param {number} endY - Ending Y coordinate
+   * @param {number} numPoints - Number of control points
+   * @returns {Array<{x: number, y: number}>} - Array of points along the curve
+   * @private
+   */
+  _getBezierCurvePoints(startX, startY, endX, endY, numPoints) {
+    const points = [];
+    
+    // Create control points for the Bézier curve
+    const cp1x = startX + (endX - startX) * (1/3) + randomInteger(-50, 50);
+    const cp1y = startY + (endY - startY) * (1/3) + randomInteger(-50, 50);
+    const cp2x = startX + (endX - startX) * (2/3) + randomInteger(-50, 50);
+    const cp2y = startY + (endY - startY) * (2/3) + randomInteger(-50, 50);
+    
+    // Calculate points along the curve
+    for (let i = 0; i <= numPoints; i++) {
+      const t = i / numPoints;
+      
+      // Cubic Bézier curve formula
+      const x = Math.pow(1 - t, 3) * startX + 
+                3 * Math.pow(1 - t, 2) * t * cp1x + 
+                3 * (1 - t) * Math.pow(t, 2) * cp2x + 
+                Math.pow(t, 3) * endX;
+                
+      const y = Math.pow(1 - t, 3) * startY + 
+                3 * Math.pow(1 - t, 2) * t * cp1y + 
+                3 * (1 - t) * Math.pow(t, 2) * cp2y + 
+                Math.pow(t, 3) * endY;
+      
+      points.push({ x: Math.round(x), y: Math.round(y) });
+    }
+    
+    return points;
+  }
+  
+  /**
+   * Get an adjacent key on the keyboard for realistic typos
+   * @param {string} key - Original key
+   * @returns {string} - Adjacent key
+   * @private
+   */
+  _getAdjacentKey(key) {
+    const keyboardLayout = {
+      'q': ['w', '1', 'a'],
+      'w': ['q', 'e', '2', 's', 'a'],
+      'e': ['w', 'r', '3', 'd', 's'],
+      'r': ['e', 't', '4', 'f', 'd'],
+      't': ['r', 'y', '5', 'g', 'f'],
+      'y': ['t', 'u', '6', 'h', 'g'],
+      'u': ['y', 'i', '7', 'j', 'h'],
+      'i': ['u', 'o', '8', 'k', 'j'],
+      'o': ['i', 'p', '9', 'l', 'k'],
+      'p': ['o', '0', '[', 'l'],
+      'a': ['q', 'w', 's', 'z'],
+      's': ['a', 'w', 'e', 'd', 'x', 'z'],
+      'd': ['s', 'e', 'r', 'f', 'c', 'x'],
+      'f': ['d', 'r', 't', 'g', 'v', 'c'],
+      'g': ['f', 't', 'y', 'h', 'b', 'v'],
+      'h': ['g', 'y', 'u', 'j', 'n', 'b'],
+      'j': ['h', 'u', 'i', 'k', 'm', 'n'],
+      'k': ['j', 'i', 'o', 'l', ',', 'm'],
+      'l': ['k', 'o', 'p', ';', '.', ','],
+      'z': ['a', 's', 'x'],
+      'x': ['z', 's', 'd', 'c'],
+      'c': ['x', 'd', 'f', 'v'],
+      'v': ['c', 'f', 'g', 'b'],
+      'b': ['v', 'g', 'h', 'n'],
+      'n': ['b', 'h', 'j', 'm'],
+      'm': ['n', 'j', 'k', ','],
+      ',': ['m', 'k', 'l', '.'],
+      '.': [',', 'l', '/'],
+      '1': ['2', 'q'],
+      '2': ['1', '3', 'q', 'w'],
+      '3': ['2', '4', 'w', 'e'],
+      '4': ['3', '5', 'e', 'r'],
+      '5': ['4', '6', 'r', 't'],
+      '6': ['5', '7', 't', 'y'],
+      '7': ['6', '8', 'y', 'u'],
+      '8': ['7', '9', 'u', 'i'],
+      '9': ['8', '0', 'i', 'o'],
+      '0': ['9', '-', 'o', 'p'],
+      ' ': ['c', 'v', 'b', 'n', 'm']
+    };
+    
+    // Convert to lowercase for lookup
+    const lowercaseKey = key.toLowerCase();
+    
+    // If the key is in our layout, return a random adjacent key
+    if (keyboardLayout[lowercaseKey]) {
+      const adjacentKeys = keyboardLayout[lowercaseKey];
+      const randomKey = adjacentKeys[Math.floor(Math.random() * adjacentKeys.length)];
+      
+      // Preserve case
+      return key === key.toUpperCase() ? randomKey.toUpperCase() : randomKey;
+    }
+    
+    // If the key is not in our layout, return the original key
+    return key;
   }
 }
 
-module.exports = new HumanInteraction();
+module.exports = HumanInteraction;
