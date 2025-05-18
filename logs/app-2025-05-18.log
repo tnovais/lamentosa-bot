@@ -1,0 +1,402 @@
+[2025-05-18T03:41:39.573Z] [INFO] Starting application...
+[2025-05-18T03:41:39.578Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T03:41:39.578Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T03:41:39.579Z] [WARN] CAPTCHA_API_KEY não encontrada no arquivo .env
+[2025-05-18T03:41:39.580Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T03:41:39.581Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:41:39.581Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T03:41:39.582Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:41:39.583Z] [INFO] Loaded 1 accounts from accounts/accounts.json
+[2025-05-18T03:41:39.583Z] [INFO] Loaded 1 accounts
+[2025-05-18T03:41:39.584Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T03:41:39.585Z] [INFO] Processando conta: Mogly
+[2025-05-18T03:41:39.586Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T03:41:39.755Z] [ERROR] [Mogly] Erro ao iniciar sessão: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+Error: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:308:27)
+    at ChromeLauncher.computeLaunchArguments (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:93:24)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:84:39)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:45:22)
+    at PuppeteerNode.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js:143:31)
+    at PuppeteerExtra.launch (/home/runner/workspace/node_modules/puppeteer-extra/dist/index.cjs.js:128:41)
+    at async Bot.startSession (/home/runner/workspace/src/bot.js:345:23)
+    at async Bot._processAccount (/home/runner/workspace/src/bot.js:261:30)
+    at async Bot._executeTask (/home/runner/workspace/src/bot.js:228:11)
+[2025-05-18T03:41:39.757Z] [ERROR] Falha ao iniciar sessão para conta Mogly
+[2025-05-18T03:41:41.043Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T03:41:41.941Z] [INFO] Starting application...
+[2025-05-18T03:41:41.943Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T03:41:41.955Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T03:41:41.955Z] [WARN] CAPTCHA_API_KEY não encontrada no arquivo .env
+[2025-05-18T03:41:41.955Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T03:41:41.956Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:41:41.964Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T03:41:41.964Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:41:41.971Z] [INFO] Loaded 1 accounts from accounts/accounts.json
+[2025-05-18T03:41:41.973Z] [INFO] Loaded 1 accounts
+[2025-05-18T03:41:41.976Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T03:41:41.979Z] [INFO] Processando conta: Mogly
+[2025-05-18T03:41:41.987Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T03:41:42.255Z] [ERROR] [Mogly] Erro ao iniciar sessão: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+Error: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:308:27)
+    at ChromeLauncher.computeLaunchArguments (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:93:24)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:84:39)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:45:22)
+    at PuppeteerNode.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js:143:31)
+    at PuppeteerExtra.launch (/home/runner/workspace/node_modules/puppeteer-extra/dist/index.cjs.js:128:41)
+    at async Bot.startSession (/home/runner/workspace/src/bot.js:345:23)
+    at async Bot._processAccount (/home/runner/workspace/src/bot.js:261:30)
+    at async Bot._executeTask (/home/runner/workspace/src/bot.js:228:11)
+[2025-05-18T03:41:42.256Z] [ERROR] Falha ao iniciar sessão para conta Mogly
+[2025-05-18T03:41:43.390Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T03:51:07.235Z] [INFO] Starting application...
+[2025-05-18T03:51:07.238Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T03:51:07.238Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T03:51:07.238Z] [WARN] CAPTCHA_API_KEY não encontrada no arquivo .env
+[2025-05-18T03:51:07.238Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T03:51:07.238Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:51:07.239Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T03:51:07.239Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:51:07.240Z] [INFO] Loaded 1 accounts from accounts/accounts.json
+[2025-05-18T03:51:07.240Z] [INFO] Loaded 1 accounts
+[2025-05-18T03:51:07.240Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T03:51:07.241Z] [INFO] Processando conta: Mogly
+[2025-05-18T03:51:07.241Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T03:51:07.242Z] [INFO] [Mogly] Configurado caminho do Chrome: padrão
+[2025-05-18T03:51:07.286Z] [ERROR] [Mogly] Erro ao iniciar sessão: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+Error: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:308:27)
+    at ChromeLauncher.computeLaunchArguments (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:93:24)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:84:39)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:45:22)
+    at PuppeteerNode.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js:143:31)
+    at PuppeteerExtra.launch (/home/runner/workspace/node_modules/puppeteer-extra/dist/index.cjs.js:128:41)
+    at async Bot.startSession (/home/runner/workspace/src/bot.js:405:23)
+    at async Bot._processAccount (/home/runner/workspace/src/bot.js:261:30)
+    at async Bot._executeTask (/home/runner/workspace/src/bot.js:228:11)
+[2025-05-18T03:51:07.286Z] [ERROR] Falha ao iniciar sessão para conta Mogly
+[2025-05-18T03:51:08.258Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T03:51:08.703Z] [INFO] Starting application...
+[2025-05-18T03:51:08.705Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T03:51:08.705Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T03:51:08.705Z] [WARN] CAPTCHA_API_KEY não encontrada no arquivo .env
+[2025-05-18T03:51:08.705Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T03:51:08.706Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:51:08.706Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T03:51:08.707Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:51:08.707Z] [INFO] Loaded 1 accounts from accounts/accounts.json
+[2025-05-18T03:51:08.708Z] [INFO] Loaded 1 accounts
+[2025-05-18T03:51:08.708Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T03:51:08.708Z] [INFO] Processando conta: Mogly
+[2025-05-18T03:51:08.709Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T03:51:08.709Z] [INFO] [Mogly] Configurado caminho do Chrome: padrão
+[2025-05-18T03:51:08.762Z] [ERROR] [Mogly] Erro ao iniciar sessão: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+Error: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:308:27)
+    at ChromeLauncher.computeLaunchArguments (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:93:24)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:84:39)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:45:22)
+    at PuppeteerNode.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js:143:31)
+    at PuppeteerExtra.launch (/home/runner/workspace/node_modules/puppeteer-extra/dist/index.cjs.js:128:41)
+    at async Bot.startSession (/home/runner/workspace/src/bot.js:405:23)
+    at async Bot._processAccount (/home/runner/workspace/src/bot.js:261:30)
+    at async Bot._executeTask (/home/runner/workspace/src/bot.js:228:11)
+[2025-05-18T03:51:08.763Z] [ERROR] Falha ao iniciar sessão para conta Mogly
+[2025-05-18T03:51:10.135Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T03:58:09.710Z] [INFO] Starting application...
+[2025-05-18T03:58:09.713Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T03:58:09.713Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T03:58:09.714Z] [WARN] CAPTCHA_API_KEY não encontrada no arquivo .env
+[2025-05-18T03:58:09.716Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T03:58:09.717Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:58:09.717Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T03:58:09.717Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:58:09.718Z] [INFO] Loaded 1 accounts from accounts/accounts.json
+[2025-05-18T03:58:09.718Z] [INFO] Loaded 1 accounts
+[2025-05-18T03:58:09.719Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T03:58:09.720Z] [INFO] Processando conta: Mogly
+[2025-05-18T03:58:09.721Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T03:58:09.721Z] [INFO] [Mogly] Configurado caminho do Chrome: padrão
+[2025-05-18T03:58:10.073Z] [ERROR] [Mogly] Erro ao iniciar sessão: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+Error: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:308:27)
+    at ChromeLauncher.computeLaunchArguments (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:93:24)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:84:39)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:45:22)
+    at PuppeteerNode.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js:143:31)
+    at PuppeteerExtra.launch (/home/runner/workspace/node_modules/puppeteer-extra/dist/index.cjs.js:128:41)
+    at async Bot.startSession (/home/runner/workspace/src/bot.js:405:23)
+    at async Bot._processAccount (/home/runner/workspace/src/bot.js:261:30)
+    at async Bot._executeTask (/home/runner/workspace/src/bot.js:228:11)
+[2025-05-18T03:58:10.076Z] [ERROR] Falha ao iniciar sessão para conta Mogly
+[2025-05-18T03:58:10.976Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T03:58:14.803Z] [INFO] Starting application...
+[2025-05-18T03:58:14.806Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T03:58:14.808Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T03:58:14.809Z] [WARN] CAPTCHA_API_KEY não encontrada no arquivo .env
+[2025-05-18T03:58:14.809Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T03:58:14.810Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:58:14.816Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T03:58:14.816Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T03:58:14.819Z] [INFO] Loaded 1 accounts from accounts/accounts.json
+[2025-05-18T03:58:14.820Z] [INFO] Loaded 1 accounts
+[2025-05-18T03:58:14.822Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T03:58:14.823Z] [INFO] Processando conta: Mogly
+[2025-05-18T03:58:14.829Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T03:58:14.830Z] [INFO] [Mogly] Configurado caminho do Chrome: padrão
+[2025-05-18T03:58:15.015Z] [ERROR] [Mogly] Erro ao iniciar sessão: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+Error: Could not find Chrome (ver. 136.0.7103.92). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/runner/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:308:27)
+    at ChromeLauncher.computeLaunchArguments (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:93:24)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:84:39)
+    at ChromeLauncher.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/ChromeLauncher.js:45:22)
+    at PuppeteerNode.launch (/home/runner/workspace/node_modules/puppeteer-core/lib/cjs/puppeteer/node/PuppeteerNode.js:143:31)
+    at PuppeteerExtra.launch (/home/runner/workspace/node_modules/puppeteer-extra/dist/index.cjs.js:128:41)
+    at async Bot.startSession (/home/runner/workspace/src/bot.js:405:23)
+    at async Bot._processAccount (/home/runner/workspace/src/bot.js:261:30)
+    at async Bot._executeTask (/home/runner/workspace/src/bot.js:228:11)
+[2025-05-18T03:58:15.021Z] [ERROR] Falha ao iniciar sessão para conta Mogly
+[2025-05-18T03:58:15.917Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T04:02:33.735Z] [INFO] Starting application...
+[2025-05-18T04:02:33.737Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T04:02:33.737Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T04:02:33.738Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T04:02:33.738Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T04:02:33.739Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T04:02:33.739Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T04:02:33.739Z] [INFO] Loaded 1 accounts from accounts\accounts.json
+[2025-05-18T04:02:33.740Z] [INFO] Loaded 1 accounts
+[2025-05-18T04:02:33.740Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T04:02:33.740Z] [INFO] Processando conta: Mogly
+[2025-05-18T04:02:33.741Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T04:02:33.741Z] [INFO] [Mogly] Usando Chrome em: C:\Program Files\Google\Chrome\Application\chrome.exe
+[2025-05-18T04:02:33.742Z] [INFO] [Mogly] Configurado caminho do Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
+[2025-05-18T04:02:34.017Z] [INFO] Aplicando medidas anti-detecção para Mogly
+[2025-05-18T04:02:34.018Z] [INFO] [Mogly] Randomizando propriedades do navegador
+[2025-05-18T04:02:34.019Z] [INFO] [Mogly] Propriedades do navegador randomizadas
+[2025-05-18T04:02:34.019Z] [INFO] [Mogly] Spoofando telemetria
+[2025-05-18T04:02:34.020Z] [INFO] [Mogly] Telemetria spoofada
+[2025-05-18T04:02:34.020Z] [INFO] [Mogly] Injetando scripts de evasão
+[2025-05-18T04:02:34.021Z] [INFO] [Mogly] Scripts de evasão injetados
+[2025-05-18T04:02:34.022Z] [INFO] [Mogly] Ocultando flags de automação
+[2025-05-18T04:02:34.023Z] [INFO] [Mogly] Flags de automação ocultadas
+[2025-05-18T04:02:34.024Z] [INFO] [Mogly] Adicionando comportamentos aleatórios
+[2025-05-18T04:02:34.026Z] [INFO] [Mogly] Comportamentos aleatórios adicionados
+[2025-05-18T04:02:34.026Z] [INFO] [Mogly] Medidas anti-detecção aplicadas com sucesso
+[2025-05-18T04:02:34.060Z] [INFO] [Mogly] Cookies carregados
+[2025-05-18T04:02:34.061Z] [INFO] [Mogly] Iniciando processo de login
+[2025-05-18T04:02:34.063Z] [INFO] [Mogly] Status de login: Não logado
+[2025-05-18T04:02:34.064Z] [INFO] [Mogly] Tentando login
+[2025-05-18T04:02:35.283Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T04:02:36.910Z] [INFO] [Mogly] Status de login: Logado
+[2025-05-18T04:02:36.911Z] [INFO] [Mogly] Já está logado, pulando login
+[2025-05-18T04:02:36.911Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:02:36.913Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:02:36.913Z] [INFO] [Mogly] Captcha detectado após login, tentando resolver
+[2025-05-18T04:02:36.914Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:02:36.915Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:02:36.915Z] [INFO] [Mogly] Login realizado com sucesso
+[2025-05-18T04:02:36.916Z] [INFO] [Mogly] Cookies salvos após login
+[2025-05-18T04:02:36.917Z] [INFO] [Mogly] Sessão iniciada com sucesso
+[2025-05-18T04:02:36.917Z] [INFO] [Mogly] Iniciando sequência de tarefas
+[2025-05-18T04:02:36.919Z] [INFO] [Mogly] Status de login: Logado
+[2025-05-18T04:02:36.919Z] [INFO] [Mogly] Sequência de tarefas: participatePvP, checkRanking
+[2025-05-18T04:02:36.920Z] [INFO] [Mogly] Verificando perfil e status
+[2025-05-18T04:02:40.037Z] [INFO] [Mogly] Informações de perfil: Nível 11, Ouro Desconhecido, Energia Desconhecido, Vida Life
+        
+        
+            
+            591 / 600
+[2025-05-18T04:02:40.038Z] [INFO] [Mogly] Poções de Haste disponíveis: 0
+[2025-05-18T04:02:40.038Z] [INFO] [Mogly] Executando tarefa: participatePvP
+[2025-05-18T04:02:51.774Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:02:51.776Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:02:51.776Z] [INFO] [Mogly] Captcha detectado antes da tarefa participatePvP, tentando resolver
+[2025-05-18T04:02:51.777Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:02:51.778Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:02:51.778Z] [INFO] [Mogly] Iniciando PVP
+[2025-05-18T04:02:51.779Z] [INFO] [Mogly] Navegando para https://se.lamentosa.com/battlefield/enemies-g/?no-scroll=1 (atual: https://se.lamentosa.com/status/)
+[2025-05-18T04:02:54.007Z] [INFO] [Mogly] Navegado para: https://se.lamentosa.com/battlefield/enemies-g/?no-scroll=1
+[2025-05-18T04:03:03.164Z] [INFO] [Mogly] Resultado do PVP: unknown
+[2025-05-18T04:03:03.164Z] [INFO] [Mogly] Tarefa participatePvP concluída com sucesso
+[2025-05-18T04:03:03.165Z] [INFO] [Mogly] Executando tarefa: checkRanking
+[2025-05-18T04:03:16.223Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:03:16.225Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:03:16.225Z] [INFO] [Mogly] Captcha detectado antes da tarefa checkRanking, tentando resolver
+[2025-05-18T04:03:16.225Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:03:16.226Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:03:16.227Z] [INFO] [Mogly] Verificando ranking PVP
+[2025-05-18T04:03:16.227Z] [INFO] [Mogly] Navegando para https://se.lamentosa.com/ranking/pvp/daily-list/ (atual: https://se.lamentosa.com/battlefield/battle-log/93669/)
+[2025-05-18T04:03:18.405Z] [INFO] [Mogly] Navegado para: https://se.lamentosa.com/ranking/pvp/daily-list/
+[2025-05-18T04:03:20.669Z] [INFO] [Mogly] Posição no ranking: 1
+[2025-05-18T04:03:20.669Z] [INFO] [Mogly] Tarefa checkRanking concluída com sucesso
+[2025-05-18T04:03:20.670Z] [INFO] [Mogly] Sequência de tarefas concluída
+[2025-05-18T04:03:20.670Z] [INFO] [Mogly] Encerrando sessão
+[2025-05-18T04:03:20.670Z] [INFO] [Mogly] Tentando logout
+[2025-05-18T04:03:21.601Z] [INFO] [Mogly] Status de login: Não logado
+[2025-05-18T04:03:21.601Z] [INFO] [Mogly] Logout realizado com sucesso
+[2025-05-18T04:03:21.603Z] [INFO] [Mogly] Cookies salvos antes de encerrar sessão
+[2025-05-18T04:03:21.677Z] [INFO] [Mogly] Sessão encerrada com sucesso
+[2025-05-18T04:03:21.678Z] [INFO] Processamento da conta Mogly concluído
+[2025-05-18T04:55:52.903Z] [INFO] Starting application...
+[2025-05-18T04:55:52.905Z] [INFO] Inicializando Bot Lamentosa
+[2025-05-18T04:55:52.905Z] [INFO] Inicializando módulo AntiDetection
+[2025-05-18T04:55:52.906Z] [INFO] CaptchaSolver simplificado inicializado
+[2025-05-18T04:55:52.906Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T04:55:52.906Z] [INFO] Usando puppeteer-extra com plugin stealth
+[2025-05-18T04:55:52.907Z] [INFO] Bot inicializado com sucesso
+[2025-05-18T04:55:52.907Z] [INFO] Loaded 1 accounts from accounts\accounts.json
+[2025-05-18T04:55:52.907Z] [INFO] Loaded 1 accounts
+[2025-05-18T04:55:52.908Z] [INFO] Iniciando execução com 1 contas
+[2025-05-18T04:55:52.908Z] [INFO] Processando conta: Mogly
+[2025-05-18T04:55:52.909Z] [INFO] Iniciando sessão para conta Mogly
+[2025-05-18T04:55:52.909Z] [INFO] [Mogly] Usando Chrome em: C:\Program Files\Google\Chrome\Application\chrome.exe
+[2025-05-18T04:55:52.909Z] [INFO] [Mogly] Configurado caminho do Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
+[2025-05-18T04:55:53.269Z] [INFO] Aplicando medidas anti-detecção para Mogly
+[2025-05-18T04:55:53.269Z] [INFO] [Mogly] Randomizando propriedades do navegador
+[2025-05-18T04:55:53.270Z] [INFO] [Mogly] Propriedades do navegador randomizadas
+[2025-05-18T04:55:53.271Z] [INFO] [Mogly] Spoofando telemetria
+[2025-05-18T04:55:53.272Z] [INFO] [Mogly] Telemetria spoofada
+[2025-05-18T04:55:53.272Z] [INFO] [Mogly] Injetando scripts de evasão
+[2025-05-18T04:55:53.273Z] [INFO] [Mogly] Scripts de evasão injetados
+[2025-05-18T04:55:53.273Z] [INFO] [Mogly] Ocultando flags de automação
+[2025-05-18T04:55:53.275Z] [INFO] [Mogly] Flags de automação ocultadas
+[2025-05-18T04:55:53.276Z] [INFO] [Mogly] Adicionando comportamentos aleatórios
+[2025-05-18T04:55:53.277Z] [INFO] [Mogly] Comportamentos aleatórios adicionados
+[2025-05-18T04:55:53.277Z] [INFO] [Mogly] Medidas anti-detecção aplicadas com sucesso
+[2025-05-18T04:55:53.312Z] [INFO] [Mogly] Cookies carregados
+[2025-05-18T04:55:53.312Z] [INFO] [Mogly] Iniciando processo de login
+[2025-05-18T04:55:53.315Z] [INFO] [Mogly] Status de login: Não logado
+[2025-05-18T04:55:53.316Z] [INFO] [Mogly] Tentando login
+[2025-05-18T04:55:53.978Z] [INFO] Execução iniciada com sucesso
+[2025-05-18T04:55:57.238Z] [INFO] [Mogly] Status de login: Logado
+[2025-05-18T04:55:57.238Z] [INFO] [Mogly] Já está logado, pulando login
+[2025-05-18T04:55:57.239Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:55:57.240Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:55:57.241Z] [INFO] [Mogly] Captcha detectado após login, tentando resolver
+[2025-05-18T04:55:57.241Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:55:57.242Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:55:57.242Z] [INFO] [Mogly] Login realizado com sucesso
+[2025-05-18T04:55:57.243Z] [INFO] [Mogly] Cookies salvos após login
+[2025-05-18T04:55:57.243Z] [INFO] [Mogly] Sessão iniciada com sucesso
+[2025-05-18T04:55:57.244Z] [INFO] [Mogly] Iniciando sequência de tarefas
+[2025-05-18T04:55:57.246Z] [INFO] [Mogly] Status de login: Logado
+[2025-05-18T04:55:57.247Z] [INFO] [Mogly] Sequência de tarefas: exploreDungeon, participatePvP, checkRanking, visitTemple
+[2025-05-18T04:55:57.247Z] [INFO] [Mogly] Verificando perfil e status
+[2025-05-18T04:56:01.029Z] [INFO] [Mogly] Informações de perfil: Nível 11, Ouro Desconhecido, Energia Desconhecido, Vida Life
+        
+        
+            
+            600 / 600
+[2025-05-18T04:56:01.030Z] [INFO] [Mogly] Poções de Haste disponíveis: 0
+[2025-05-18T04:56:01.031Z] [INFO] [Mogly] Executando tarefa: exploreDungeon
+[2025-05-18T04:56:08.863Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:56:08.865Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:56:08.865Z] [INFO] [Mogly] Captcha detectado antes da tarefa exploreDungeon, tentando resolver
+[2025-05-18T04:56:08.866Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:56:08.867Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:56:08.867Z] [INFO] [Mogly] Explorando dungeon
+[2025-05-18T04:56:08.867Z] [INFO] [Mogly] Navegando para https://se.lamentosa.com/dungeons/start/ (atual: https://se.lamentosa.com/status/)
+[2025-05-18T04:56:10.995Z] [INFO] [Mogly] Navegado para: https://se.lamentosa.com/dungeons/start/
+[2025-05-18T04:56:13.049Z] [ERROR] [Mogly] Erro ao explorar dungeon: SyntaxError: Failed to execute 'querySelector' on 'Document': '.btn.dungeon-btn, .explore-dungeon, button:contains("Explorar")' is not a valid selector.
+DOMException: SyntaxError: Failed to execute 'querySelector' on 'Document': '.btn.dungeon-btn, .explore-dungeon, button:contains("Explorar")' is not a valid selector.
+    at evaluate (evaluate at Object.exploreDungeon (E:\Bot Repli\1\src\tasks\game-tasks-lamentosa.js:421:44), <anonymous>:1:24)
+    at #evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:364:20)
+    at async CdpPage.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:817:20)
+    at async Object.exploreDungeon (E:\Bot Repli\1\src\tasks\game-tasks-lamentosa.js:421:33)
+    at async Bot.executeTaskSequence (E:\Bot Repli\1\src\bot.js:699:28)
+    at async Bot._processAccount (E:\Bot Repli\1\src\bot.js:270:7)
+    at async Bot._executeTask (E:\Bot Repli\1\src\bot.js:228:11)
+[2025-05-18T04:56:13.050Z] [INFO] [Mogly] Tarefa exploreDungeon concluída com falha
+[2025-05-18T04:56:13.050Z] [INFO] [Mogly] Executando tarefa: participatePvP
+[2025-05-18T04:56:19.862Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:56:19.864Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:56:19.864Z] [INFO] [Mogly] Captcha detectado antes da tarefa participatePvP, tentando resolver
+[2025-05-18T04:56:19.864Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:56:19.865Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:56:19.866Z] [INFO] [Mogly] Iniciando PVP
+[2025-05-18T04:56:19.866Z] [INFO] [Mogly] Navegando para https://se.lamentosa.com/battlefield/enemies-g/?no-scroll=1 (atual: https://se.lamentosa.com/dungeons/start/)
+[2025-05-18T04:56:22.245Z] [INFO] [Mogly] Navegado para: https://se.lamentosa.com/battlefield/anti-bot/
+[2025-05-18T04:56:25.215Z] [WARN] [Mogly] Botão de PVP não encontrado
+[2025-05-18T04:56:25.215Z] [INFO] [Mogly] Tarefa participatePvP concluída com falha
+[2025-05-18T04:56:25.215Z] [INFO] [Mogly] Executando tarefa: checkRanking
+[2025-05-18T04:56:32.090Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:56:32.092Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: error_message_detected: blocked, fingerprinting_script: cloudflare
+[2025-05-18T04:56:32.092Z] [INFO] [Mogly] Captcha detectado antes da tarefa checkRanking, tentando resolver
+[2025-05-18T04:56:32.092Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:56:32.093Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:56:32.094Z] [INFO] [Mogly] Verificando ranking PVP
+[2025-05-18T04:56:32.094Z] [INFO] [Mogly] Navegando para https://se.lamentosa.com/ranking/pvp/daily-list/ (atual: https://se.lamentosa.com/battlefield/anti-bot/)
+[2025-05-18T04:56:34.295Z] [INFO] [Mogly] Navegado para: https://se.lamentosa.com/ranking/pvp/daily-list/
+[2025-05-18T04:56:37.972Z] [INFO] [Mogly] Posição no ranking: 1
+[2025-05-18T04:56:37.972Z] [INFO] [Mogly] Tarefa checkRanking concluída com sucesso
+[2025-05-18T04:56:37.973Z] [INFO] [Mogly] Executando tarefa: visitTemple
+[2025-05-18T04:56:45.331Z] [INFO] [Mogly] Verificando indicadores de detecção de bot
+[2025-05-18T04:56:45.334Z] [WARN] [Mogly] Detectou indicadores de sistemas anti-bot: fingerprinting_script: cloudflare
+[2025-05-18T04:56:45.334Z] [INFO] [Mogly] Captcha detectado antes da tarefa visitTemple, tentando resolver
+[2025-05-18T04:56:45.334Z] [INFO] [Mogly] Verificando presença de captcha
+[2025-05-18T04:56:45.335Z] [INFO] [Mogly] Nenhum captcha detectado
+[2025-05-18T04:56:45.336Z] [INFO] [Mogly] Visitando templo
+[2025-05-18T04:56:45.336Z] [INFO] [Mogly] Navegando para https://se.lamentosa.com/temple/main-room/ (atual: https://se.lamentosa.com/ranking/pvp/daily-list/)
+[2025-05-18T04:56:47.511Z] [INFO] [Mogly] Navegado para: https://se.lamentosa.com/temple/main-room/
+[2025-05-18T04:56:50.559Z] [ERROR] [Mogly] Erro ao visitar templo: SyntaxError: Failed to execute 'querySelector' on 'Document': '.btn.pray-btn, .perform-pray, button:contains("Orar")' is not a valid selector.
+DOMException: SyntaxError: Failed to execute 'querySelector' on 'Document': '.btn.pray-btn, .perform-pray, button:contains("Orar")' is not a valid selector.
+    at evaluate (evaluate at Object.visitTemple (E:\Bot Repli\1\src\tasks\game-tasks-lamentosa.js:332:41), <anonymous>:1:24)
+    at #evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:391:56)
+    at async ExecutionContext.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\ExecutionContext.js:277:16)
+    at async IsolatedWorld.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\IsolatedWorld.js:100:16)
+    at async CdpFrame.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:364:20)
+    at async CdpPage.evaluate (E:\Bot Repli\1\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:817:20)
+    at async Object.visitTemple (E:\Bot Repli\1\src\tasks\game-tasks-lamentosa.js:332:30)
+    at async Bot.executeTaskSequence (E:\Bot Repli\1\src\bot.js:695:28)
+    at async Bot._processAccount (E:\Bot Repli\1\src\bot.js:270:7)
+    at async Bot._executeTask (E:\Bot Repli\1\src\bot.js:228:11)
+[2025-05-18T04:56:50.560Z] [INFO] [Mogly] Tarefa visitTemple concluída com falha
+[2025-05-18T04:56:50.560Z] [INFO] [Mogly] Sequência de tarefas concluída
+[2025-05-18T04:56:50.560Z] [INFO] [Mogly] Encerrando sessão
+[2025-05-18T04:56:50.561Z] [INFO] [Mogly] Tentando logout
+[2025-05-18T04:56:51.495Z] [INFO] [Mogly] Status de login: Não logado
+[2025-05-18T04:56:51.495Z] [INFO] [Mogly] Logout realizado com sucesso
+[2025-05-18T04:56:51.496Z] [INFO] [Mogly] Cookies salvos antes de encerrar sessão
+[2025-05-18T04:56:51.577Z] [INFO] [Mogly] Sessão encerrada com sucesso
+[2025-05-18T04:56:51.578Z] [INFO] Processamento da conta Mogly concluído
