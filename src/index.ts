@@ -48,6 +48,10 @@ async function main() {
             await page.goto(Settings.game.baseUrl);
             if (await page.isVisible(Selectors.Auth.LoginInput)) {
                 console.log(`[${account.username}] Logging in...`);
+                if (Settings.notifications.debug) {
+                    console.log(`[DEBUG] Account keys: ${Object.keys(account)}`);
+                    console.log(`[DEBUG] Password type: ${typeof account.password}`);
+                }
                 await input.type(Selectors.Auth.LoginInput, account.username);
                 await input.type(Selectors.Auth.PasswordInput, account.password);
                 await input.click(Selectors.Auth.LoginButton);
@@ -75,7 +79,7 @@ async function main() {
 
                     // 2. Parse State
                     const state = await gameState.getState();
-                    gameState.logState();
+                    gameState.logState(account.username);
 
                     // 3. Decide
                     const decision = decisionEngine.decide(state, account.id);
@@ -104,7 +108,7 @@ async function main() {
                             break;
                         case Decision.SOLVE_CAPTCHA:
                             console.log(`[${account.username}] CAPTCHA DETECTED! Attempting to solve...`);
-                            const solved = await captchaSolver.solve(page, Selectors.Captcha.Container, Selectors.Captcha.InputGeneric);
+                            const solved = await captchaSolver.solve(page, Selectors.AntiBot.Container, Selectors.AntiBot.InputGeneric);
                             if (solved) {
                                 console.log(`[${account.username}] Captcha solved! Resuming...`);
                                 await page.waitForTimeout(2000);
@@ -119,7 +123,7 @@ async function main() {
                     await new Promise(r => setTimeout(r, Math.random() * 2000 + 1000));
 
                 } catch (error: any) {
-                    if (error.message === 'CAPTCHA_DETECTED') {
+                    if (error.message === Settings.game.errors.captchaDetected) {
                         console.log(`[${account.username}] Fast-switch to Captcha Solver!`);
                         // Force a state update to ensure isCaptchaPresent is true
                         const state = await gameState.getState();

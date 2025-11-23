@@ -45,12 +45,13 @@ export class GameState {
 
         // Check for specific conditions
         // 1. Check URL (Most reliable)
-        let isCaptchaPresent = currentUrl.includes('anti-bot');
+        // 1. Check URL (Most reliable)
+        let isCaptchaPresent = currentUrl.includes(Selectors.AntiBot.UrlPart);
 
         // 2. Fallback: Check for Header if URL doesn't match yet
         if (!isCaptchaPresent) {
-            // Selectors.Captcha.Header is an array of strings
-            for (const selector of Selectors.Captcha.Header) {
+            // Selectors.AntiBot.Header is an array of strings
+            for (const selector of Selectors.AntiBot.Header) {
                 if (await this.page.isVisible(selector).catch(() => false)) {
                     isCaptchaPresent = true;
                     if (Settings.notifications.debug) console.log(`[DEBUG] Captcha detected via selector: ${selector}`);
@@ -87,12 +88,12 @@ export class GameState {
     /**
      * Prints a summary of the current state to the console.
      */
-    logState() {
+    logState(accountName?: string) {
         if (!this.lastState) return;
 
         console.log(`
 ╔════════════════════════════════════════════════════════════╗
-║ 🧠 BOT PERCEPTION                                          ║
+║ 🧠 BOT PERCEPTION [${accountName || 'Unknown'}]
 ╠════════════════════════════════════════════════════════════╣
 ║ 📍 Location:   ${this.lastState.currentUrl.split('.com')[1] || this.lastState.currentUrl}
 ║ ❤️ Health:     ${this.lastState.stats.life}%

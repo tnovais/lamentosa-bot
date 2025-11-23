@@ -77,13 +77,9 @@ export const Selectors = {
         ConfirmUse: ['.btn-confirm', '.confirm-button', `button:has-text("${Settings.game.text.confirm}")`],
     },
 
-    // Captcha
+    // Captcha (Legacy reference, use AntiBot)
     Captcha: {
-        Header: ['h2:has-text("SISTEMA ANTI-BOT")', 'h1:has-text("SISTEMA ANTI-BOT")', 'div:has-text("SISTEMA ANTI-BOT")'],
-        Images: '.bot-trap',
-        Container: '.antibot', // Capturing the parent container is safer
-        Input: 'input[name="number"]', // Corrected from captcha_key
-        InputGeneric: 'input[type="text"]',
+        Input: 'input[name="number"]',
     },
 
     // Dungeons
@@ -99,6 +95,45 @@ export const Selectors = {
 
     // Temple
     Temple: {
-        PrayButton: ['.btn.pray-btn', '.perform-pray', `button:has-text("${Settings.game.text.pray}")`],
+        PrayButton: ['.btn.temple-btn', '.pray-button', `button:has-text("${Settings.game.text.pray}")`],
+    },
+
+    // Modals & Popups
+    Modal: {
+        Content: '.modal-confirm-content',
+        ConfirmYes: '.confirm-yes',
+    },
+
+    // Global Anti-Bot / Errors
+    AntiBot: {
+        UrlPart: 'anti-bot',
+        Header: ['h2:has-text("SISTEMA ANTI-BOT")', 'h1:has-text("SISTEMA ANTI-BOT")', 'div:has-text("SISTEMA ANTI-BOT")'],
+        Images: '.bot-trap',
+        Container: '.antibot',
+        Input: 'input[name="number"]',
+        InputGeneric: 'input[type="text"]',
+    },
+
+    // Server Time & Status
+    Server: {
+        TimeWidget: '.server-time', // Needs verification, assuming class based on common patterns or text search
+        DayLabel: 'text=Dia', // Fallback to finding text "Dia"
+    },
+
+    // Battle Log (PVP Result)
+    BattleLog: {
+        UrlPart: 'battle-log',
+        Winner: '.winner-name', // Hypothetical, will use text search if needed
+        Loser: '.loser-name',
+        Gold: '.gold-amount',
+        ResultHeader: 'h1, h2', // "Vitória" or "Derrota"
+    },
+
+    // Ranking
+    Ranking: {
+        UrlPart: '/ranking/pvp/daily-list/',
+        Rows: 'table.ranking-table tr', // Hypothetical
+        PlayerName: '.char-name',
+        Wins: '.wins-count',
     }
 };

@@ -32,7 +32,33 @@ export const Settings = {
             attack: 'Atacar!',
             work: 'Trabalhar',
             pray: 'Recuperar'
+        },
+        errors: {
+            captchaDetected: 'CAPTCHA_DETECTED',
+            navigationFailed: 'Navigation click did not change URL'
         }
+    },
+
+    // Delays (in milliseconds)
+    // Delays (in milliseconds)
+    delays: {
+        navigation: {
+            min: Number(process.env.DELAY_NAV_MIN) || 1000,
+            max: Number(process.env.DELAY_NAV_MAX) || 3000
+        },
+        navigationRetry: {
+            min: Number(process.env.DELAY_NAV_RETRY_MIN) || 1000,
+            max: Number(process.env.DELAY_NAV_RETRY_MAX) || 2000
+        },
+        click: {
+            min: Number(process.env.DELAY_CLICK_MIN) || 500,
+            max: Number(process.env.DELAY_CLICK_MAX) || 1500
+        },
+        combat: {
+            min: Number(process.env.DELAY_COMBAT_MIN) || 2000,
+            max: Number(process.env.DELAY_COMBAT_MAX) || 4000
+        },
+        networkIdle: Number(process.env.DELAY_NETWORK_IDLE) || 5000,
     },
 
     // Decision Engine Weights (Fuzzy Logic)
@@ -46,6 +72,7 @@ export const Settings = {
             hpCurveMax: Number(process.env.WEIGHT_HEAL_CURVE_MAX) || 100,
             potionBoost: Number(process.env.WEIGHT_HEAL_POTION_BOOST) || 20,
             criticalHp: Number(process.env.WEIGHT_HEAL_CRITICAL_HP) || 40, // Trigger for Temple visit
+            criticalBoost: 50,
         },
         flee: {
             hpCritical: Number(process.env.WEIGHT_FLEE_HP_CRITICAL) || 20,
@@ -56,10 +83,20 @@ export const Settings = {
             boredomScore: Number(process.env.WEIGHT_FARM_BOREDOM_SCORE) || 30,
             normalScore: Number(process.env.WEIGHT_FARM_NORMAL_SCORE) || 60,
             dailyLimit: Number(process.env.LIMIT_DAILY_FARMS) || 1000,
+            dungeonBoost: 20,
         },
         pve: {
             difficulties: ['Medium', 'Easy'] // Priority order
-        }
+        },
+        ranking: {
+            checkIntervalMinutes: Number(process.env.RANKING_CHECK_INTERVAL_MINUTES) || 15,
+        },
+        noise: {
+            base: 0.9,
+            random: 0.2
+        },
+        idle: 1,
+        captcha: 0
     },
 
     // Notification settings

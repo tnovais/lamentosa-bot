@@ -38,14 +38,14 @@ export class DecisionEngine {
             [Decision.FLEE]: this.scoreFlee(state),
             [Decision.HUNT]: this.scoreHunt(state, accountId),
             [Decision.DUNGEON]: this.scoreDungeon(state),
-            [Decision.IDLE]: 1,
-            [Decision.SOLVE_CAPTCHA]: 0,
+            [Decision.IDLE]: Settings.weights.idle,
+            [Decision.SOLVE_CAPTCHA]: Settings.weights.captcha,
         };
 
         // 3. Add Random Noise
         for (const key of Object.keys(scores)) {
             const k = key as Decision;
-            scores[k] = scores[k] * (0.9 + Math.random() * 0.2);
+            scores[k] = scores[k] * (Settings.weights.noise.base + Math.random() * Settings.weights.noise.random);
         }
 
         // 4. Pick Winner
@@ -80,7 +80,7 @@ export class DecisionEngine {
     private scoreHeal(state: WorldState): number {
         if (state.stats.life >= 100) return 0;
         let score = Settings.weights.heal.hpCurveMax - state.stats.life;
-        if (state.stats.life < Settings.weights.heal.criticalHp) score += 50;
+        if (state.stats.life < Settings.weights.heal.criticalHp) score += Settings.weights.heal.criticalBoost;
         return score;
     }
 
@@ -111,7 +111,7 @@ export class DecisionEngine {
 
         // If PVP/PVE is on cooldown, Dungeon is the best option
         if (state.pvpCooldown > 0) {
-            return Settings.weights.farm.normalScore + 20; // Boost score to prioritize over Idle
+            return Settings.weights.farm.normalScore + Settings.weights.farm.dungeonBoost; // Boost score to prioritize over Idle
         }
 
         // Otherwise, it's a valid alternative

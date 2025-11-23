@@ -36,17 +36,17 @@ export class GameActions {
         try {
             await this.input.click(linkSelector);
             await this.page.waitForLoadState('domcontentloaded');
-            await randomDelay(1000, 3000);
+            await randomDelay(Settings.delays.navigation.min, Settings.delays.navigation.max);
 
             // Verify we actually arrived
             if (!this.page.url().includes(targetPath)) {
-                throw new Error('Navigation click did not change URL');
+                throw new Error(Settings.game.errors.navigationFailed);
             }
         } catch (e) {
             console.warn(`[DEBUG] Navigation click failed/stalled. Forcing URL: ${urlPart}`);
             await this.page.goto(`${Settings.game.baseUrl}${urlPart}`);
             await this.page.waitForLoadState('domcontentloaded');
-            await randomDelay(1000, 2000);
+            await randomDelay(Settings.delays.navigationRetry.min, Settings.delays.navigationRetry.max);
         }
     }
 
@@ -59,8 +59,8 @@ export class GameActions {
         await this.navigateTo(Settings.game.paths.pvp);
 
         // 2. Check for Cooldown Page (Aggressive Check)
-        const cooldownHeader = this.page.locator('h2:has-text("Tempo de descanso")');
-        const cooldownTimer = this.page.locator('.timer[data-seconds-duration]');
+        const cooldownHeader = this.page.locator(Selectors.PvP.CooldownTimer[2]); // h2:has-text("Tempo de descanso")
+        const cooldownTimer = this.page.locator(Selectors.PvP.CooldownTimer[1]); // .timer[data-seconds-duration]
 
         if ((await cooldownHeader.isVisible()) || (await cooldownTimer.isVisible())) {
             console.warn(`[PvP] Cooldown detected (Header/Timer). Aborting attack.`);
@@ -68,8 +68,8 @@ export class GameActions {
         }
 
         // 3. Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
 
         let clicked = false;
@@ -106,25 +106,25 @@ export class GameActions {
             return;
         }
 
-        await randomDelay(500, 1000);
+        await randomDelay(Settings.delays.click.min, Settings.delays.click.max);
 
         // Handle confirmation modal if it appears
-        const modal = await this.page.$('.modal-confirm-content');
+        const modal = await this.page.$(Selectors.Modal.Content);
         if (modal && await modal.isVisible()) {
             const modalText = await modal.textContent();
             if (Settings.notifications.debug) console.log(`[DEBUG] Confirmation Modal Detected: "${modalText?.trim()}"`);
             console.log('Confirming attack...');
-            await this.input.click('.confirm-yes');
+            await this.input.click(Selectors.Modal.ConfirmYes);
         }
 
         // [FIX] Wait for navigation or load state
         try {
-            await this.page.waitForLoadState('networkidle', { timeout: 5000 });
+            await this.page.waitForLoadState('networkidle', { timeout: Settings.delays.networkIdle });
         } catch (e) {
             console.warn('[DEBUG] Timeout waiting for networkidle after attack.');
         }
 
-        await randomDelay(2000, 4000);
+        await randomDelay(Settings.delays.combat.min, Settings.delays.combat.max);
 
         // Log result content for debugging
         if (Settings.notifications.debug) {
@@ -143,8 +143,8 @@ export class GameActions {
         await this.navigateTo(Settings.game.paths.pve);
 
         // [FIX] Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
 
         // Get all creatures
@@ -178,7 +178,7 @@ export class GameActions {
         if (targetBtn) {
             if (Settings.notifications.debug) console.log(`[DEBUG] Found ${targetDifficulty} creature. Attacking...`);
             await targetBtn.click();
-            await randomDelay(2000, 4000); // Wait for combat result
+            await randomDelay(Settings.delays.combat.min, Settings.delays.combat.max); // Wait for combat result
         } else {
             console.log('No suitable PVE target found (Medium/Easy).');
         }
@@ -192,12 +192,12 @@ export class GameActions {
         await this.navigateTo(Settings.game.paths.inventory);
 
         // [FIX] Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
 
         await this.input.click(Selectors.Inventory.HastePotion);
-        await randomDelay(500, 1500);
+        await randomDelay(Settings.delays.click.min, Settings.delays.click.max);
 
         // Handle confirmation dialog if it exists
         for (const selector of Selectors.Inventory.ConfirmUse) {
@@ -213,7 +213,7 @@ export class GameActions {
      * For now, this just focuses the input.
      */
     async focusCaptcha() {
-        await this.input.click(Selectors.Captcha.Input);
+        await this.input.click(Selectors.AntiBot.Input);
     }
 
     /**
@@ -223,8 +223,8 @@ export class GameActions {
         await this.navigateTo(Settings.game.paths.jobs);
 
         // [FIX] Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
     }
 
@@ -235,15 +235,15 @@ export class GameActions {
         await this.navigateTo(Settings.game.paths.dungeons);
 
         // [FIX] Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
 
         // Check for "Explore" or "Fight"
         for (const selector of Selectors.Dungeon.ExploreButton) {
             if (await this.page.isVisible(selector)) {
                 await this.input.click(selector);
-                await randomDelay(1000, 2000);
+                await randomDelay(Settings.delays.navigation.min, Settings.delays.navigation.max);
                 return;
             }
         }
@@ -251,7 +251,7 @@ export class GameActions {
         for (const selector of Selectors.Dungeon.FightButton) {
             if (await this.page.isVisible(selector)) {
                 await this.input.click(selector);
-                await randomDelay(2000, 4000); // Combat delay
+                await randomDelay(Settings.delays.combat.min, Settings.delays.combat.max); // Combat delay
                 return;
             }
         }
@@ -266,8 +266,8 @@ export class GameActions {
         console.log('Visiting Temple to heal...');
 
         // [FIX] Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
 
         // The temple has multiple "Recuperar" buttons (10%, 25%, 50%).
@@ -299,11 +299,11 @@ export class GameActions {
         await this.navigateTo(Settings.game.paths.ranking);
 
         // [FIX] Robust Anti-Bot Check
-        if (this.page.url().includes('anti-bot') || await this.page.isVisible('h2:has-text("SISTEMA ANTI-BOT")')) {
-            throw new Error('CAPTCHA_DETECTED');
+        if (this.page.url().includes(Selectors.AntiBot.UrlPart) || await this.page.isVisible(Selectors.AntiBot.Header[0])) {
+            throw new Error(Settings.game.errors.captchaDetected);
         }
 
-        await randomDelay(2000, 4000);
+        await randomDelay(Settings.delays.combat.min, Settings.delays.combat.max);
         // We could parse the rank here if needed, but just visiting mimics human behavior
         console.log('Checked ranking');
     }
