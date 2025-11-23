@@ -9,6 +9,8 @@ export const Settings = {
         maxDailyFarms: Number(process.env.MAX_DAILY_FARMS) || 100,
         maxDailyPve: Number(process.env.MAX_DAILY_PVE) || 18,
         maxDailyPlaytimeMinutes: Number(process.env.MAX_DAILY_PLAYTIME_MINUTES) || 480,
+        attacksPerCycle: Number(process.env.ATTACKS_PER_CYCLE) || 3,
+        cooldownMinutes: Number(process.env.COOLDOWN_MINUTES) || 20,
     },
 
     // Game Configuration
@@ -82,7 +84,7 @@ export const Settings = {
             boredomThreshold: Number(process.env.WEIGHT_FARM_BOREDOM_THRESHOLD) || 5,
             boredomScore: Number(process.env.WEIGHT_FARM_BOREDOM_SCORE) || 30,
             normalScore: Number(process.env.WEIGHT_FARM_NORMAL_SCORE) || 60,
-            dailyLimit: Number(process.env.LIMIT_DAILY_FARMS) || 1000,
+            dailyLimit: Number(process.env.MAX_DAILY_PVE) || 18,
             dungeonBoost: 20,
         },
         pve: {

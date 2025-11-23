@@ -28,11 +28,11 @@ async function main() {
         const { page } = await browserMgr.getContext(account.id);
         const input = new InputManager(page);
         const gameState = new GameState(page);
-        const actions = new GameActions(page, input);
-        const statusScraper = new StatusScraper(page);
 
         // Each worker gets its own memory/decision/scheduler instances to avoid state pollution
         const memory = new MemoryManager();
+        const actions = new GameActions(page, input, memory, gameState, account.id);
+        const statusScraper = new StatusScraper(page);
         const decisionEngine = new DecisionEngine(memory);
         const scheduler = new Scheduler();
 
@@ -69,6 +69,11 @@ async function main() {
                 }
             }
 
+            // [WORKFLOW] Initial Ranking Check
+            // Ensure we have a target before starting the main loop
+            console.log(`[${account.username}] Performing initial ranking check...`);
+            await actions.checkRanking();
+
             // Main Game Loop
             while (true) {
                 try {
@@ -79,7 +84,20 @@ async function main() {
 
                     // 2. Parse State
                     const state = await gameState.getState();
-                    gameState.logState(account.username);
+
+                    // [NEW] Fetch Daily Stats for Visualization
+                    const dailyStats = memory.getDailyStats(account.id, state.serverDay);
+                    const pveCount = memory.getDailyActionCount(account.id, 'HUNT', state.serverDay);
+                    const rankTarget = memory.getRankingTarget(account.id);
+
+                    gameState.logState(account.username, {
+                        gold: dailyStats?.gold_gained || 0,
+                        wins: dailyStats?.pvp_wins || 0,
+                        losses: dailyStats?.pvp_losses || 0,
+                        pveCount: pveCount,
+                        pveLimit: Settings.weights.farm.dailyLimit,
+                        rankTarget: rankTarget
+                    });
 
                     // 3. Decide
                     const decision = decisionEngine.decide(state, account.id);
@@ -105,6 +123,9 @@ async function main() {
                         case Decision.DUNGEON:
                             await actions.exploreDungeon();
                             memory.recordAction(account.id, 'DUNGEON');
+                            break;
+                        case Decision.CHECK_RANKING:
+                            await actions.checkRanking();
                             break;
                         case Decision.SOLVE_CAPTCHA:
                             console.log(`[${account.username}] CAPTCHA DETECTED! Attempting to solve...`);

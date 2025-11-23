@@ -10,8 +10,8 @@ export const Selectors = {
     // Login & Auth
     Auth: {
         LoginInput: 'input#id_email',
-        PasswordInput: 'input#id_password', // Assuming standard id, need to verify if visible in legacy
-        LoginButton: 'button[type="submit"]', // Generic fallback
+        PasswordInput: 'input#id_password',
+        LoginButton: 'button[type="submit"]',
         LogoutLink: 'a[href*="/logout/"]',
     },
 
@@ -20,27 +20,9 @@ export const Selectors = {
         // Profile Stats
         Level: '.g-level .value',
         Gold: '.g-gold .value',
-        Energy: '.g-energy .value', // Assuming pattern holds, or I should check dump. 
-        // Dump doesn't show energy in top bar? 
-        // Line 156-198: Level, Life, Gold, Files. No Energy in top bar?
-        // Wait, let me check dump again for Energy.
-        // Line 392: <li class="skill">...</li>
-        // I don't see Energy in the top bar in the dump lines 154-199.
-        // Maybe it's not displayed or I missed it?
-        // Let's stick to what I see.
-        // Actually, looking at line 22: <li class="g-level...
-        // Let's keep Energy as is for now or remove if not found.
-        // Wait, the legacy bot used .energy.
-        // Line 374: <li class="exp">...</li>
-        // Line 382: <li class="life">...</li>
-        // Line 392: <li class="skill">...</li>
-        // I don't see "Energy" in the dump snippet I read.
-        // Let's assume .g-energy might exist or just use the one in skills if needed.
-        // But for Gold and Haste, I am sure.
-
         Life: '.g-life .value',
         MaxLife: '.g-life .full-life-value',
-        HastePotions: ['.g-hastes', '.haste-count'], // .g-hastes is verified from dump
+        HastePotions: ['.g-hastes', '.haste-count'],
 
         // Navigation
         Links: {
@@ -59,15 +41,14 @@ export const Selectors = {
     PvP: {
         EnemyList: 'ul.player-char li[data-char-id]',
         AttackButton: '.btn.pvp-btn.peform-pvp',
-        ResultText: 'body', // The legacy bot checks body text for "Você venceu", etc.
+        ResultText: 'body',
         CooldownTimer: ['#busyTimer', '.timer[data-countdown-active="true"]', 'h2:has-text("Tempo de descanso")', '.countdown'],
     },
 
     // PvE / Creatures
     PvE: {
-        // Broad selector to find any container with an attack button
         CreatureList: 'div:has(button:has-text("Atacar!"))',
-        DifficultyLabel: '*', // We will search the whole card text for "Medium"/"Easy"
+        DifficultyLabel: '*',
         AttackButton: `button:has-text("${Settings.game.text.attack}")`,
     },
 
@@ -77,7 +58,7 @@ export const Selectors = {
         ConfirmUse: ['.btn-confirm', '.confirm-button', `button:has-text("${Settings.game.text.confirm}")`],
     },
 
-    // Captcha (Legacy reference, use AntiBot)
+    // Captcha
     Captcha: {
         Input: 'input[name="number"]',
     },
@@ -116,24 +97,26 @@ export const Selectors = {
 
     // Server Time & Status
     Server: {
-        TimeWidget: '.server-time', // Needs verification, assuming class based on common patterns or text search
-        DayLabel: 'text=Dia', // Fallback to finding text "Dia"
+        TimeWidget: '#server-time',
+        DayLabel: 'div.season-clock strong',
     },
 
-    // Battle Log (PVP Result)
+    // Battle Logs
     BattleLog: {
-        UrlPart: 'battle-log',
-        Winner: '.winner-name', // Hypothetical, will use text search if needed
-        Loser: '.loser-name',
-        Gold: '.gold-amount',
-        ResultHeader: 'h1, h2', // "Vitória" or "Derrota"
+        UrlPart: '/battlefield/battle-log/',
+        Container: '.battle-log, .log-container, body',
+        ResultHeader: 'body',
+        Gold: '.gold-value, body',
+        Winner: '.winner',
     },
 
     // Ranking
     Ranking: {
         UrlPart: '/ranking/pvp/daily-list/',
-        Rows: 'table.ranking-table tr', // Hypothetical
-        PlayerName: '.char-name',
-        Wins: '.wins-count',
-    }
+        Rows: 'table.table tbody tr',
+        PlayerName: 'td:nth-child(2)',
+        Wins: 'td:nth-child(4)',
+        Row: 'tr.ranking-row',
+        Name: 'td.name',
+    },
 };

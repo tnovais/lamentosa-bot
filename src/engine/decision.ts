@@ -10,6 +10,7 @@ export enum Decision {
     HUNT = 'HUNT',       // PVE (Shares cooldown with PVP)
     DUNGEON = 'DUNGEON', // Independent cooldown
     SOLVE_CAPTCHA = 'SOLVE_CAPTCHA',
+    CHECK_RANKING = 'CHECK_RANKING',
 }
 
 /**
@@ -38,6 +39,7 @@ export class DecisionEngine {
             [Decision.FLEE]: this.scoreFlee(state),
             [Decision.HUNT]: this.scoreHunt(state, accountId),
             [Decision.DUNGEON]: this.scoreDungeon(state),
+            [Decision.CHECK_RANKING]: this.scoreCheckRanking(state, accountId),
             [Decision.IDLE]: Settings.weights.idle,
             [Decision.SOLVE_CAPTCHA]: Settings.weights.captcha,
         };
@@ -72,6 +74,15 @@ export class DecisionEngine {
         // PVP Cooldown blocks Attack
         if (state.pvpCooldown > 0) return 0;
 
+        // Cycle Management: Max 3 attacks (PVE + PVP) per cooldown cycle
+        // We need to track how many attacks we've done since the last cooldown reset.
+        // Since we don't have a direct "cycle" tracker in state yet, we can infer it 
+        // by checking recent actions within the last COOLDOWN_MINUTES * 2 (safety margin)
+        // BUT, the game enforces the cooldown. If we are NOT on cooldown, it means we have "slots" or the cycle reset.
+        // The user says "Max 3 attacks until cooldown". 
+        // So if we are here, and cooldown is 0, we can attack.
+        // However, we should prioritize PVE if time is tight.
+
         if (state.stats.life > Settings.weights.attack.baseHpThreshold) return Settings.weights.attack.highScore;
 
         return Settings.weights.attack.lowScore;
@@ -96,11 +107,36 @@ export class DecisionEngine {
         // SHARED COOLDOWN: If PVP is on cooldown, PVE is also on cooldown.
         if (state.pvpCooldown > 0) return 0;
 
-        // Check Daily PVE Limit (Max 18)
-        const dailyHunts = this.memory.getDailyActionCount(accountId, 'HUNT');
-        if (dailyHunts >= Settings.limits.maxDailyPve) {
-            if (Settings.notifications.debug) console.log(`[DEBUG] PVE limit reached: ${dailyHunts}/${Settings.limits.maxDailyPve}`);
-            return 0;
+        // 1. Check Daily PVE Limit
+        const dailyHunts = this.memory.getDailyActionCount(accountId, 'HUNT', state.serverDay);
+        const pveLimit = Settings.weights.farm.dailyLimit;
+
+        if (dailyHunts >= pveLimit) {
+            return 0; // Done for the day
+        }
+
+        // 2. Day Planning (Time Management)
+        // Calculate time needed to finish PVE quota
+        const remainingHunts = pveLimit - dailyHunts;
+        const attacksPerCycle = Settings.limits.attacksPerCycle; // 3
+        const cooldownMinutes = Settings.limits.cooldownMinutes; // 20
+
+        const cyclesNeeded = Math.ceil(remainingHunts / attacksPerCycle);
+        const timeNeededMinutes = cyclesNeeded * cooldownMinutes;
+
+        // Calculate time left in server day
+        // Server time is "HH:MM:SS". We need to parse it.
+        const [h, m, s] = state.serverTime.split(':').map(Number);
+        const currentMinutes = h * 60 + m;
+        const totalDayMinutes = 24 * 60;
+        const minutesLeftInDay = totalDayMinutes - currentMinutes;
+
+        // 3. Prioritize PVE if time is tight
+        // If we have just enough time (with a buffer), FORCE PVE.
+        const bufferMinutes = 60; // 1 hour buffer
+        if (minutesLeftInDay < (timeNeededMinutes + bufferMinutes)) {
+            if (Settings.notifications.debug) console.log(`[PLANNER] Time tight! Need ${timeNeededMinutes}m for ${remainingHunts} hunts. Left: ${minutesLeftInDay}m.`);
+            return 1500; // Higher than PVP (1000)
         }
 
         return Settings.weights.farm.normalScore;
@@ -116,5 +152,20 @@ export class DecisionEngine {
 
         // Otherwise, it's a valid alternative
         return Settings.weights.farm.normalScore;
+    }
+
+    private scoreCheckRanking(state: WorldState, accountId: string): number {
+        if (state.isInCombat) return 0;
+        if (state.pvpCooldown > 0) return 0; // Don't check ranking if we are resting? Actually we can.
+        // But maybe better to do it when free.
+
+        const lastCheck = this.memory.getLastActionTime(accountId, 'CHECK_RANKING');
+        const elapsedMinutes = (Date.now() - lastCheck) / 1000 / 60;
+
+        if (elapsedMinutes >= Settings.weights.ranking.checkIntervalMinutes) {
+            return 2000; // Very high priority to ensure we check it
+        }
+
+        return 0;
     }
 }

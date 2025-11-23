@@ -5,75 +5,69 @@ import { Settings } from '../config/settings';
 export interface PlayerStats {
     level: number;
     gold: number;
-    energy: number;
-    life: number;
+    life: number; // Percentage
+    maxLife: number;
     hastePotions: number;
 }
 
 export interface WorldState {
-    currentUrl: string;
-    isBusy: boolean;
-    busySeconds: number;
     stats: PlayerStats;
+    isBusy: boolean;
+    currentUrl: string;
     isInCombat: boolean;
     isCaptchaPresent: boolean;
-    pvpCooldown: number;
+    pvpCooldown: number; // ms remaining
+    serverDay: number;
+    serverTime: string;
 }
 
 /**
  * GameState
  * 
- * Parses the DOM to create a structured representation of the game state.
- * This allows the Logic Engine to make decisions based on clean data.
+ * Responsible for perceiving the world.
+ * Parses the DOM to extract state information.
  */
 export class GameState {
     private page: Page;
-    // Internal state storage for logging
     private lastState: WorldState | null = null;
+    private pvpCooldownExpiresAt: number = 0;
 
     constructor(page: Page) {
         this.page = page;
     }
 
     /**
-     * Scans the page and returns the full World State.
+     * Scrapes the current state of the game.
      */
     async getState(): Promise<WorldState> {
-        const stats = await this.getPlayerStats();
-        const busySeconds = await this.getBusyTimer();
         const currentUrl = this.page.url();
+        const stats = await this.getPlayerStats();
 
-        // Check for specific conditions
-        // 1. Check URL (Most reliable)
-        // 1. Check URL (Most reliable)
-        let isCaptchaPresent = currentUrl.includes(Selectors.AntiBot.UrlPart);
+        // Check for "Busy" timer
+        const busyTimer = await this.getBusyTimer();
+        const isBusy = busyTimer > 0;
 
-        // 2. Fallback: Check for Header if URL doesn't match yet
-        if (!isCaptchaPresent) {
-            // Selectors.AntiBot.Header is an array of strings
-            for (const selector of Selectors.AntiBot.Header) {
-                if (await this.page.isVisible(selector).catch(() => false)) {
-                    isCaptchaPresent = true;
-                    if (Settings.notifications.debug) console.log(`[DEBUG] Captcha detected via selector: ${selector}`);
-                    break;
-                }
-            }
-        }
+        // Check for Combat
+        // We are in combat if the Battle Log is visible OR if we are on a battle page
+        const battleLogVisible = await this.page.isVisible(Selectors.BattleLog.Container);
+        const isInCombat = battleLogVisible || currentUrl.includes('/battlefield/battle-log/');
 
-        if (Settings.notifications.debug) {
-            // console.log(`[DEBUG] URL: ${currentUrl} | CaptchaPresent: ${isCaptchaPresent}`);
-        }
+        // Check for Captcha
+        const isCaptchaPresent = await this.page.isVisible(Selectors.AntiBot.Header[0]) ||
+            currentUrl.includes(Selectors.AntiBot.UrlPart);
 
-        const isInCombat = await this.page.isVisible(Selectors.PvP.AttackButton).catch(() => false);
+        // Get Server Time
+        const { day, time } = await this.getServerTime();
 
-        const state = {
+        const state: WorldState = {
+            isBusy,
             currentUrl,
-            isBusy: busySeconds > 0,
-            busySeconds,
             stats,
             isInCombat,
             isCaptchaPresent,
-            pvpCooldown: await this.getPvpCooldown()
+            pvpCooldown: await this.getPvpCooldown(),
+            serverDay: day,
+            serverTime: time
         };
 
         this.lastState = state; // Store for logging
@@ -88,25 +82,47 @@ export class GameState {
     /**
      * Prints a summary of the current state to the console.
      */
-    logState(accountName?: string) {
+    logState(accountName?: string, daily?: { gold: number, wins: number, losses: number, pveCount: number, rankTarget: number, pveLimit: number }) {
         if (!this.lastState) return;
+
+        const pveProgress = `${daily?.pveCount ?? '?'}/${daily?.pveLimit ?? '?'}`;
+        const profit = daily?.gold ?? 0;
+        const profitStr = profit > 0 ? `+${profit}` : `${profit}`;
+        const rankMsg = daily && daily.rankTarget > 0
+            ? `Need ${daily.rankTarget} wins`
+            : 'Calculating...';
 
         console.log(`
 ╔════════════════════════════════════════════════════════════╗
 ║ 🧠 BOT PERCEPTION [${accountName || 'Unknown'}]
 ╠════════════════════════════════════════════════════════════╣
 ║ 📍 Location:   ${this.lastState.currentUrl.split('.com')[1] || this.lastState.currentUrl}
+║ 📅 Day:        ${this.lastState.serverDay || '?'} | 🕒 ${this.lastState.serverTime || '?'}
 ║ ❤️ Health:     ${this.lastState.stats.life}%
 ║ 💰 Gold:       ${this.lastState.stats.gold}
-║ ⏳ Cooldown:   ${this.lastState.pvpCooldown > 0 ? (this.lastState.pvpCooldown / 1000).toFixed(0) + 's' : 'Ready'}
+║ ⏳ Cooldown:   ${this.formatCooldown(this.lastState.pvpCooldown)}
 ║ 🤖 Captcha:    ${this.lastState.isCaptchaPresent ? 'YES' : 'No'}
 ║ ⚔️ In Combat:  ${this.lastState.isInCombat ? 'Yes' : 'No'}
+╠════════════════════════════════════════════════════════════╣
+║ 📊 DAILY STATS (Server Day ${this.lastState.serverDay || '?'})
+║ ⚔️ PVP:        ${daily?.wins ?? 0} Wins / ${daily?.losses ?? 0} Losses
+║ 💰 Profit:     ${profitStr} Gold
+║ 🏆 Rank Target: ${rankMsg}
+║ 🏹 PVE:        ${pveProgress}
 ╚════════════════════════════════════════════════════════════╝
         `);
     }
 
-    // [FIX] Persist cooldown expiration to handle page navigation
-    private pvpCooldownExpiresAt: number = 0;
+    /**
+     * Formats milliseconds into MM:SS string.
+     */
+    private formatCooldown(ms: number): string {
+        if (ms <= 0) return 'Ready';
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
 
     /**
      * Parses the PVP Cooldown timer.
@@ -192,8 +208,8 @@ export class GameState {
             return {
                 level: parseNum(selectors.UI.Level),
                 gold: parseNum(selectors.UI.Gold),
-                energy: parseNum(selectors.UI.Energy),
                 life: hpPercent, // Return percentage for logic compatibility
+                maxLife: maxHp,
                 hastePotions: haste
             };
         }, Selectors);
@@ -217,6 +233,41 @@ export class GameState {
             return 0;
         } catch {
             return 0;
+        }
+    }
+
+    /**
+     * Parses the Server Time and Day from the UI.
+     * Expected format: "Dia 19" and "21:06:37"
+     */
+    private async getServerTime(): Promise<{ day: number, time: string }> {
+        try {
+            // 1. Get Day
+            const dayEl = this.page.locator(Selectors.Server.DayLabel).first();
+            let day = 0;
+            if (await dayEl.isVisible()) {
+                const text = await dayEl.textContent();
+                const match = text?.match(/Dia\s+(\d+)/i);
+                if (match) {
+                    day = parseInt(match[1], 10);
+                }
+            }
+
+            // 2. Get Time
+            const timeEl = this.page.locator(Selectors.Server.TimeWidget).first();
+            let time = '00:00:00';
+            if (await timeEl.isVisible()) {
+                const text = await timeEl.textContent();
+                const match = text?.match(/(\d{2}):(\d{2}):(\d{2})/);
+                if (match) {
+                    time = match[0];
+                }
+            }
+
+            return { day, time };
+        } catch (e: any) {
+            if (Settings.notifications.debug) console.log(`[DEBUG] Failed to parse server time: ${e.message}`);
+            return { day: 0, time: '00:00:00' };
         }
     }
 }

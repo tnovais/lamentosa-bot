@@ -1,5 +1,5 @@
 import { Page } from 'playwright';
-import { randomDelay } from './stealth';
+import { randomDelay, generateBezierPath } from './stealth';
 
 /**
  * InputManager
@@ -10,21 +10,27 @@ import { randomDelay } from './stealth';
  */
 export class InputManager {
     private page: Page;
+    private lastX: number = 0;
+    private lastY: number = 0;
 
     constructor(page: Page) {
         this.page = page;
     }
 
     /**
-     * Initializes the input manager (placeholder for compatibility).
+     * Initializes the input manager.
      */
     async init() {
-        // No-op for native implementation
+        const viewport = this.page.viewportSize();
+        if (viewport) {
+            this.lastX = Math.random() * viewport.width;
+            this.lastY = Math.random() * viewport.height;
+        }
     }
 
     /**
      * Moves the mouse to a specific selector and clicks it.
-     * Simulates human movement by using 'steps' and random offsets.
+     * Simulates human movement using Bezier curves.
      */
     async click(selector: string) {
         try {
@@ -36,12 +42,22 @@ export class InputManager {
             }
 
             // Calculate a random point within the element
-            const x = box.x + (Math.random() * (box.width * 0.8)) + (box.width * 0.1);
-            const y = box.y + (Math.random() * (box.height * 0.8)) + (box.height * 0.1);
+            const targetX = box.x + (Math.random() * (box.width * 0.8)) + (box.width * 0.1);
+            const targetY = box.y + (Math.random() * (box.height * 0.8)) + (box.height * 0.1);
 
-            // Move with "steps" to simulate movement speed
-            // Steps = distance / speed. We'll just pick a random step count for now.
-            await this.page.mouse.move(x, y, { steps: Math.floor(Math.random() * 10) + 5 });
+            // Generate human-like path
+            const path = generateBezierPath(this.lastX, this.lastY, targetX, targetY, 25);
+
+            // Execute movement along the path
+            for (const point of path) {
+                await this.page.mouse.move(point.x, point.y);
+                // Tiny random delay between some steps for realism? 
+                // Actually, continuous movement is better, maybe just one delay mid-path?
+                // Let's keep it fluid for now.
+            }
+
+            this.lastX = targetX;
+            this.lastY = targetY;
 
             // Small pause before clicking
             await randomDelay(50, 150);
@@ -51,7 +67,6 @@ export class InputManager {
             await this.page.mouse.up();
 
         } catch (error) {
-            // console.warn(`Failed to human-click selector: ${selector}`, error);
             // Fallback to standard click
             try {
                 await this.page.click(selector, { timeout: 5000 });
@@ -81,10 +96,17 @@ export class InputManager {
         const viewport = this.page.viewportSize();
         if (!viewport) return;
 
-        const x = Math.random() * viewport.width;
-        const y = Math.random() * viewport.height;
+        const targetX = Math.random() * viewport.width;
+        const targetY = Math.random() * viewport.height;
 
-        await this.page.mouse.move(x, y, { steps: Math.floor(Math.random() * 20) + 10 });
+        const path = generateBezierPath(this.lastX, this.lastY, targetX, targetY, 30);
+
+        for (const point of path) {
+            await this.page.mouse.move(point.x, point.y);
+        }
+
+        this.lastX = targetX;
+        this.lastY = targetY;
     }
 
     /**

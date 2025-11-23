@@ -3,6 +3,8 @@ import { InputManager } from '../core/inputs';
 import { Selectors } from './selectors';
 import { randomDelay } from '../core/stealth';
 import { Settings } from '../config/settings';
+import { MemoryManager } from '../core/memory';
+import { GameState } from './state';
 
 /**
  * GameActions
@@ -13,10 +15,16 @@ import { Settings } from '../config/settings';
 export class GameActions {
     private page: Page;
     private input: InputManager;
+    private memory: MemoryManager;
+    private gameState: GameState;
+    private accountId: string;
 
-    constructor(page: Page, input: InputManager) {
+    constructor(page: Page, input: InputManager, memory: MemoryManager, gameState: GameState, accountId: string) {
         this.page = page;
         this.input = input;
+        this.memory = memory;
+        this.gameState = gameState;
+        this.accountId = accountId;
     }
 
     /**
@@ -130,8 +138,11 @@ export class GameActions {
         if (Settings.notifications.debug) {
             const currentUrl = this.page.url();
             console.log(`[DEBUG] Post-Attack URL: ${currentUrl}`);
-            const resultText = await this.page.$eval('body', el => el.textContent);
-            console.log(`[DEBUG] Post-Attack Page Text (Snippet): ${resultText?.substring(0, 200).replace(/\s+/g, ' ')}...`);
+        }
+
+        // [NEW] Parse Battle Log if we are on the log page
+        if (this.page.url().includes(Selectors.BattleLog.UrlPart)) {
+            await this.parseBattleLog();
         }
     }
 
@@ -178,6 +189,11 @@ export class GameActions {
         if (targetBtn) {
             if (Settings.notifications.debug) console.log(`[DEBUG] Found ${targetDifficulty} creature. Attacking...`);
             await targetBtn.click();
+
+            // Update Persistent PVE Count
+            const state = await this.gameState.getState();
+            this.memory.updateDailyStats(this.accountId, state.serverDay, { pveIncrement: 1 });
+
             await randomDelay(Settings.delays.combat.min, Settings.delays.combat.max); // Wait for combat result
         } else {
             console.log('No suitable PVE target found (Medium/Easy).');
@@ -304,7 +320,97 @@ export class GameActions {
         }
 
         await randomDelay(Settings.delays.combat.min, Settings.delays.combat.max);
-        // We could parse the rank here if needed, but just visiting mimics human behavior
-        console.log('Checked ranking');
+
+        // Parse Ranking
+        try {
+            // 1. Find the 15th player's wins (Cutoff)
+            const rows = await this.page.$$(Selectors.Ranking.Rows);
+            let cutoffWins = 0;
+
+            if (rows.length >= 15) {
+                const row15 = rows[14]; // 0-indexed
+                const winsText = await row15.$eval(Selectors.Ranking.Wins, el => el.textContent);
+                cutoffWins = parseInt(winsText?.replace(/\D/g, '') || '0', 10);
+            }
+
+            // 2. Calculate Target
+            const targetWins = cutoffWins + 1;
+            this.memory.setRankingTarget(this.accountId, targetWins);
+
+            console.log(`[RANKING] Top 15 Cutoff: ${cutoffWins} wins. Target set to: ${targetWins}`);
+
+            // Record that we checked ranking
+            this.memory.recordAction(this.accountId, 'CHECK_RANKING');
+
+        } catch (e) {
+            console.warn('[RANKING] Failed to parse ranking table:', e);
+        }
+    }
+
+    /**
+     * Parses the Battle Log to extract profit and result.
+     */
+    private async parseBattleLog() {
+        try {
+            const state = await this.gameState.getState(); // Get server day
+            const serverDay = state.serverDay;
+
+            // [FIX] Use text content analysis as specific selectors are unreliable
+            const pageText = await this.page.locator('body').innerText();
+            const lowerPageText = pageText.toLowerCase();
+
+            // 1. Determine Result (Win/Loss/Draw)
+            const isWin = lowerPageText.includes('vitória') || lowerPageText.includes('vencedor');
+            const isLoss = lowerPageText.includes('derrota');
+            const isDraw = lowerPageText.includes('empate');
+
+            if (!isWin && !isLoss && !isDraw) {
+                console.warn('[BATTLE LOG] Could not determine win/loss/draw from page text.');
+                return;
+            }
+
+            // 2. Determine Gold Profit/Loss
+            let gold = 0;
+
+            // Try 1: Regex on full text (flexible patterns)
+            // Matches: "100 Ouro", "Ouro: 100", "+100 Gold", "Ganhou 100"
+            const goldRegex = /(?:ouro|gold|ganhou|perdeu)[\s:]*([+-]?\d+)|([+-]?\d+)\s*(?:ouro|gold)/i;
+            const goldMatch = pageText.match(goldRegex);
+
+            if (goldMatch) {
+                // match[1] or match[2] will have the number
+                const rawNum = goldMatch[1] || goldMatch[2];
+                gold = parseInt(rawNum, 10);
+            } else {
+                // Try 2: Specific Selector Fallback
+                const goldEl = this.page.locator(Selectors.BattleLog.Gold).first();
+                if (await goldEl.isVisible()) {
+                    const text = await goldEl.textContent();
+                    gold = parseInt(text?.replace(/\D/g, '') || '0', 10);
+                }
+            }
+
+            // Adjust sign based on context if we only found a positive number
+            if (gold > 0) {
+                if (isLoss && (lowerPageText.includes('perdeu') || lowerPageText.includes('lost'))) {
+                    gold = -gold;
+                }
+            } else if (gold === 0 && (lowerPageText.includes('ninguém recebeu nada') || lowerPageText.includes('sem ganhos'))) {
+                gold = 0;
+            }
+
+            // 3. Update Memory
+            this.memory.updateDailyStats(this.accountId, serverDay, {
+                gold: gold,
+                win: isWin
+            });
+
+            const resultStr = isWin ? 'WIN' : (isLoss ? 'LOSS' : 'DRAW');
+            const profitStr = gold > 0 ? `+${gold}` : `${gold}`;
+            console.log(`[BATTLE LOG] Result: ${resultStr} | Gold: ${profitStr}`);
+
+        } catch (e) {
+            console.error('Error parsing battle log:', e);
+        }
     }
 }
