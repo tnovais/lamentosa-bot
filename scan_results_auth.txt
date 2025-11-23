@@ -1,0 +1,364 @@
+
+--- AUTHENTICATED SCAN RESULTS ---
+
+[SELECTOR VERIFICATION]
+UI.Level: ✅ VALID
+UI.Gold: ❌ INVALID
+UI.Life: ✅ VALID
+UI.HastePotions: ❌ INVALID
+
+[SCRIPTS DETECTED]
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870947272&cv=11&fst=1763870947272&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527907~104528501~104684208~104684211~115583767~115938465~115938468~116184927~116184929~116217636~116217638~116474636&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2F&frm=0&tiba=Text-based%20and%20Browser%20MMORPG%20%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870947659&cv=11&fst=1763870947659&bg=ffffff&guid=ON&async=1&en=form_start&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527907~104528501~104684208~104684211~115583767~115938465~115938468~116184927~116184929~116217636~116217638~116474636&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2F&frm=0&tiba=Text-based%20and%20Browser%20MMORPG%20%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dform_start&rfmt=3&fmt=4
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870947741&cv=11&fst=1763870947741&bg=ffffff&guid=ON&async=1&en=form_submit&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527907~104528501~104684208~104684211~115583767~115938465~115938468~116184927~116184929~116217636~116217638~116474636&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2F&frm=0&tiba=Text-based%20and%20Browser%20MMORPG%20%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dform_submit&rfmt=3&fmt=4
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/webpush/jsi18n/
+https://se.lamentosa.com/static/webpush/webpush.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://se.lamentosa.com/static/js/install.js?mod=17491030326903305
+https://se.lamentosa.com/static/js/chart.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870948650&cv=11&fst=1763870948650&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527906~104528500~104684208~104684211~115583767~115938466~115938468~116184927~116184929~116217636~116217638&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2Fstatus%2F&ref=https%3A%2F%2Fse.lamentosa.com%2F&frm=0&tiba=%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/webpush/jsi18n/
+https://se.lamentosa.com/static/webpush/webpush.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://se.lamentosa.com/static/js/install.js?mod=17491030326903305
+https://se.lamentosa.com/static/js/chart.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870951606&cv=11&fst=1763870951606&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527907~104528500~104684208~104684211~105391252~115583767~115938465~115938469~116184927~116184929~116217636~116217638~116474638&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2Fstatus%2F&frm=0&tiba=%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/webpush/jsi18n/
+https://se.lamentosa.com/static/webpush/webpush.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://se.lamentosa.com/static/js/install.js?mod=17491030326903305
+https://se.lamentosa.com/static/js/chart.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870954784&cv=11&fst=1763870954784&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527907~104528501~104684208~104684211~105446120~115583767~115938466~115938468~116184927~116184929~116217636~116217638&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2Fstatus%2F&frm=0&tiba=%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/webpush/jsi18n/
+https://se.lamentosa.com/static/webpush/webpush.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://se.lamentosa.com/static/js/install.js?mod=17491030326903305
+https://se.lamentosa.com/static/js/chart.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870956932&cv=11&fst=1763870956932&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527906~104528501~104684208~104684211~105322303~115583767~115938465~115938468~116184927~116184929~116217636~116217638&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2Fcemetery%2Fjobs%2F&frm=0&tiba=Rest%20Time&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/webpush/jsi18n/
+https://se.lamentosa.com/static/webpush/webpush.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://se.lamentosa.com/static/js/install.js?mod=17491030326903305
+https://se.lamentosa.com/static/js/chart.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870959074&cv=11&fst=1763870959074&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527907~104528501~104684208~104684211~115583767~115616986~115938466~115938469~116184927~116184929~116217636~116217638~116474636&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2Fdungeons%2Fstart%2F&frm=0&tiba=Dungeons&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3
+https://analytics.ahrefs.com/analytics.js
+https://se.lamentosa.com/webpush/jsi18n/
+https://se.lamentosa.com/static/webpush/webpush.js
+https://se.lamentosa.com/static/js/jquery-3.1.1.min.js
+https://se.lamentosa.com/static/js/htmx.min.js
+https://se.lamentosa.com/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js
+https://se.lamentosa.com/static/plugins/countdown.js
+https://se.lamentosa.com/static/plugins/croppie.min.js
+https://se.lamentosa.com/static/js/app1.js?mod=17588810522237713
+https://se.lamentosa.com/static/js/install.js?mod=17491030326903305
+https://se.lamentosa.com/static/js/chart.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5
+https://connect.facebook.net/en_US/fbevents.js
+https://www.redditstatic.com/ads/pixel.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://www.clarity.ms/tag/su573ly182
+https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&cx=c&gtm=4e5bi1h1
+https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763870961497&cv=11&fst=1763870961497&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=103116026~103200004~104527906~104528500~104684208~104684211~115583767~115938466~115938468~116184927~116184929~116217636~116217638&u_w=1280&u_h=720&url=https%3A%2F%2Fse.lamentosa.com%2Fstatus%2F&frm=0&tiba=%7C%20Lamentosa&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=31889759.1763870947&uaa=x86&uab=64&uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4
+https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&r=stable&domain=se.lamentosa.com&hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138
+https://scripts.clarity.ms/0.8.41/clarity.js
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+
+[SUSPICIOUS SCRIPTS]
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+https://analytics.ahrefs.com/analytics.js
+https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&lib=ttq
+https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js
+https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js
+
+[COOKIES]
+
+
+[HIDDEN ELEMENTS (Potential Traps)]
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#webpush-js. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] INPUT#. (Name: csrfmiddlewaretoken)
+[Dashboard] INPUT#. (Name: language)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Dashboard] SCRIPT#. (Name: undefined)
+[Temple] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#webpush-js. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] INPUT#. (Name: csrfmiddlewaretoken)
+[Inventory] INPUT#. (Name: language)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Inventory] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#webpush-js. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] INPUT#. (Name: csrfmiddlewaretoken)
+[Jobs] INPUT#. (Name: language)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Jobs] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#webpush-js. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] INPUT#. (Name: csrfmiddlewaretoken)
+[Dungeons] INPUT#. (Name: csrfmiddlewaretoken)
+[Dungeons] INPUT#. (Name: language)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+[Dungeons] SCRIPT#. (Name: undefined)
+
+[META TAGS]
+
+
+[LOCAL STORAGE]
+{}
+
+--- END SCAN ---
+    

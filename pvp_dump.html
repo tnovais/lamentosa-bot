@@ -1,0 +1,2679 @@
+<!DOCTYPE html><html class="no-js" lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hunt Enemies</title>
+  <meta name="description" content="">
+  <meta name="google-site-verification" content="J4R3ZEAe6CQMYEsE6pjFK1MiQk__cR158O2JBlps_ic">
+
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="application-name" content="Lamentosa">  
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#1a1b1ee6">
+
+  <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg">
+  <link rel="shortcut icon" href="/static/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+  <link rel="mask-icon" href="/static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Lamentosa">
+  <link rel="manifest" href="/static/favicon/site.webmanifest">
+
+  <!-- Google Tag Manager -->
+<script type="text/javascript" async="" src="https://analytics.tiktok.com/i18n/pixel/static/identify_c4432507.js"></script><script type="text/javascript" async="" src="https://analytics.tiktok.com/i18n/pixel/static/main.MWYyNDJlNWM5MQ.js" data-id="D0S1QPJC77UBTE66MK60"></script><script async="" src="https://scripts.clarity.ms/0.8.41/clarity.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3&amp;cx=c&amp;gtm=4e5bi1"></script><script async="" src="https://www.clarity.ms/tag/su573ly182"></script><script type="text/javascript" async="" src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D0S1QPJC77UBTE66MK60&amp;lib=ttq"></script><script src="https://www.redditstatic.com/ads/pixel.js" async=""></script><script src="https://connect.facebook.net/signals/config/215226532437294?v=2.9.243&amp;r=stable&amp;domain=se.lamentosa.com&amp;hme=fdfab1132115f4ac7aabc9fd7eee63947594f6e6f1735b47a225dd71217525d3&amp;ex_m=89%2C147%2C127%2C18%2C65%2C66%2C120%2C61%2C41%2C121%2C70%2C60%2C134%2C78%2C13%2C88%2C26%2C115%2C108%2C68%2C71%2C114%2C131%2C97%2C136%2C7%2C3%2C4%2C6%2C5%2C2%2C79%2C87%2C137%2C214%2C158%2C55%2C216%2C217%2C48%2C173%2C25%2C67%2C222%2C221%2C161%2C28%2C54%2C8%2C57%2C83%2C84%2C85%2C90%2C111%2C27%2C24%2C113%2C110%2C109%2C128%2C69%2C130%2C129%2C43%2C53%2C105%2C12%2C133%2C38%2C203%2C205%2C168%2C21%2C22%2C23%2C15%2C16%2C37%2C33%2C35%2C34%2C74%2C80%2C82%2C95%2C119%2C122%2C39%2C96%2C19%2C17%2C101%2C62%2C31%2C124%2C123%2C125%2C116%2C20%2C30%2C52%2C94%2C132%2C63%2C14%2C126%2C29%2C183%2C154%2C275%2C201%2C145%2C186%2C179%2C155%2C92%2C112%2C73%2C103%2C47%2C40%2C102%2C107%2C51%2C58%2C42%2C98%2C46%2C49%2C45%2C86%2C135%2C0%2C106%2C11%2C104%2C9%2C1%2C50%2C81%2C56%2C59%2C100%2C77%2C76%2C44%2C117%2C75%2C72%2C64%2C99%2C91%2C36%2C118%2C32%2C93%2C10%2C138" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-M9X8JTM5"></script><script async="">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M9X8JTM5');</script>
+    <!-- End Google Tag Manager -->
+     <!-- Google tag (gtag.js) -->
+
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMM1FT6ZL3');
+</script>
+
+  <!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DMM1FT6ZL3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMM1FT6ZL3');
+</script>
+  <!-- Meta Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '215226532437294');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=215226532437294&ev=PageView&noscript=1"
+    /></noscript>
+<!-- End Meta Pixel Code -->
+
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="8/rHBljfXmkk0B0CQpHd4Q" async=""></script>
+  
+<!-- Reddit Pixel -->
+<script>
+!function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','t2_mv04ua2v');rdt('track', 'PageVisit');
+</script>
+<!-- DO NOT MODIFY UNLESS TO REPLACE A USER IDENTIFIER -->
+<!-- End Reddit Pixel -->
+
+  
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+  ttq.load('D0S1QPJC77UBTE66MK60');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
+
+  
+
+  
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "su573ly182");
+</script>
+
+
+  
+
+  
+
+
+
+  <link rel="canonical" href="https://se.lamentosa.com/battlefield/enemies-g/?no-scroll=1">
+  
+
+  <link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="all" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/boxicons-2.1.4/css/boxicons.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/intl-tel-input-25.3.0/css/intlTelInput.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/croppie.css" media="all" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/plugins/animate.min.css" media="all" onload="if(media!='all')media='all'">
+  <link rel="stylesheet" type="text/css" href="/static/css/app1.css?mod=17604299606993158">
+  
+
+  
+  
+  
+  
+  <script src="/webpush/jsi18n/"></script>
+  <script id="webpush-js" type="text/javascript" src="/static/webpush/webpush.js"></script>
+  
+  <meta name="service-worker-js" content="/webpush/service-worker.js">
+  <meta name="django-webpush-vapid-key" content="BEPWHuDf0Ekn-s6Lm30zxsAfBlJEXwda05kdigFPo4wsW1s3MhRlIEQjouoZqlrsIFJ0MHRxX_XlaJr6GjOeqgs">
+
+
+
+<style>                      .htmx-indicator{opacity:0}                      .htmx-request .htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}                      .htmx-request.htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}                    </style><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11466963200/?random=1763871244830&amp;cv=11&amp;fst=1763871244830&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45je5bi1v9174666180za200zb9174647407zd9174647407xec&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=103116026~103200004~104527906~104528501~104684208~104684211~115583767~115938465~115938468~116184927~116184929~116217636~116217638~116251935~116251937&amp;u_w=1280&amp;u_h=720&amp;url=https%3A%2F%2Fse.lamentosa.com%2Fbattlefield%2Fenemies-g%2F%3Fno-scroll%3D1&amp;frm=0&amp;tiba=Hunt%20Enemies&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=394928853.1763871241&amp;uaa=x86&amp;uab=64&amp;uafvl=HeadlessChrome%3B141.0.7390.37%7CNot%253FA_Brand%3B8.0.0.0%7CChromium%3B141.0.7390.37&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=19.0.0&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script></head>
+
+<body hx-push-url="true" hx-target="#mainContent" hx-indicator="#loadingWrapper" data-user-language="en" class="custom pvp">
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9X8JTM5"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  
+
+  
+    
+
+
+
+
+
+
+  
+  
+
+
+
+<div id="playerToolbar">
+    <ul>
+        <li class="g-level g-tooltip">
+            Lv <span class="value">1</span>
+            <span class="g-tooltip-text">
+                EXP<br>
+                <span class="g-exp-value">2</span> /
+                <span class="g-exp-next-value">5</span>
+            </span>
+        </li>
+
+        <li class="g-life g-tooltip">
+            <span class="value">100</span> / <span class="full-life-value">100</span>
+            <span class="g-tooltip-text">Your life</span>
+        </li>
+
+        <li class="g-gold g-tooltip">
+            <span class="value">101250</span>
+            <span class="g-tooltip-text">Your gold</span>
+        </li>
+
+        <li class="g-files g-tooltip">
+            ALL
+            <span class="g-tooltip-text gtl-140 gtl-list">
+                <span class="gtl-item">
+                    <span class="g-crystals">0</span> - Blood crystals
+                </span>
+                <span class="gtl-item">
+                    <span class="g-hastes">30</span> - Haste Potions
+                </span>
+                <span class="gtl-item">
+                    <span class="g-gboost">0</span> - Grimoire Boost
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pvp">0</span> - PvP XP Boost (X2)
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pve2">0</span> - PvE XP Boost (X2)
+                </span>
+                <span class="gtl-item">
+                    <span class="g-pve3">0</span> - PvE XP Boost (X3)
+                </span>
+            </span>
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+  
+  <header class="custom">
+    
+    <h2 class="game-header game-sub">Hunt Enemies</h2>
+    
+  </header>
+  
+
+  
+  
+  
+
+
+
+
+<div id="pushWarning" style="display: none;" class="page-description">
+
+    <div class="w-top">
+        <i class="bx bx-error"></i>
+        <p>
+            Activating notifications is highly recommended, you will know when a new Boss appears among other things. You can configure what you want to receive in the menu at any time.
+        </p>
+    </div>
+
+    <div class="g-divisor"></div>
+
+    <div class="btn-container" data-btn-title="Activate Notifications">
+        
+  <button id="webpush-subscribe-button" class="btn btn-sm" data-group="all" data-url="/webpush/save_information">Activate Notifications</button>
+  <div id="webpush-message" hidden="" style="display: block;">Push notifications are blocked by your browser.</div>
+
+
+        <a class="g-link" id="ignorePushBtn">Ignore</a>
+    </div>
+</div>
+    
+
+
+  
+  
+
+  <div id="mainContent">
+    
+    
+
+
+
+<div style="display:none">
+    <span id="customBgName">pvp</span>
+    <span id="customBgTitle">Hunt Enemies</span>
+</div>
+
+
+
+
+<div class="modal-ct pvp-settings">
+    
+
+
+<div class="pvp-settings" style="margin-top: 30px;">
+    
+    <div style="overflow-x:auto;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>-</th>
+                    <th>Bonus</th>
+                    <th>Quantity</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">
+                        <img src="/static/images/gb1.png" alt="Grimoire" style="width: 50px;">
+                    
+                    </td><td>
+                        <strong style="color: #e59e23;">2x</strong> Grimoire points
+                    </td>
+                    <td>0</td>
+                    <td>
+                        <a href="/premium-market/" class="btn btn-sm">
+                            Buy
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        <img src="/static/images/xpb_pvp1.png" alt="PvP XP" style="width: 50px;">
+                    
+                    </td><td>
+                        <strong style="color: #e59e23;">2x</strong> PvP experience
+                    </td>
+                    <td>0</td>
+                    <td>
+                        <a href="/premium-market/" class="btn btn-sm">
+                            Buy
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        <img src="/static/images/haste_potion_lg.png" alt="PvP XP" style="width: 50px;">
+                    
+                    </td><td>
+                       Speed up 5 minutes
+                    </td>
+                    <td>30</td>
+                    <td>
+                        <a href="/premium-market/" class="btn btn-sm">
+                            Buy
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+
+
+
+
+<script>
+    ttq.identify({
+        email: '057d6119de2fef509ed6d79b4245239a11d919a15c9867e2c97269f4ffbac43a',
+        phone: ''
+    });
+</script>
+
+
+<section class="first">
+
+    <div class="center-container">
+
+        <ul class="submenu" style="justify-content: center;">
+            <li>
+                <a href="#" rel="modal" data-content-selector=".pvp-settings">
+                    Bonus
+                </a>
+            </li>
+            <li>
+                <a href="#" rel="modal" data-content-selector=".blacksmith-info">Instructions</a>
+            </li>
+            <li>
+                <a href="/shadow-hunt/toggle/" rel="modal">
+                    Shadow Hunt
+                </a>
+            </li>
+        </ul>
+
+        
+                
+        <div class="enemies-lobby g-pvp-lobby">
+
+            <div class="top-forms">
+                <form method="get" hx-get="/battlefield/enemies-g/?no-scroll=1" hx-trigger="change from:#gEnemyFilter">
+                    <div class="inline-form-group">
+                      <div class="default-select">
+                        <select id="gEnemyFilter" name="enemy_filter">
+                          <option value="standard" selected="selected">Standard Filter</option>
+                          
+                          
+                          
+                          <option value="wars">Clans War Only</option>
+        
+                          <option value="master_alacris">Master Alacris</option>
+                          <option value="master_aurum">Master Aurum</option>
+                          <option value="master_praegressus">Master Praegressus</option>
+                          <option value="master_vitalis">Master Vitalis</option>
+                        </select>
+                      </div>
+                    </div>
+                </form>
+        
+                <form method="get" hx-get="/battlefield/enemies-g/?no-scroll=1">
+                        <div class="inline-form-group">
+                            <div class="default-input">
+                                <input type="text" name="enemy_name" required="required" maxlength="50" placeholder="Search by name">
+                            </div>
+                            <button type="submit" class="btn-sm">
+                                <i class="bx bx-search-alt-2"></i>
+                            </button>
+                        </div>
+                </form>
+            </div>
+
+
+        <div class="g-divisor" style="margin: 15px 0 40px 0;"></div>
+
+        <div>
+            
+                <div class="page-description" style="text-align: center; font-size: 0.82rem !important;">
+                    You are immune to PvP attacks until:
+                    <strong>
+                        <i class="bx bx-stopwatch" style="font-size:1rem; vertical-align: middle;"></i> 04:50:30
+                    </strong>
+                </div>
+            
+            
+        </div>
+
+        <form hx-post="/battlefield/enemies-g/" id="pvpForm">
+            <input type="hidden" name="csrfmiddlewaretoken" value="WtwvS6ZGV0UuAgTWnA7K5JgjioaWaRYLZtand8CENLaI5RXGsK2OFND8MxzWODws">
+            <input type="hidden" name="enemy_id" id="id_enemy_id"><input type="hidden" name="pri" id="id_pri"><input type="hidden" name="viet" id="id_viet">
+        </form>
+        
+        
+            <div class="top-info">
+                <div class="obj-round">
+                    <div><i class="bx bx-time-five"></i> Attacks until cooldown</div>
+                    <div class="g-progress wine" style="--progress: 0%;">
+                        <div class="gp-bar" data-percent="0" style="--progress: 0%;"></div>
+                        <span class="gp-value">0 / 3</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+            <ul class="player-char">
+                
+
+                <li data-char-id="5687">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg vampire"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/vampire/male/jpg/4_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/leelah/5687/" style="color: #9c5f23;">
+            Leelah
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="5651">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg vampire"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/vampire/female/jpg/2_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/lauree/5651/" style="color: #9c5f23;">
+            Lauree
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="2061">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg werewolf"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/werewolf/male/jpg/9_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/kitty-toilet/2061/" style="color: #9c5f23;">
+            Kitty Toilet
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="788">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg werewolf"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/werewolf/female/jpg/5_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/comics-youtube/788/" style="color: #9c5f23;">
+            Comics Youtube
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="10053">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg vampire"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/vampire/female/jpg/8_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/nanny-leal/10053/" style="color: #9c5f23;">
+            Nanny leal
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="8571">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg vampire"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/vampire/female/jpg/9_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/aysha/8571/" style="color: #9c5f23;">
+            Aysha
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="1787">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg werewolf"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/werewolf/male/jpg/2_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/horse-robot/1787/" style="color: #9c5f23;">
+            Horse Robot
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="5407">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg vampire"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/vampire/male/jpg/1_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/karmen/5407/" style="color: #9c5f23;">
+            Karmen
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+
+                <li data-char-id="8617">
+                    
+
+
+<div class="moldura mbps">
+    <div class="full-mask" style="display: none;">
+        <img src="/static/skin_images/bgs/massive_battles/death.png">
+    </div>
+    <div class="bg vampire"></div>
+    <div class="level">1</div>
+    <div class="avatar">
+        <img src="/static/images/avatar/vampire/female/jpg/2_common.jpg">
+    </div>
+    <div class="name">
+        <a hx-get="/public/loyy/8617/" style="color: #9c5f23;">
+            Loyy
+        </a>
+    </div>
+    <div class="obj-life">
+        
+        <div class="g-progress wine" style="--progress: 0%;">
+            <div class="gp-bar" data-percent="100" style="--progress: 100%;"></div>
+            <span class="gp-value">100 / 100</span>
+        </div>
+        
+    </div>
+</div>
+
+
+                    <div class="obj-action">
+                        <a href="#" class="btn pvp-btn peform-pvp">Attack</a>
+                    </div>
+                </li>
+
+                
+            </ul>
+
+        
+        </div>
+
+        
+
+
+
+
+
+
+        
+    </div>
+</section>
+
+<div class="blacksmith-info" style="display: none;">
+    
+    <h3>Hunt Enemies - PvP</h3>
+
+    <p>
+Here you can attack other players and if you win, you'll steal 5 to 10% of their gold.<br><br>
+
+Attacking other players is a fundamental part of Lamentosa, as it's one of the best ways to collect gold and you need gold to upgrade your attributes.<br><br>
+
+Likewise, other players can attack you and steal the same 5 to 10%, so be prepared, because Lamentosa is cruel.<br><br>
+
+There is a form of immunity, with each PvP attack you can't be attacked for 60 minutes, so if you're collecting gold it's a good idea to carry out at least 1 attack every 50 minutes.<br><br>
+
+With every PvP victory you also get 1 grimoire point. Grimoire points are used to evolve spells at level 10, so accumulate as many as you can.<br>
+You can see the number of grimoire points under "My character", it's a book icon below your picture.
+    </p>
+    
+</div>
+
+
+
+
+
+  </div>
+  
+  <div class="modal-wrapper">
+    <div class="modal">
+        <a href="#" class="close-modal">X</a>
+        <div class="modal-content">
+        </div>
+        <span class="remote" style="display:none;"></span>
+    </div>
+  </div>
+  
+  <div id="loadingWrapper">
+    <div class="loading-container">
+        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" stroke="#8B0000" stroke-width="4" fill="none" stroke-dasharray="251.2" stroke-dashoffset="251.2">
+        <animate attributeName="stroke-dashoffset" from="251.2" to="0" dur="2s" repeatCount="indefinite"></animate>
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 50 50" to="360 50 50" dur="2s" repeatCount="indefinite"></animateTransform>
+    </circle>
+    <!-- Blood drops adapted for seamless looping -->
+    <circle cx="30" cy="-10" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-10" to="110" dur="2s" repeatCount="indefinite"></animate>
+    </circle>
+    <circle cx="50" cy="-20" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-20" to="120" dur="1.5s" repeatCount="indefinite"></animate>
+    </circle>
+    <circle cx="70" cy="-30" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-30" to="130" dur="2.5s" repeatCount="indefinite"></animate>
+    </circle>
+    <circle cx="20" cy="-15" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-15" to="115" dur="1.8s" repeatCount="indefinite"></animate>
+    </circle>
+    <circle cx="80" cy="-25" r="5" fill="#8B0000">
+        <animate attributeName="cy" from="-25" to="125" dur="2.2s" repeatCount="indefinite"></animate>
+    </circle>
+</svg>
+    </div>
+  </div>
+
+  <div class="modal-confirm-content">
+    <p></p>
+    <br>
+    <button class="btn confirm-no">No</button>
+    <button class="btn confirm-yes">Yes</button>
+  </div>
+
+  
+  <footer>
+    <div class="container">
+      <div class="company-branding">
+        <span></span>
+        <span></span>
+      </div>
+      <div class="rights">
+        4 Sherif Khimshiashvili St, Batumi 6000<br>
+        Republic of Adjara, Georgia<br><br>
+        All rights reserved
+      </div>
+      <div class="social">
+        <a href="https://www.facebook.com/lamentosa" target="_blank" class="fb"><img src="/static/skin_images/facebook.png" alt="Facebook"></a>
+        <a href="https://twitter.com/lamentosarpg" target="_blank" class="twitter"><img src="/static/skin_images/twitter.png" alt="Twitter"></a>
+      </div>
+    </div>
+  </footer>
+  
+
+<div style="display:none;">
+    <div id="confirmNextForm"></div>
+    <div id="confirmNextBtn">
+      <div style="margin-top: 30px">
+        <button class="confirm-next-go btn">Yes, go ahead!</button>
+      </div>
+    </div>
+</div>
+
+<div id="bigError" style="display: none;">
+  <div><a href="#">X</a></div>
+  <p></p>
+</div>
+
+
+  
+
+
+
+<div id="playerBottomBar">
+    <ul>
+        <li>
+            <a href="#" class="drawer-toggle" data-drawer="#drawerMenu">
+                <img src="/static/skin_images/icons/menu.svg" alt="Menu">
+            </a>
+        </li>
+        <li>
+            <a href="#" hx-get="/battlefield/enemies-g/?no-scroll=1">
+                <img src="/static/skin_images/icons/pvp.svg" alt="PvP">
+            </a>
+        </li>
+        <li>
+            <a href="#" hx-get="/battlefield/creatures/">
+                <img src="/static/skin_images/icons/hunt.svg" alt="PvE">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom" data-drawer="#drawerGrimoire">
+                <img src="/static/skin_images/icons/grimoire.svg" alt="Grimoire">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom" data-drawer="#drawerInventory">
+                <img src="/static/skin_images/icons/inventory.svg" alt="Inventory">
+            </a>
+        </li>
+        <li>
+            <a href="#" class="drawer-toggle-bottom gc-open" data-drawer="#drawerChat">
+                <img src="/static/skin_images/icons/chat.svg" alt="Chat">
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<!-- menu -->
+<div id="drawerMenu" class="drawer side-drawer" style="z-index: 1700;">
+    <div class="drawer-content">
+        
+
+
+<!-- modal for install -->
+<div class="modal-ct install-info">
+    <div class="clan-handbook">
+        <div class="page-description">
+            <div>
+                
+                <h4>Why Install Lamentosa?</h4>
+                <p>
+                    By installing Lamentosa you will have quick access to the game and a better experience.
+                </p>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="menu-header">
+    <div class="close-btn">
+        <a href="#" class="drawer-close">
+            <i class="bx bx-x" style="font-size: 1.2rem;"></i>
+        </a>
+    </div>
+    <div class="header-props">
+        <div class="gsv-language">
+            
+
+
+<div class="modal-ct flags-modal">
+
+
+  <div class="mod-game-stp">
+    <h3 style="padding-bottom: 10px;">Select a language</h3>
+    <div class="bosses">
+      
+      <form action="/i18n/setlang/" method="post" id="changeLangForm">
+        <input type="hidden" name="csrfmiddlewaretoken" value="WtwvS6ZGV0UuAgTWnA7K5JgjioaWaRYLZtand8CENLaI5RXGsK2OFND8MxzWODws">
+        <input type="hidden" name="language" value="en">
+
+        <ul>         
+            <li>
+                <a href="#" data-lang="en">
+                    <img src="/static/skin_images/flags/4x3/gb.svg">
+                    <span>English</span>
+                </a>
+            </li>
+            
+      <li>
+        <a href="#" data-lang="pt-br">
+            <img src="/static/skin_images/flags/4x3/br.svg">
+            <span>Português</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-lang="ru">
+            <img src="/static/skin_images/flags/4x3/ru.svg">
+            <span>Русский</span>
+        </a>
+      </li>
+      </ul>
+    </form>
+
+  </div>
+
+  </div>
+</div>
+
+
+  <a href="#" rel="modal" data-content-selector=".flags-modal" style="display: flex;" id="changeLangLink">
+    <i class="bx bx-cog"></i>
+    <img src="/static/skin_images/flags/4x3/gb.svg" style="width: 20px; margin-left: 5px;">
+  </a>
+        </div>
+        <div class="gsv-timer">
+            
+            <div class="season-clock">
+                <strong>Day 19</strong>
+                <a hx-get="/season/">season <i class="bx bx-link-external"></i></a>
+            </div>
+            
+            <span id="server-time" data-time="2025-11-23T07:14:08.000Z">04:14:08</span>
+            <span> server time</span>
+        </div>
+    </div>
+
+    <div id="installInfo" style="display: flex;">
+        <button id="install-button">
+            <i class="bx bxs-download"></i>
+            Install
+        </button>
+        <a href="#" rel="modal" data-content-selector=".install-info">
+            <i class="bx bxs-info-circle"></i>
+        </a>
+    </div>
+
+</div>
+
+<ul class="menu-category">
+    <!-- status -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/character.svg" alt="Character">
+            Status
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="#" hx-get="/status/">
+                    My Character
+                </a>
+            </li>
+            <li>
+                <a href="#" hx-get="/temple/main-room/">
+                    Heal yourself
+                </a>
+            </li>
+            <li>
+                
+                <a href="#" hx-get="/messages/list/direct/receiver/">
+                    
+                    <i class="notify animate__animated animate__tada animate__repeat-3 animate__delay-5s">3</i>
+                    
+                    Messenger
+                </a>
+                
+            </li>
+            <li>
+                <a hx-get="/grimoire/">Grimoire</a>
+            </li>
+            <li>
+                <a hx-get="/daily-tasks/home/">Daily Tasks</a>
+            </li>
+            
+            <li><a hx-get="/relics/player/?no-scroll=1">Relics</a></li>
+            
+            <li>
+                <a hx-get="/achievements/">Achievements</a>
+            </li>
+            <li>
+                <a href="/exchange-stones/">Soul Stones Exchange</a>
+            </li>
+            
+            <li>
+                <a hx-get="/honor-points/">Honor Points</a>
+            </li>
+            <li>
+                <a hx-get="/turneds/">Turneds</a>
+            </li>
+            
+            <li>
+                <a hx-get="/blood-crystals/plans/">
+                    <img src="/static/skin_images/icons/crystals.svg" alt="Blood Crystals">
+                    Blood Crystals
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- city -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/city.svg" alt="City">
+            City
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/temple-of-wisdom/">Temple of Wisdom</a></li>
+            <li><a hx-get="/items/market/">The Market</a></li>
+            <li><a hx-get="/premium-market/">Premium Market</a></li>
+            <li><a hx-get="/blacksmith/upgrade/">The Blacksmith</a></li>
+            <li><a hx-get="/enchantment/">The Sorceress</a></li>
+            <li><a href="/cemetery/jobs/">My job</a></li>
+            <li><a href="/master/hall/">My Master</a></li>
+            
+            
+            <li><a href="/regions/">The 7 Regions</a></li>
+            
+        </ul>
+    </li>
+
+    <!-- battlefield -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/pvp.svg" alt="BattleField">
+            BattleField
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li>
+                <a href="#" hx-get="/battlefield/creatures/">
+                    Hunt creatures
+                </a>
+            </li>
+            
+            <li><a hx-get="/massive-battles/tormentus/">Tormentus War</a></li>
+
+            <li><a hx-get="/dungeons/start/">Dungeons</a></li>
+            <li><a hx-get="/contest/">Tournaments</a></li>
+            
+        </ul>
+    </li>
+
+    <!-- clans -->
+    <li>
+        
+        <a href="/clans/mine/">
+            <img src="/static/skin_images/icons/castle.svg" alt="Clans">
+            Clans
+            <span class="caret"></span>
+            
+        </a>
+        
+        <ul class="menu-items">
+            <li><a hx-get="/clans/handbook/intro/">Clan Handbook</a></li>
+            <li><a hx-get="/clans/mine/">My Clan</a></li>
+            <li><a hx-get="/clans/create/">Create a Clan</a></li>
+            <li><a href="/clans/recruit/">Recruit</a></li>
+            <li><a hx-get="/clans/list/">List of Clans</a></li>
+        </ul>
+    </li>
+
+
+    <!-- journal -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/journal.svg" alt="Journal">
+            Journal
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/ranking/all/">Ranking</a></li>
+            <li><a hx-get="/items/uniques/">Unique Items</a></li>
+            <li><a hx-get="/boss/journal/">Bosses</a></li>
+            
+            <li><a href="https://jogosmmorpg.com.br/lamentosa/" target="_blank">Blog</a></li>
+            
+            <li><a href="/by-honor/heroes/">Heros</a></li>
+            
+            <li><a href="/worlds/">Worlds</a></li>
+            
+            <li><a href="/search-player/">Search Char</a></li>
+        </ul>
+    </li>
+
+    <!-- help -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/help.svg" alt="Help">
+            Help
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a hx-get="/manual/part1/">The Manual</a></li>
+            <li><a hx-get="/season/">The Season</a></li>
+            <li><a href="/terms-of-service/">Terms of Service &amp; Rules</a></li>
+            <li><a href="/contact/">Contact</a></li>
+
+            
+            
+            
+            <li>
+                <a href="https://discord.gg/wNsyvt84bz" target="_blank">
+                    <img src="/static/skin_images/icons/discord.svg" alt="Discord">
+                    Discord
+                </a>
+            </li>
+            
+        </ul>
+    </li>
+
+    <!-- settings -->
+    <li>
+        <a href="#">
+            <img src="/static/skin_images/icons/settings.svg" alt="Character">
+            Settings
+            <span class="caret"></span>
+        </a>
+        <ul class="menu-items">
+            <li><a href="/edit-profile/">Edit your Profile</a></li>
+            <li><a href="/change-char-name/">Change your name</a></li>
+            <li><a href="/change-breed/">Change Breed</a></li>
+            <li><a href="/change-email-req/">Change Email</a></li>
+            <li><a href="/configure-notifications/">Notifications</a></li>
+            <li><a href="/delete-req/">Delete account</a></li>
+            <li><a href="/accounts/logout/">Logout</a></li>
+        </ul>
+    </li>
+
+</ul>
+    </div>
+</div>
+
+<!-- invetory -->
+<div id="drawerInventory" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="inventory-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <h4>
+                    Inventory
+                </h4>
+                <div class="close-btn">
+                    <a href="#" class="drawer-close">
+                        <i class="bx bx-x" style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
+            </div>
+            
+
+
+<div class="inventory-container">
+    <div class="equiped">
+        <p class="text-muted">Tap to manage</p>
+        <ul class="gear">
+            
+            
+            <li class="empty">
+                <div class="head"></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="neck"></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="torso"></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class="hand"></div>
+                <p>empty</p>
+            </li>
+            
+            
+        </ul>
+        <div>
+            <span>Strength: <strong>5</strong></span>
+            <span>Defense: <strong>5</strong></span>
+            <span>Agility: <strong>5</strong></span>
+            <span>Inteligence: <strong>5</strong></span>
+        </div>
+    </div>
+
+    <div class="items">
+        <p class="text-muted">Tap to manage</p>
+        <ul class="gear">
+            
+            
+            <li class="active">
+                <a href="#" rel="modal" data-content-selector=".inv-md9417">
+                    <img src="/static/images/items/common/simple-blade.png" alt="Simple Blade">
+                </a>
+                
+
+
+<div class="modal-ct inv-md9417">
+
+    <div class="item-attr-container">
+        <div class="name">
+            <h3>Simple Blade</h3>
+            
+            <h5>Upgrade level: <strong>1</strong></h5><br>
+            
+            <img src="/static/images/items/common/simple-blade_sm.png" alt="">
+        </div>
+        <div class="props">
+            <span class="attrs">Strength: +5<br>Agility: -1<br><br>Level: 1</span>
+            <span class="slot-pos">Slot: Hand Item</span>
+
+            
+
+            <span class="highlight">
+                
+                
+                
+                
+            </span>
+        </div>
+
+        
+    </div>
+
+    <div class="item-actions">
+        <ul>
+            
+            <li>
+                <a class="btn ui-ws-action" data-action="item_toggle" data-content="item_pk:9417">
+                    Equip
+                </a>
+            </li>
+            
+            
+            <li>
+                <a href="/items/market/npc-sell/9417/" class="btn" rel="modal" data-item-pk="9417" data-confirm-text="">Sell</a>
+            </li>
+            
+            <li>
+                <a href="/items/market/sell/9417/" class="btn" rel="modal" data-item-pk="9417" data-confirm-text="">Sell on market</a>
+            </li>
+            
+            
+            <li>
+                <a href="#" class="btn" rel="modal" data-content-selector=".inv-cm9417">Throw away</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<div class="modal-ct inv-cm9417">
+    <div class="confirm">
+        
+        This action will remove the item permanently, are you sure?<br><br>
+        <button class="btn rm-item" data-item-pk="9417" data-url="/items/delete/">yes, remove it!</button>
+        
+    </div>
+</div>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+            
+            <li class="empty">
+                <div class=""></div>
+                <p>empty</p>
+            </li>
+            
+            
+        </ul>
+    </div>
+    
+</div>
+
+        </div>
+    </div>
+</div>
+
+<!-- grimoire -->
+<div id="drawerGrimoire" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="grimoire-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <h4>
+                    Grimoire (skills)
+                </h4>
+                <div class="close-btn">
+                    <a href="#" class="drawer-close">
+                        <i class="bx bx-x" style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="grimoire-container">
+                
+
+
+
+
+
+<div class="text-muted" style="font-size: 0.9rem;">
+    Tap to activate or deactivate.
+</div>
+
+
+<div class="info">
+    You need to reach level 10, choose a Master and then unlock the Grimoire.
+</div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- chat -->
+<div id="drawerChat" class="drawer bottom-drawer">
+    <div class="drawer-content">
+        <div class="chat-drawer drawer-ct">
+            <div class="drawer-ct-header">
+                <div>
+                    <select name="room" id="chatRoom">
+                        <option value="global" selected="">
+                            Global
+                        </option>
+                        
+                    </select>
+                </div>
+                <div class="controls" style="display: flex; gap: 20px">
+                    <div>
+                        <a href="#" class="g-chat-mini">
+                            <i class="bx bx-exit-fullscreen" style="font-size: 1.2rem;"></i>
+                        </a>                       
+                    </div>
+                    <div>
+                        <a href="#" class="g-chat-full">
+                            <i class="bx bx-fullscreen" style="font-size: 1.2rem;"></i>
+                        </a>                       
+                    </div>
+                    <div class="close-btn">
+                        <a href="#" class="drawer-close gc-close">
+                            <i class="bx bx-x" style="font-size: 1.2rem;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-container">
+
+
+<ul id="gChatList">
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7712">
+    <div hx-get="/public/jubzera/7712/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/jubzera_7712/gHoGV.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/jubzera/7712/?no-scroll=1">
+                    <span class="tutor">
+                        JubZera (Tutor)
+                    </span>
+                    | Power 299
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                Só faz isso
+            
+            <div>22:45:40</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7710">
+    <div hx-get="/public/fallen-hope/7710/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/fallen-hope_7710/YbsQF.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/fallen-hope/7710/?no-scroll=1">
+                    <span class="tutor">
+                        Fallen Hope (Tutor)
+                    </span>
+                    | Power 508
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                galo vai ganha ainda pdp
+            
+            <div>22:46:09</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7712">
+    <div hx-get="/public/jubzera/7712/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/jubzera_7712/gHoGV.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/jubzera/7712/?no-scroll=1">
+                    <span class="tutor">
+                        JubZera (Tutor)
+                    </span>
+                    | Power 299
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                Os 2 ídolos  perderam kkk
+            
+            <div>22:47:53</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7712">
+    <div hx-get="/public/jubzera/7712/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/jubzera_7712/gHoGV.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/jubzera/7712/?no-scroll=1">
+                    <span class="tutor">
+                        JubZera (Tutor)
+                    </span>
+                    | Power 299
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                Dos 2 times
+            
+            <div>22:48:03</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7710">
+    <div hx-get="/public/fallen-hope/7710/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/fallen-hope_7710/YbsQF.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/fallen-hope/7710/?no-scroll=1">
+                    <span class="tutor">
+                        Fallen Hope (Tutor)
+                    </span>
+                    | Power 508
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                e agoraaa
+            
+            <div>22:48:48</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7710">
+    <div hx-get="/public/fallen-hope/7710/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/fallen-hope_7710/YbsQF.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/fallen-hope/7710/?no-scroll=1">
+                    <span class="tutor">
+                        Fallen Hope (Tutor)
+                    </span>
+                    | Power 508
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                acabouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+            
+            <div>22:49:29</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7712">
+    <div hx-get="/public/jubzera/7712/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/jubzera_7712/gHoGV.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/jubzera/7712/?no-scroll=1">
+                    <span class="tutor">
+                        JubZera (Tutor)
+                    </span>
+                    | Power 299
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                Perdeu kkkk
+            
+            <div>22:49:38</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7710">
+    <div hx-get="/public/fallen-hope/7710/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/fallen-hope_7710/YbsQF.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/fallen-hope/7710/?no-scroll=1">
+                    <span class="tutor">
+                        Fallen Hope (Tutor)
+                    </span>
+                    | Power 508
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                agora posso ir trabalhar segunda
+            
+            <div>22:50:49</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/irthos/8839/">Irthos</a> started a new <a hx-get="/dungeons/dc0d107d679594faab7b16858a5ba9e0be4193ff182cc4a1abf71e32/">DUNGEON</a>.
+            
+            <div>22:54:25</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="vip" data-chat-sender-id="7712">
+    <div hx-get="/public/jubzera/7712/?no-scroll=1">
+        <img src="https://lamentosa.nyc3.digitaloceanspaces.com/lamentosa/media/selam/p/jubzera_7712/gHoGV.png.80x80_q85_crop.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                <a hx-get="/public/jubzera/7712/?no-scroll=1">
+                    <span class="tutor">
+                        JubZera (Tutor)
+                    </span>
+                    | Power 299
+                </a>
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                Kkkk
+            
+            <div>22:56:10</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/shaaman/12234/">Shaaman</a> reached level 28!.
+            
+            <div>23:02:54</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/condez/7789/">CondeZ</a> reached level 42!.
+            
+            <div>23:07:15</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/maria-mulambo/9316/">🌹Maria Mulambo🌹</a> started a new <a hx-get="/dungeons/401d8c2f1c59b1b64c1581fb98adb4afb56be80dff07a371fbb33a6a/">DUNGEON</a>.
+            
+            <div>23:07:28</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/kenoth/11356/">Kenoth</a> started a new <a hx-get="/dungeons/320330e796cdbadea59ce6f0841e9074de728123426ed58231e8bf8a/">DUNGEON</a>.
+            
+            <div>23:17:14</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/albino/10844/">Albino</a> started a new <a hx-get="/dungeons/922c7652e345527253be8200459fa98b354c74c78b5d53f5f716b3cc/">DUNGEON</a>.
+            
+            <div>23:24:37</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/silas/10417/">Silas</a> reached level 16!.
+            
+            <div>23:26:19</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                The boss <a hx-get="/boss/a5932d0385de54fdde2c63be323c9690e8c5d61faee364ed3728edb6/">Voivode Spirit</a> (voivode) is waiting for you!
+            
+            <div>23:27:23</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                The boss <a hx-get="/boss/13f9697f37a8fbf3cdc4883a2bfa78d6753441e9974221f563202539/">Voivode Spirit</a> (voivode) is waiting for you!
+            
+            <div>23:30:15</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                The boss <a hx-get="/boss/d49a48e13ba35cb4d585480e9e34aebee866d0e369e157b8d4a5bc33/">Voivode Spirit</a> (voivode) is waiting for you!
+            
+            <div>23:33:06</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/ktay/11821/">Ktay</a> started a new <a hx-get="/dungeons/99d6d64f65631075bd804363a082c9f73f9be84fd5270e1b7c221bc6/">DUNGEON</a>.
+            
+            <div>23:35:05</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                The boss <a hx-get="/boss/d1ba37389f714521e56c772c272e1e695edb2422ef6256e6ec4412b6/">Voivode Spirit</a> (voivode) is waiting for you!
+            
+            <div>23:35:57</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/albino/10844/">Albino</a> reached level 36!.
+            
+            <div>23:44:59</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/ktay/11821/?no-scroll=1">Ktay</a> found Ancient Amulet
+            
+            <div>23:47:33</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/ktay/11821/">Ktay</a> reached level 12!.
+            
+            <div>23:48:29</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/ktay/11821/">Ktay</a> started a new <a hx-get="/dungeons/142e7c8e76aedb9e5338447e8e82d07ee014fc30f556cfc894693e21/">DUNGEON</a>.
+            
+            <div>00:07:50</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/albino/10844/">Albino</a> started a new <a hx-get="/dungeons/743c66f573693c270e132bb1c8b5a8a89fc29985e43f771dcf7d5656/">DUNGEON</a>.
+            
+            <div>00:15:34</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/jubzera/7712/">JubZera</a> started a new <a hx-get="/dungeons/c1882f96eeb22aee13f5aa78d2d9a315a54fc8cd09114e3b3753640c/">DUNGEON</a>.
+            
+            <div>00:25:49</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/pangare-azul/7932/">Pangaré azul 🫐</a> started a new <a hx-get="/dungeons/f309ef2ad84ffa6d16d8164b655d26a8917fbb7c86c3fc086eea16bf/">DUNGEON</a>.
+            
+            <div>00:28:57</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/everett-the-scaredy-cat/12088/">Everett, The scaredy cat</a> reached level 71!.
+            
+            <div>00:29:05</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/damien-blackhart/12514/">Damien Blackhart</a> started a new <a hx-get="/dungeons/0cdd0959a9b4081800a3d45dcd23b7eaf319c2572e98516ac0964bed/">DUNGEON</a>.
+            
+            <div>00:42:26</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/sungjin-woo/9194/">SungJin-Woo</a> reached level 37!.
+            
+            <div>00:53:30</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/shaaman/12234/?no-scroll=1">Shaaman</a> found Zarknir Amulet
+            
+            <div>00:58:02</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/shaaman/12234/">Shaaman</a> started a new <a hx-get="/dungeons/02ac972c41a44c9c453bdc7b07848c58ea83c72a4bd9fcc7d991e5dd/">DUNGEON</a>.
+            
+            <div>01:00:11</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/dncf/12496/">DNCF</a> started a new <a hx-get="/dungeons/af4609f0f4a7b6d0147c8f5876dc55e73bbf9eb58b00e68a98ac3cc4/">DUNGEON</a>.
+            
+            <div>01:05:13</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/drogo/7734/">Drogo</a> started a new <a hx-get="/dungeons/38df715a5a8b585513e84de985f38ca55abe688837c72d70235596e5/">DUNGEON</a>.
+            
+            <div>01:24:58</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/morgan-rachel/10988/">Morgan Rachel</a> started a new <a hx-get="/dungeons/38f75e161483afb0442b4186ebb7aed352352099784ec88d599ec3c0/">DUNGEON</a>.
+            
+            <div>01:26:34</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/xibata/7823/">Xibata</a> reached level 49!.
+            
+            <div>01:36:03</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/drogo/7734/?no-scroll=1">Drogo</a> found Esraga Armor
+            
+            <div>01:45:22</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/drogo/7734/?no-scroll=1">Drogo</a> found Esraga Helmet
+            
+            <div>01:46:06</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/neonspecter/12492/?no-scroll=1">NeonSpecter</a> found Dwa Amulet
+            
+            <div>02:46:24</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/neonspecter/12492/?no-scroll=1">NeonSpecter</a> found Dwa Sword
+            
+            <div>02:46:33</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/neonspecter/12492/">NeonSpecter</a> reached level 49!.
+            
+            <div>02:47:11</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/neonspecter/12492/?no-scroll=1">NeonSpecter</a> found Dwa Sword
+            
+            <div>02:47:16</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/neonspecter/12492/">NeonSpecter</a> reached level 50!.
+            
+            <div>02:48:02</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/wolwerine/7736/">Wolwerine</a> started a new <a hx-get="/dungeons/706d396ad4fc9b473b92fac23082378408ec317e8e033a9ef07e5315/">DUNGEON</a>.
+            
+            <div>03:21:48</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/furius/7818/">Furius</a> started a new <a hx-get="/dungeons/7adef397fbc9cc87add7e022e0e80aaba4f976df5296f777f1fdf0e8/">DUNGEON</a>.
+            
+            <div>03:21:56</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/magneto/10715/">Magneto</a> started a new <a hx-get="/dungeons/72e7d153bfe153eb4b7b9dce5a7c8077643f5ec37576b34495378896/">DUNGEON</a>.
+            
+            <div>03:22:01</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/mystique/10716/">Mystique</a> started a new <a hx-get="/dungeons/22f0870aa54303bc2c61a08245a18dbb63161de131830b785aaa730b/">DUNGEON</a>.
+            
+            <div>03:22:06</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/morgan-rachel/10988/">Morgan Rachel</a> reached level 34!.
+            
+            <div>03:40:24</div>
+        </div>
+    </div>
+</li>
+    
+        
+
+
+<li class="system">
+    <div>
+        <img src="/static/logos/apple-touch-icon-72x72.png">
+    </div>
+    <div class="gc-msg">
+        <strong>
+            
+                Lamentosa
+            
+        </strong>
+        <div class="gc-in-msg">
+            
+                <a hx-get="/public/revenge/11514/?no-scroll=1">Revenge</a> found Vrag Armor
+            
+            <div>03:43:15</div>
+        </div>
+    </div>
+</li>
+    
+</ul></div>
+            <input id="gChatInput" type="text" maxlength="200" placeholder="type your message here">
+        </div>
+    </div>
+</div>
+
+
+  <div id="mutedList" style="display:none;">[]</div>
+
+  <div class="relic-dropmodal">
+    <div>
+      <h4>
+        <a href="#" class="relic-dropmodal-close">
+          <i class="bx bxs-x-circle"></i>
+        </a>
+      </h4>
+      <div id="relicDropContent"></div>
+    </div>
+  </div>
+
+
+
+  <script src="/static/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+  <script src="/static/js/htmx.min.js" type="text/javascript"></script>
+  <script src="/static/plugins/intl-tel-input-25.3.0/js/intlTelInput.min.js" type="text/javascript"></script>
+  
+  <script src="/static/plugins/countdown.js" type="text/javascript"></script>
+  <script src="/static/plugins/croppie.min.js" type="text/javascript"></script>
+  
+  <script src="/static/js/app1.js?mod=17588810522237713" type="text/javascript"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/service-worker.js')
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(function(error) {
+          console.error('ServiceWorker registration failed: ', error);
+        });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    });
+  </script>
+
+  
+
+<script src="/static/js/install.js?mod=17491030326903305" type="text/javascript"></script>
+<script src="/static/js/chart.js"></script>
+
+
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;401b575533484cfa8f2a96ef62b24837&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script><iframe height="0" width="0" style="display: none; visibility: hidden;"></iframe>
+
+
+</body></html>
