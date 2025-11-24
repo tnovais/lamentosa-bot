@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.vscode
+coverage
+build
+.env
+data
+*.db
+web/node_modules
+web/.next

@@ -1,0 +1,28 @@
+FROM node:18-bullseye
+
+# Install Playwright dependencies
+RUN npx playwright install-deps
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Install dependencies
+RUN npm install
+
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Copy source code
+COPY . .
+
+# Build TypeScript
+RUN npm run build
+
+# Install Playwright browsers
+RUN npx playwright install chromium
+
+# Start the bot
+CMD ["node", "dist/index.js"]

@@ -1,205 +1,279 @@
-import Database from 'better-sqlite3';
-import * as path from 'path';
-import * as fs from 'fs';
+import { PrismaClient, Prisma } from '@prisma/client';
+import { Settings } from '../config/settings';
 
-/**
- * MemoryManager
- * 
- * Handles long-term memory using SQLite.
- * Stores action history to prevent repetitive patterns and allow for "smart" decisions.
- */
+const prisma = new PrismaClient();
+
 export class MemoryManager {
-    private db: Database.Database;
 
-    constructor(dataDir: string = './data') {
-        if (!fs.existsSync(dataDir)) {
-            fs.mkdirSync(dataDir, { recursive: true });
-        }
-        this.db = new Database(path.join(dataDir, 'bot_memory.db'));
-        this.init();
-    }
-
-    private init() {
-        // Create tables if they don't exist
-        this.db.exec(`
-            CREATE TABLE IF NOT EXISTS actions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                account_id TEXT,
-                action_type TEXT,
-                timestamp INTEGER,
-                details TEXT
-            );
-            
-            CREATE TABLE IF NOT EXISTS daily_stats (
-                date TEXT,
-                account_id TEXT,
-                xp_gained INTEGER DEFAULT 0,
-                gold_gained INTEGER DEFAULT 0,
-                actions_count INTEGER DEFAULT 0,
-                pvp_wins INTEGER DEFAULT 0,
-                pvp_losses INTEGER DEFAULT 0,
-                pve_count INTEGER DEFAULT 0,
-                PRIMARY KEY (date, account_id)
-            );
-
-            CREATE TABLE IF NOT EXISTS kv_store (
-                key TEXT PRIMARY KEY,
-                value TEXT
-            );
-        `);
-
-        // Auto-migration: Add missing columns for existing databases
-        this.safeAddColumn('daily_stats', 'pvp_wins', 'INTEGER DEFAULT 0');
-        this.safeAddColumn('daily_stats', 'pvp_losses', 'INTEGER DEFAULT 0');
-        this.safeAddColumn('daily_stats', 'gold_gained', 'INTEGER DEFAULT 0');
-        this.safeAddColumn('daily_stats', 'pve_count', 'INTEGER DEFAULT 0');
-
-        console.log('[Memory] Database initialized and schema verified.');
+    constructor() {
+        // Prisma client is global/static
     }
 
     /**
-     * Safely adds a column to a table if it doesn't exist.
+     * Updates daily stats in MySQL.
      */
-    private safeAddColumn(table: string, column: string, definition: string) {
-        try {
-            this.db.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();
-        } catch (error: any) {
-            // Ignore error if column already exists
-            if (!error.message.includes('duplicate column name')) {
-                // console.warn(`[DB] Migration warning for ${table}.${column}:`, error.message);
+    async updateDailyStats(accountId: string, _serverDay: number, resultOrStats: any, gold?: number) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize to midnight
+
+        const updateData: any = {};
+        let initialGold = 0;
+
+        // Handle legacy call signature (object) vs new (result string)
+        if (typeof resultOrStats === 'string') {
+            const result = resultOrStats; // 'WIN', 'LOSS', 'DRAW'
+            if (result === 'WIN') updateData.pvpWins = { increment: 1 };
+            else if (result === 'LOSS') updateData.pvpLosses = { increment: 1 };
+            // Draws are not explicitly tracked in schema yet
+
+            if (gold !== undefined) {
+                updateData.gold = { increment: gold };
+                initialGold = gold;
             }
-        }
-    }
-
-    /**
-     * Records an action in the database.
-     */
-    recordAction(accountId: string, actionType: string, details: any = {}) {
-        const stmt = this.db.prepare(`
-            INSERT INTO actions (account_id, action_type, timestamp, details)
-            VALUES (?, ?, ?, ?)
-        `);
-        stmt.run(accountId, actionType, Date.now(), JSON.stringify(details));
-    }
-
-    /**
-     * Checks how many times an action was performed in the last N minutes.
-     */
-    getRecentActionCount(accountId: string, actionType: string, minutes: number): number {
-        const cutoff = Date.now() - (minutes * 60 * 1000);
-        const stmt = this.db.prepare(`
-            SELECT COUNT(*) as count FROM actions 
-            WHERE account_id = ? AND action_type = ? AND timestamp > ?
-        `);
-        const result = stmt.get(accountId, actionType, cutoff) as { count: number };
-        return result.count;
-    }
-
-    /**
-     * Gets the timestamp of the last occurrence of an action.
-     */
-    getLastActionTime(accountId: string, actionType: string): number {
-        const stmt = this.db.prepare(`
-            SELECT timestamp FROM actions 
-            WHERE account_id = ? AND action_type = ? 
-            ORDER BY timestamp DESC LIMIT 1
-        `);
-        const result = stmt.get(accountId, actionType) as { timestamp: number };
-        return result ? result.timestamp : 0;
-    }
-
-    /**
-     * Checks how many times an action was performed today (or on a specific server day).
-     */
-    getDailyActionCount(accountId: string, actionType: string, serverDay?: number): number {
-        if (serverDay) {
-            // Optimization: If checking HUNT (PVE), try reading from daily_stats first
-            if (actionType === 'HUNT') {
-                const stats = this.getDailyStats(accountId, serverDay);
-                if (stats && stats.pve_count !== undefined) {
-                    return stats.pve_count;
-                }
-            }
-
-            // Fallback: Filter by serverDay in details JSON
-            // Note: This is a text search, ensure details includes "serverDay": X
-            const stmt = this.db.prepare(`
-                SELECT COUNT(*) as count FROM actions 
-                WHERE account_id = ? AND action_type = ? AND details LIKE ?
-            `);
-            const result = stmt.get(accountId, actionType, `%"serverDay":${serverDay}%`) as { count: number };
-            return result.count;
         } else {
-            // Fallback to 24h (local time)
-            const startOfDay = new Date();
-            startOfDay.setHours(0, 0, 0, 0);
-            const stmt = this.db.prepare(`
-                SELECT COUNT(*) as count FROM actions 
-                WHERE account_id = ? AND action_type = ? AND timestamp > ?
-            `);
-            const result = stmt.get(accountId, actionType, startOfDay.getTime()) as { count: number };
-            return result.count;
-        }
-    }
-
-    /**
-     * Updates daily stats (Gold, Wins, Losses, PVE Count).
-     */
-    updateDailyStats(accountId: string, serverDay: number, stats: { gold?: number, win?: boolean, pveIncrement?: number }) {
-        const dateKey = `Day ${serverDay}`;
-
-        // Ensure row exists
-        this.db.prepare(`
-            INSERT OR IGNORE INTO daily_stats (date, account_id) VALUES (?, ?)
-        `).run(dateKey, accountId);
-
-        if (stats.gold) {
-            this.db.prepare(`
-                UPDATE daily_stats SET gold_gained = gold_gained + ? WHERE date = ? AND account_id = ?
-            `).run(stats.gold, dateKey, accountId);
-        }
-
-        if (stats.win !== undefined) {
-            if (stats.win) {
-                this.db.prepare(`
-                    UPDATE daily_stats SET pvp_wins = pvp_wins + 1 WHERE date = ? AND account_id = ?
-                `).run(dateKey, accountId);
-            } else {
-                this.db.prepare(`
-                    UPDATE daily_stats SET pvp_losses = pvp_losses + 1 WHERE date = ? AND account_id = ?
-                `).run(dateKey, accountId);
+            // Legacy object { gold, win, pveIncrement }
+            const stats = resultOrStats;
+            if (stats.gold) {
+                updateData.gold = { increment: stats.gold };
+                initialGold = stats.gold;
+            }
+            if (stats.pveIncrement) updateData.pveCount = { increment: stats.pveIncrement };
+            if (stats.win !== undefined) {
+                if (stats.win) updateData.pvpWins = { increment: 1 };
+                else updateData.pvpLosses = { increment: 1 };
             }
         }
 
-        if (stats.pveIncrement) {
-            this.db.prepare(`
-                UPDATE daily_stats SET pve_count = pve_count + ? WHERE date = ? AND account_id = ?
-            `).run(stats.pveIncrement, dateKey, accountId);
+        try {
+            await prisma.dailyStats.upsert({
+                where: {
+                    accountId_date: {
+                        accountId: accountId,
+                        date: today
+                    }
+                },
+                update: updateData,
+                create: {
+                    accountId: accountId,
+                    date: today,
+                    gold: initialGold,
+                    pveCount: updateData.pveCount?.increment || 0,
+                    pvpWins: updateData.pvpWins?.increment || 0,
+                    pvpLosses: updateData.pvpLosses?.increment || 0
+                }
+            });
+        } catch (e) {
+            console.error('[MEMORY] Failed to update daily stats:', e);
         }
     }
 
     /**
-     * Gets daily stats.
+     * Updates account status in MySQL.
      */
-    getDailyStats(accountId: string, serverDay: number) {
-        const dateKey = `Day ${serverDay}`;
-        const stmt = this.db.prepare(`
-            SELECT * FROM daily_stats WHERE date = ? AND account_id = ?
-        `);
-        return stmt.get(dateKey, accountId) as { gold_gained: number, pvp_wins: number, pvp_losses: number, pve_count: number } | undefined;
+    async updateStatus(accountId: string, status: string, cooldownEndsAt?: Date) {
+        try {
+            const data: Prisma.AccountUpdateInput = {
+                status,
+                cooldownEndsAt
+            };
+            await prisma.account.update({
+                where: { id: accountId },
+                data
+            });
+        } catch (e) {
+            console.error('[MEMORY] Failed to update status:', e);
+        }
     }
 
-    // KV Store for Ranking Target
-    setRankingTarget(accountId: string, winsNeeded: number) {
-        const key = `ranking_target_${accountId}`;
-        this.db.prepare(`
-            INSERT OR REPLACE INTO kv_store (key, value) VALUES (?, ?)
-        `).run(key, winsNeeded.toString());
+    /**
+     * Gets daily stats from MySQL.
+     */
+    async getDailyStats(accountId: string, serverDay: number) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        try {
+            const stats = await prisma.dailyStats.findUnique({
+                where: {
+                    accountId_date: {
+                        accountId: accountId,
+                        date: today
+                    }
+                }
+            });
+
+            return {
+                id: stats?.id, // Added ID return for recordAction
+                gold_gained: stats?.gold || 0,
+                pvp_wins: stats?.pvpWins || 0,
+                pvp_losses: stats?.pvpLosses || 0,
+                pve_count: stats?.pveCount || 0
+            };
+        } catch (e) {
+            console.error('[MEMORY] Failed to get daily stats:', e);
+            return { id: null, gold_gained: 0, pvp_wins: 0, pvp_losses: 0, pve_count: 0 };
+        }
     }
 
-    getRankingTarget(accountId: string): number {
-        const key = `ranking_target_${accountId}`;
-        const result = this.db.prepare(`SELECT value FROM kv_store WHERE key = ?`).get(key) as { value: string };
-        return result ? parseInt(result.value, 10) : 0;
+    /**
+     * Gets action count (PVE) from MySQL.
+     */
+    async getDailyActionCount(accountId: string, actionType: string, serverDay: number): Promise<number> {
+        if (actionType === 'HUNT') {
+            const stats = await this.getDailyStats(accountId, serverDay);
+            return stats.pve_count;
+        }
+        return 0;
+    }
+
+    private rankingTarget: number = 10;
+
+    /**
+     * Sets the ranking target for the account.
+     */
+    async setRankingTarget(accountId: string, target: number) {
+        this.rankingTarget = target;
+        try {
+            await prisma.account.update({
+                where: { id: accountId },
+                data: { rankingTarget: target }
+            });
+        } catch (e) {
+            console.error('[MEMORY] Failed to update ranking target:', e);
+        }
+    }
+
+    /**
+     * Gets ranking target.
+     */
+    async getRankingTarget(accountId: string): Promise<number> {
+        return this.rankingTarget;
+    }
+
+    /**
+     * Records an action (e.g. CHECK_RANKING) to prevent spamming.
+     * Overloaded to handle simple string actions or detailed battle stats.
+     */
+    async recordAction(accountId: string, actionOrServerDay: string | number, type?: 'PVP' | 'PVE', result?: 'WIN' | 'LOSS' | 'DRAW', gold?: number) {
+        if (typeof actionOrServerDay === 'string') {
+            console.log(`[MEMORY] Recorded action: ${actionOrServerDay}`);
+            return;
+        }
+
+        const serverDay = actionOrServerDay;
+        const stats = await this.getDailyStats(accountId, serverDay);
+
+        if (!stats.id) {
+            // If no stats exist yet, updateDailyStats will create them.
+            // We can just call updateDailyStats directly for now to keep it simple
+            await this.updateDailyStats(accountId, serverDay, result, gold);
+            return;
+        }
+
+        const updates: any = {
+            gold: { increment: gold || 0 },
+            totalActions: { increment: 1 }
+        };
+
+        if (type === 'PVP') {
+            updates.pvpCount = { increment: 1 };
+            if (result === 'WIN') updates.pvpWins = { increment: 1 };
+            if (result === 'LOSS') updates.pvpLosses = { increment: 1 };
+        } else {
+            updates.pveCount = { increment: 1 };
+        }
+
+        try {
+            await prisma.dailyStats.update({
+                where: { id: stats.id },
+                data: updates
+            });
+        } catch (e) {
+            console.error('[MEMORY] Failed to record detailed action:', e);
+        }
+    }
+
+    /**
+     * Synchronizes the PVP win count with the official game value.
+     */
+    async syncPvpWins(accountId: string, _serverDay: number, actualWins: number) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        try {
+            await prisma.dailyStats.upsert({
+                where: {
+                    accountId_date: {
+                        accountId: accountId,
+                        date: today
+                    }
+                },
+                update: {
+                    pvpWins: actualWins
+                },
+                create: {
+                    accountId: accountId,
+                    date: today,
+                    gold: 0,
+                    pveCount: 0,
+                    pvpWins: actualWins,
+                    pvpLosses: 0
+                }
+            });
+            console.log(`[MEMORY] Synced PVP wins to: ${actualWins}`);
+        } catch (e) {
+            console.error('[MEMORY] Failed to sync PVP wins:', e);
+        }
+    }
+
+    /**
+     * Updates character stats (Name, Level, Image, HP, Gold).
+     */
+    async updateCharacterStats(accountId: string, stats: {
+        name?: string,
+        level?: number,
+        image?: string,
+        currentHp?: number,
+        maxHp?: number,
+        currentGold?: number,
+        lastServerTime?: string,
+        serverDay?: number
+    }) {
+        const data: Prisma.AccountUpdateInput = {};
+        if (stats.name !== undefined) data.characterName = stats.name;
+        if (stats.level !== undefined) data.characterLevel = stats.level;
+        if (stats.image !== undefined) data.characterImage = stats.image;
+        if (stats.currentHp !== undefined) data.currentHp = stats.currentHp;
+        if (stats.maxHp !== undefined) data.maxHp = stats.maxHp;
+        if (stats.currentGold !== undefined) data.currentGold = stats.currentGold;
+        if (stats.lastServerTime !== undefined) data.lastServerTime = stats.lastServerTime;
+        if (stats.serverDay !== undefined) data.serverDay = stats.serverDay;
+
+        if (Object.keys(data).length === 0) return;
+
+        try {
+            await prisma.account.update({
+                where: { id: accountId },
+                data
+            });
+        } catch (e) {
+            console.error('[MEMORY] Failed to update character stats:', e);
+        }
+    }
+
+    /**
+     * Retrieves the stored character name.
+     */
+    async getCharacterName(accountId: string): Promise<string | null> {
+        try {
+            const account = await prisma.account.findUnique({
+                where: { id: accountId },
+                select: { characterName: true }
+            });
+            return account?.characterName || null;
+        } catch (e) {
+            console.error('[MEMORY] Failed to get character name:', e);
+            return null;
+        }
     }
 }

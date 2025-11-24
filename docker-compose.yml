@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # 1. Redis: Real-time communication (Pub/Sub)
+  redis:
+    image: redis:alpine
+    container_name: lamentosa-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    restart: always
+    networks:
+      - bot-network
+
+  # 2. MySQL: Persistent storage (Accounts, Stats, Settings)
+  mysql:
+    image: mysql:8.0
+    container_name: lamentosa-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      - bot-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 3. Web Dashboard (Next.js)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: lamentosa-web
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@mysql:3306/${DB_NAME}
+      - REDIS_URL=redis://redis:6379
+      - NEXT_PUBLIC_API_URL=http://localhost:${WEB_PORT:-3000}/api
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - bot-network
+    restart: always
+
+  # 4. Bot Worker (Headless)
+  bot-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: lamentosa-worker
+    environment:
+      - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@mysql:3306/${DB_NAME}
+      - REDIS_URL=redis://redis:6379
+      - HEADLESS=true
+      - CAPTCHA_API_KEY=${CAPTCHA_API_KEY}
+      - GAME_BASE_URL=${GAME_BASE_URL}
+      - GAME_STATUS_URL=${GAME_STATUS_URL}
+      - DEBUG_MODE=${DEBUG_MODE}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - bot-network
+    restart: always
+    # Health check to restart if bot freezes
+    healthcheck:
+      test: [ "CMD", "node", "healthcheck.js" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  bot-network:
+    driver: bridge
+
+volumes:
+  db_data:

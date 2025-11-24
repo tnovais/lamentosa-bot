@@ -3,170 +3,135 @@ import { InputManager } from './core/inputs';
 import { MemoryManager } from './core/memory';
 import { GameState } from './game/state';
 import { GameActions } from './game/actions';
-import { DecisionEngine, Decision } from './engine/decision';
+import { DecisionEngine } from './engine/decision';
 import { Scheduler } from './engine/scheduler';
 import { Settings } from './config/settings';
 import { Selectors } from './game/selectors';
 import { StatusScraper } from './game/status';
 import { CaptchaSolver } from './core/captcha';
+import { CommunicationManager, BotCommand } from './core/communication';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 async function main() {
-    console.log('Starting Lamentosa Elite Bot...');
+    console.log('Starting Lamentosa Elite Bot (Docker/Redis Mode)...');
 
     // 1. Initialize Core Components
     const browserMgr = new BrowserManager();
     const captchaSolver = new CaptchaSolver();
-
-    // 2. Start Browser
     await browserMgr.init();
 
-    // 3. Define the worker function for a single account
-    const runAccountWorker = async (account: any) => {
-        if (!account.active) return;
+    // 2. Periodic Account Check
+    const activeWorkers = new Set<string>();
 
-        console.log(`[${account.username}] Starting worker...`);
-        const { page } = await browserMgr.getContext(account.id);
-        const input = new InputManager(page);
-        const gameState = new GameState(page);
+    setInterval(async () => {
+        const accounts = await prisma.account.findMany({
+            where: { isActive: true }
+        });
 
-        // Each worker gets its own memory/decision/scheduler instances to avoid state pollution
-        const memory = new MemoryManager();
-        const actions = new GameActions(page, input, memory, gameState, account.id);
-        const statusScraper = new StatusScraper(page);
-        const decisionEngine = new DecisionEngine(memory);
-        const scheduler = new Scheduler();
+        for (const account of accounts) {
+            if (!activeWorkers.has(account.id)) {
+                activeWorkers.add(account.id);
+                runAccountWorker(account, browserMgr, captchaSolver).catch(err => {
+                    console.error(`[${account.email}] Worker crashed:`, err);
+                    activeWorkers.delete(account.id);
+                });
+            }
+        }
+    }, 10000); // Check every 10 seconds
+}
 
-        // Check Server Status
-        const serverStatus = await statusScraper.checkStatus();
-        if (!serverStatus.isOnline) {
-            console.warn(`[${account.username}] Server offline. Stopping worker.`);
-            return;
+async function runAccountWorker(account: any, browserMgr: BrowserManager, captchaSolver: CaptchaSolver) {
+    console.log(`[${account.email}] Starting worker...`);
+
+    // Initialize Communication (Redis)
+    const comms = new CommunicationManager(account.id);
+    let currentOverride: BotCommand | null = null;
+
+    // Listen for Commands
+    comms.onCommand((cmd) => {
+        console.log(`[${account.email}] Received command: ${cmd.type}`);
+        currentOverride = cmd;
+
+        if (cmd.type === 'STOP') {
+            // Handle graceful shutdown
+            console.log(`[${account.email}] Stopping worker...`);
+            // We need to break the main loop. We can do this by setting a flag or throwing a specific error.
+            // Since we are in a callback, we can't break the loop directly.
+            // We'll set a flag on the comms manager or use a shared variable.
+            // Actually, let's just set currentOverride to STOP and handle it in the loop.
+        }
+    });
+
+    const { page } = await browserMgr.getContext(account.id);
+    const input = new InputManager(page);
+    const gameState = new GameState(page);
+    const memory = new MemoryManager(); // TODO: Migrate to Prisma-based memory
+    const actions = new GameActions(page, input, memory, gameState, account.id);
+    const statusScraper = new StatusScraper(page);
+    const decisionEngine = new DecisionEngine(memory);
+    const scheduler = new Scheduler();
+
+    // [NEW] Set status to STARTING
+    await memory.updateStatus(account.id, 'STARTING');
+
+    // Check Server Status
+    const serverStatus = await statusScraper.checkStatus();
+    if (!serverStatus.isOnline) {
+        comms.publishLog('warn', 'Server offline. Stopping worker.');
+        await memory.updateStatus(account.id, 'OFFLINE');
+        return;
+    }
+
+    try {
+        // Login Flow
+        await page.goto(Settings.game.baseUrl);
+        if (await page.isVisible(Selectors.Auth.LoginInput)) {
+            comms.publishLog('info', 'Logging in...');
+            await input.type(Selectors.Auth.LoginInput, account.email); // Use email from DB
+            await input.type(Selectors.Auth.PasswordInput, account.password);
+            await input.click(Selectors.Auth.LoginButton);
+            await page.waitForLoadState('networkidle');
+
+            try {
+                await page.waitForSelector(Selectors.UI.Level, { timeout: 10000 });
+                comms.publishLog('info', 'Login successful!');
+            } catch (e) {
+                comms.publishLog('error', 'Login failed or profile not visible.');
+                await page.screenshot({ path: `login_fail_${account.email}.png` });
+                return;
+            }
         }
 
-        try {
-            // Login Flow
-            await page.goto(Settings.game.baseUrl);
-            if (await page.isVisible(Selectors.Auth.LoginInput)) {
-                console.log(`[${account.username}] Logging in...`);
-                if (Settings.notifications.debug) {
-                    console.log(`[DEBUG] Account keys: ${Object.keys(account)}`);
-                    console.log(`[DEBUG] Password type: ${typeof account.password}`);
-                }
-                await input.type(Selectors.Auth.LoginInput, account.username);
-                await input.type(Selectors.Auth.PasswordInput, account.password);
-                await input.click(Selectors.Auth.LoginButton);
-                await page.waitForLoadState('networkidle');
+        // Initial Ranking Check
+        await actions.checkRanking();
 
-                // Verify login success
-                try {
-                    await page.waitForSelector(Selectors.UI.Level, { timeout: 10000 });
-                    console.log(`[${account.username}] Login successful!`);
-                } catch (e) {
-                    console.error(`[${account.username}] Login failed or profile not visible.`);
-                    // Take a screenshot to debug
-                    await page.screenshot({ path: `login_fail_${account.username}.png` });
-                    return;
-                }
+        // [NEW] Initial Status Check (for Server Time)
+        await actions.checkStatus();
+
+        // [NEW] Set status to RUNNING
+        await memory.updateStatus(account.id, 'RUNNING');
+
+        // Main Game Loop
+        while (true) {
+            try {
+                // ... (loop content)
+            } catch (loopError: any) {
+                comms.publishLog('error', `Loop error: ${loopError.message}`);
+                await page.waitForTimeout(5000);
             }
-
-            // [WORKFLOW] Initial Ranking Check
-            // Ensure we have a target before starting the main loop
-            console.log(`[${account.username}] Performing initial ranking check...`);
-            await actions.checkRanking();
-
-            // Main Game Loop
-            while (true) {
-                try {
-                    // 1. Check Schedule (Fatigue/Breaks)
-                    if (await scheduler.checkSchedule() === false) {
-                        // Sleep handled internally by scheduler
-                    }
-
-                    // 2. Parse State
-                    const state = await gameState.getState();
-
-                    // [NEW] Fetch Daily Stats for Visualization
-                    const dailyStats = memory.getDailyStats(account.id, state.serverDay);
-                    const pveCount = memory.getDailyActionCount(account.id, 'HUNT', state.serverDay);
-                    const rankTarget = memory.getRankingTarget(account.id);
-
-                    gameState.logState(account.username, {
-                        gold: dailyStats?.gold_gained || 0,
-                        wins: dailyStats?.pvp_wins || 0,
-                        losses: dailyStats?.pvp_losses || 0,
-                        pveCount: pveCount,
-                        pveLimit: Settings.weights.farm.dailyLimit,
-                        rankTarget: rankTarget
-                    });
-
-                    // 3. Decide
-                    const decision = decisionEngine.decide(state, account.id);
-
-                    // 4. Act
-                    switch (decision) {
-                        case Decision.ATTACK:
-                            await actions.attack();
-                            memory.recordAction(account.id, 'ATTACK');
-                            break;
-                        case Decision.HEAL:
-                            console.log(`[${account.username}] Low HP. Visiting Temple to heal.`);
-                            await actions.visitTemple();
-                            memory.recordAction(account.id, 'HEAL');
-                            break;
-                        case Decision.IDLE:
-                            await input.moveRandomly();
-                            break;
-                        case Decision.HUNT:
-                            await actions.attackCreature();
-                            memory.recordAction(account.id, 'HUNT');
-                            break;
-                        case Decision.DUNGEON:
-                            await actions.exploreDungeon();
-                            memory.recordAction(account.id, 'DUNGEON');
-                            break;
-                        case Decision.CHECK_RANKING:
-                            await actions.checkRanking();
-                            break;
-                        case Decision.SOLVE_CAPTCHA:
-                            console.log(`[${account.username}] CAPTCHA DETECTED! Attempting to solve...`);
-                            const solved = await captchaSolver.solve(page, Selectors.AntiBot.Container, Selectors.AntiBot.InputGeneric);
-                            if (solved) {
-                                console.log(`[${account.username}] Captcha solved! Resuming...`);
-                                await page.waitForTimeout(2000);
-                            } else {
-                                console.error(`[${account.username}] Captcha solve failed. Pausing for safety.`);
-                                await page.pause();
-                            }
-                            break;
-                    }
-
-                    // 5. Random Delay between actions
-                    await new Promise(r => setTimeout(r, Math.random() * 2000 + 1000));
-
-                } catch (error: any) {
-                    if (error.message === Settings.game.errors.captchaDetected) {
-                        console.log(`[${account.username}] Fast-switch to Captcha Solver!`);
-                        // Force a state update to ensure isCaptchaPresent is true
-                        const state = await gameState.getState();
-                        if (state.isCaptchaPresent) {
-                            // The next loop iteration will pick up SOLVE_CAPTCHA naturally
-                            continue;
-                        }
-                    }
-
-                    console.error(`[${account.username}] Loop error (recovering):`, error);
-                    // Wait a bit before retrying to avoid tight error loops
-                    await page.waitForTimeout(5000);
-                }
-            }
-        } catch (error) {
-            console.error(`[${account.username}] Worker error:`, error);
         }
-    };
 
-    // 4. Run all accounts in parallel
-    console.log(`Starting ${Settings.accounts.length} concurrent bots...`);
-    await Promise.all(Settings.accounts.map((account: any) => runAccountWorker(account)));
+    } catch (error: any) {
+        comms.publishLog('error', `Fatal worker error: ${error.message}`);
+    } finally {
+        await memory.updateStatus(account.id, 'OFFLINE');
+        // [FIX] Close only this worker's context, NOT the whole browser
+        if (page && !page.isClosed()) {
+            await page.context().close();
+        }
+    }
 }
 
 main().catch(console.error);

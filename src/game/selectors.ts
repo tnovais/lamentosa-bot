@@ -108,15 +108,23 @@ export const Selectors = {
         ResultHeader: 'body',
         Gold: '.gold-value, body',
         Winner: '.winner',
+        Resume: 'div.battle-resume'
     },
 
     // Ranking
     Ranking: {
         UrlPart: '/ranking/pvp/daily-list/',
         Rows: 'table.table tbody tr',
-        PlayerName: 'td:nth-child(2)',
-        Wins: 'td:nth-child(4)',
-        Row: 'tr.ranking-row',
-        Name: 'td.name',
+        Wins: 'td:nth-child(3)',
+        FooterStats: 'div.daily-pvp-info'
+    },
+
+    // Status Page
+    Status: {
+        CharacterName: 'div.col-sm-9',
+        CharacterLevel: 'li:has-text("Lv") span',
+        CharacterImage: 'a.drawer-toggle img',
+        Hp: 'li:has-text("/") span',
+        Gold: 'li:has-text("Ouro") span'
     },
 };

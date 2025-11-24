@@ -1,6 +1,17 @@
 node_modules
 dist
 .env
+!web/.env
+*.log
+debug_*.html
+*.png
+.DS_Store
+Thumbs.db
+coverage
+.nyc_output
+node_modules
+dist
+.env
 *.log
 debug_*.html
 *.png
@@ -15,5 +26,8 @@ accounts/accounts.json
 *.js
 !src/**/*.js
 !node_modules/**/*.js
+!healthcheck.js
 data/
 *.db
+
+/src/generated/prisma

@@ -35,7 +35,7 @@ export class BrowserManager {
         if (this.browser) return;
 
         this.browser = await chromium.launch({
-            headless: false, // Run headful for "Watch Mode" and better stealth initially
+            headless: process.env.HEADLESS === 'true', // Respect env var for Docker
             args: [
                 '--disable-blink-features=AutomationControlled',
                 '--no-sandbox',

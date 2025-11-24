@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String
+  proxy           String?
+  isActive        Boolean   @default(true) @map("is_active")
+  configOverrides Json?     @map("config_overrides")
+  status          String    @default("OFFLINE") // OFFLINE, STARTING, RUNNING, COOLDOWN
+  cooldownEndsAt  DateTime?
+  rankingTarget   Int?      @default(0)
+  characterName   String?
+  characterLevel  Int?
+  characterImage  String?
+  currentHp       Int?
+  maxHp           Int?
+  currentGold     Int?
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  lastServerTime  String?   @map("last_server_time")
+  serverDay       Int?      @map("server_day")
+
+  logs       BotLog[]
+  dailyStats DailyStats[]
+
+  @@map("accounts")
+}
+
+model BotLog {
+  id        String   @id @default(uuid())
+  accountId String   @map("account_id")
+  level     String   // info, warn, error
+  message   String   @db.Text
+  timestamp DateTime @default(now())
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@map("bot_logs")
+}
+
+model DailyStats {
+  id        String   @id @default(uuid())
+  accountId String   @map("account_id")
+  date      DateTime @db.Date
+  gold      Int      @default(0)
+  xp        Int      @default(0)
+  pvpWins   Int      @default(0) @map("pvp_wins")
+  pvpLosses Int      @default(0) @map("pvp_losses")
+  pveCount  Int      @default(0) @map("pve_count")
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, date])
+  @@map("daily_stats")
+}
+
+model Settings {
+  key   String @id
+  value String @db.Text
+
+  @@map("settings")
+}

@@ -61,6 +61,7 @@ export const Settings = {
             max: Number(process.env.DELAY_COMBAT_MAX) || 4000
         },
         networkIdle: Number(process.env.DELAY_NETWORK_IDLE) || 5000,
+        minLoop: Number(process.env.DELAY_MIN_LOOP) || 1000,
     },
 
     // Decision Engine Weights (Fuzzy Logic)

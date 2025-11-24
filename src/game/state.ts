@@ -270,4 +270,63 @@ export class GameState {
             return { day: 0, time: '00:00:00' };
         }
     }
+
+    /**
+     * Scrapes character stats from the /status/ page.
+     * Must be called when on the status page.
+     */
+    async getCharacterStats(): Promise<{ name: string, level: number, image: string, currentHp: number, maxHp: number, currentGold: number } | null> {
+        try {
+            // 1. Get Name (Text based search)
+            // The name is usually after "Personagem" and the ID.
+            // We'll try to find the text node directly or infer it.
+            // Based on inspection: "Personagem" -> "4" -> "Mogly"
+            const bodyText = await this.page.innerText('body');
+            const nameMatch = bodyText.match(/Personagem\s*\n\s*\d+\s*\n\s*([^\n]+)/);
+            const name = nameMatch ? nameMatch[1].trim() : '';
+
+            // 2. Get Level
+            const levelEl = this.page.locator(Selectors.Status.CharacterLevel).first();
+            let level = 0;
+            if (await levelEl.isVisible()) {
+                level = parseInt((await levelEl.innerText()) || '0', 10);
+            }
+
+            // 3. Get Image
+            const imageEl = this.page.locator(Selectors.Status.CharacterImage).first();
+            let image = '';
+            if (await imageEl.isVisible()) {
+                image = await imageEl.getAttribute('src') || '';
+            }
+
+            // 4. Get HP
+            const hpEl = this.page.locator(Selectors.Status.Hp).first();
+            let currentHp = 0;
+            let maxHp = 0;
+            if (await hpEl.isVisible()) {
+                const hpText = await hpEl.innerText(); // "250 / 250"
+                const parts = hpText.split('/');
+                if (parts.length === 2) {
+                    currentHp = parseInt(parts[0].trim(), 10);
+                    maxHp = parseInt(parts[1].trim(), 10);
+                }
+            }
+
+            // 5. Get Gold (from Status page or Header)
+            const headerStats = await this.getPlayerStats();
+
+            return {
+                name,
+                level,
+                image,
+                currentHp,
+                maxHp,
+                currentGold: headerStats.gold
+            };
+
+        } catch (e) {
+            console.error('[STATE] Failed to scrape character stats:', e);
+            return null;
+        }
+    }
 }
